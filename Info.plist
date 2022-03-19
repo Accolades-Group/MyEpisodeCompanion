@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>&quot;Allow app to read health data to better understand episodes&quot;</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>&quot;Allow app to record biometric data taken during episodes&quot;</string>
+</dict>
+</plist>

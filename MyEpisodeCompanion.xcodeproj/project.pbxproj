@@ -27,6 +27,8 @@
 		F353E17027E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E16F27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift */; };
 		F353E17A27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */; };
 		F353E17C27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */; };
+		F353E19927E65B58001FC48B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F353E19827E65B58001FC48B /* HealthKit.framework */; };
+		F353E19E27E66307001FC48B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F353E19D27E66306001FC48B /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +129,9 @@
 		F353E17527E657FB001FC48B /* MyEpisodeCompanion WatchKit AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MyEpisodeCompanion WatchKit AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITests.swift; sourceTree = "<group>"; };
 		F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyEpisodeCompanion.entitlements; sourceTree = "<group>"; };
+		F353E19827E65B58001FC48B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		F353E19D27E66306001FC48B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F353E19927E65B58001FC48B /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +184,7 @@
 		F353E11927E657F8001FC48B = {
 			isa = PBXGroup;
 			children = (
+				F353E19D27E66306001FC48B /* Info.plist */,
 				F353E12427E657F8001FC48B /* MyEpisodeCompanion */,
 				F353E13527E657FA001FC48B /* MyEpisodeCompanionTests */,
 				F353E13F27E657FA001FC48B /* MyEpisodeCompanionUITests */,
@@ -186,6 +193,7 @@
 				F353E16E27E657FB001FC48B /* MyEpisodeCompanion WatchKit AppTests */,
 				F353E17827E657FB001FC48B /* MyEpisodeCompanion WatchKit AppUITests */,
 				F353E12327E657F8001FC48B /* Products */,
+				F353E19727E65B58001FC48B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -206,6 +214,7 @@
 		F353E12427E657F8001FC48B /* MyEpisodeCompanion */ = {
 			isa = PBXGroup;
 			children = (
+				F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */,
 				F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */,
 				F353E12727E657F8001FC48B /* ContentView.swift */,
 				F353E12927E657FA001FC48B /* Assets.xcassets */,
@@ -286,6 +295,14 @@
 				F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */,
 			);
 			path = "MyEpisodeCompanion WatchKit AppUITests";
+			sourceTree = "<group>";
+		};
+		F353E19727E65B58001FC48B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F353E19827E65B58001FC48B /* HealthKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -482,6 +499,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F353E19E27E66307001FC48B /* Info.plist in Resources */,
 				F353E12D27E657FA001FC48B /* Preview Assets.xcassets in Resources */,
 				F353E12A27E657FA001FC48B /* Assets.xcassets in Resources */,
 			);
@@ -860,6 +878,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MyEpisodeCompanion/MyEpisodeCompanion.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyEpisodeCompanion/Preview Content\"";
@@ -891,6 +910,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MyEpisodeCompanion/MyEpisodeCompanion.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyEpisodeCompanion/Preview Content\"";
