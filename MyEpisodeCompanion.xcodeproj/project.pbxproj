@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F334534127E6857D00A663CA /* EpisodeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F334534027E6857D00A663CA /* EpisodeRecordView.swift */; };
+		F334534327E6859000A663CA /* EpisodeRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F334534227E6859000A663CA /* EpisodeRecordViewModel.swift */; };
+		F339AC6B27E68AEB001D64E5 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F339AC6A27E68AEB001D64E5 /* HealthKit.framework */; };
+		F339AC6D27E8D795001D64E5 /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC6C27E8D795001D64E5 /* SessionPagingView.swift */; };
+		F339AC6F27E8D8D3001D64E5 /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC6E27E8D8D3001D64E5 /* MetricsView.swift */; };
+		F339AC7127E8DC4E001D64E5 /* ElapsedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC7027E8DC4E001D64E5 /* ElapsedTimeView.swift */; };
+		F339AC7327E8DFAD001D64E5 /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC7227E8DFAD001D64E5 /* ControlsView.swift */; };
+		F339AC7527E8FF68001D64E5 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC7427E8FF68001D64E5 /* SummaryView.swift */; };
+		F339AC7727E9045B001D64E5 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC7627E9045B001D64E5 /* WorkoutManager.swift */; };
+		F339AC7B27E9121B001D64E5 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F339AC7A27E9121B001D64E5 /* HealthKit.framework */; };
 		F353E12627E657F8001FC48B /* MyEpisodeCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */; };
 		F353E12827E657F8001FC48B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E12727E657F8001FC48B /* ContentView.swift */; };
 		F353E12A27E657FA001FC48B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F353E12927E657FA001FC48B /* Assets.xcassets */; };
@@ -18,7 +28,7 @@
 		F353E14C27E657FB001FC48B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F353E14B27E657FB001FC48B /* Assets.xcassets */; };
 		F353E15227E657FB001FC48B /* MyEpisodeCompanion WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F353E15127E657FB001FC48B /* MyEpisodeCompanion WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F353E15727E657FB001FC48B /* MyEpisodeCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E15627E657FB001FC48B /* MyEpisodeCompanionApp.swift */; };
-		F353E15927E657FB001FC48B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E15827E657FB001FC48B /* ContentView.swift */; };
+		F353E15927E657FB001FC48B /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E15827E657FB001FC48B /* StartView.swift */; };
 		F353E15B27E657FB001FC48B /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E15A27E657FB001FC48B /* NotificationController.swift */; };
 		F353E15D27E657FB001FC48B /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E15C27E657FB001FC48B /* NotificationView.swift */; };
 		F353E15F27E657FB001FC48B /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E15E27E657FB001FC48B /* ComplicationController.swift */; };
@@ -27,8 +37,6 @@
 		F353E17027E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E16F27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift */; };
 		F353E17A27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */; };
 		F353E17C27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */; };
-		F353E19927E65B58001FC48B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F353E19827E65B58001FC48B /* HealthKit.framework */; };
-		F353E19E27E66307001FC48B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F353E19D27E66306001FC48B /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +85,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		F334534727E6876300A663CA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F353E18227E657FB001FC48B /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -102,6 +120,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F334534027E6857D00A663CA /* EpisodeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeRecordView.swift; sourceTree = "<group>"; };
+		F334534227E6859000A663CA /* EpisodeRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeRecordViewModel.swift; sourceTree = "<group>"; };
+		F339AC6A27E68AEB001D64E5 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.4.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		F339AC6C27E8D795001D64E5 /* SessionPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
+		F339AC6E27E8D8D3001D64E5 /* MetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
+		F339AC7027E8DC4E001D64E5 /* ElapsedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElapsedTimeView.swift; sourceTree = "<group>"; };
+		F339AC7227E8DFAD001D64E5 /* ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
+		F339AC7427E8FF68001D64E5 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		F339AC7627E9045B001D64E5 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
+		F339AC7827E909FC001D64E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F339AC7927E9121A001D64E5 /* MyEpisodeCompanion WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MyEpisodeCompanion WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		F339AC7A27E9121B001D64E5 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		F353E12227E657F8001FC48B /* MyEpisodeCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyEpisodeCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanionApp.swift; sourceTree = "<group>"; };
 		F353E12727E657F8001FC48B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -116,7 +146,7 @@
 		F353E14B27E657FB001FC48B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F353E15127E657FB001FC48B /* MyEpisodeCompanion WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MyEpisodeCompanion WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F353E15627E657FB001FC48B /* MyEpisodeCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanionApp.swift; sourceTree = "<group>"; };
-		F353E15827E657FB001FC48B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F353E15827E657FB001FC48B /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		F353E15A27E657FB001FC48B /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		F353E15C27E657FB001FC48B /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		F353E15E27E657FB001FC48B /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
@@ -130,8 +160,6 @@
 		F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITests.swift; sourceTree = "<group>"; };
 		F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyEpisodeCompanion.entitlements; sourceTree = "<group>"; };
-		F353E19827E65B58001FC48B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
-		F353E19D27E66306001FC48B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,7 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F353E19927E65B58001FC48B /* HealthKit.framework in Frameworks */,
+				F339AC6B27E68AEB001D64E5 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +189,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F339AC7B27E9121B001D64E5 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,10 +210,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F334533F27E6855E00A663CA /* EpisodeDataReport */ = {
+			isa = PBXGroup;
+			children = (
+				F334534027E6857D00A663CA /* EpisodeRecordView.swift */,
+				F334534227E6859000A663CA /* EpisodeRecordViewModel.swift */,
+			);
+			path = EpisodeDataReport;
+			sourceTree = "<group>";
+		};
 		F353E11927E657F8001FC48B = {
 			isa = PBXGroup;
 			children = (
-				F353E19D27E66306001FC48B /* Info.plist */,
 				F353E12427E657F8001FC48B /* MyEpisodeCompanion */,
 				F353E13527E657FA001FC48B /* MyEpisodeCompanionTests */,
 				F353E13F27E657FA001FC48B /* MyEpisodeCompanionUITests */,
@@ -214,6 +251,8 @@
 		F353E12427E657F8001FC48B /* MyEpisodeCompanion */ = {
 			isa = PBXGroup;
 			children = (
+				F339AC7827E909FC001D64E5 /* Info.plist */,
+				F334533F27E6855E00A663CA /* EpisodeDataReport */,
 				F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */,
 				F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */,
 				F353E12727E657F8001FC48B /* ContentView.swift */,
@@ -259,8 +298,15 @@
 		F353E15527E657FB001FC48B /* MyEpisodeCompanion WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				F339AC7927E9121A001D64E5 /* MyEpisodeCompanion WatchKit Extension.entitlements */,
 				F353E15627E657FB001FC48B /* MyEpisodeCompanionApp.swift */,
-				F353E15827E657FB001FC48B /* ContentView.swift */,
+				F353E15827E657FB001FC48B /* StartView.swift */,
+				F339AC7427E8FF68001D64E5 /* SummaryView.swift */,
+				F339AC7627E9045B001D64E5 /* WorkoutManager.swift */,
+				F339AC6C27E8D795001D64E5 /* SessionPagingView.swift */,
+				F339AC6E27E8D8D3001D64E5 /* MetricsView.swift */,
+				F339AC7027E8DC4E001D64E5 /* ElapsedTimeView.swift */,
+				F339AC7227E8DFAD001D64E5 /* ControlsView.swift */,
 				F353E15A27E657FB001FC48B /* NotificationController.swift */,
 				F353E15C27E657FB001FC48B /* NotificationView.swift */,
 				F353E15E27E657FB001FC48B /* ComplicationController.swift */,
@@ -300,7 +346,8 @@
 		F353E19727E65B58001FC48B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F353E19827E65B58001FC48B /* HealthKit.framework */,
+				F339AC7A27E9121B001D64E5 /* HealthKit.framework */,
+				F339AC6A27E68AEB001D64E5 /* HealthKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -316,6 +363,7 @@
 				F353E11F27E657F8001FC48B /* Frameworks */,
 				F353E12027E657F8001FC48B /* Resources */,
 				F353E18627E657FB001FC48B /* Embed Watch Content */,
+				F334534727E6876300A663CA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -499,7 +547,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F353E19E27E66307001FC48B /* Info.plist in Resources */,
 				F353E12D27E657FA001FC48B /* Preview Assets.xcassets in Resources */,
 				F353E12A27E657FA001FC48B /* Assets.xcassets in Resources */,
 			);
@@ -559,6 +606,8 @@
 			files = (
 				F353E12827E657F8001FC48B /* ContentView.swift in Sources */,
 				F353E12627E657F8001FC48B /* MyEpisodeCompanionApp.swift in Sources */,
+				F334534327E6859000A663CA /* EpisodeRecordViewModel.swift in Sources */,
+				F334534127E6857D00A663CA /* EpisodeRecordView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,11 +632,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F339AC7127E8DC4E001D64E5 /* ElapsedTimeView.swift in Sources */,
+				F339AC7327E8DFAD001D64E5 /* ControlsView.swift in Sources */,
 				F353E15B27E657FB001FC48B /* NotificationController.swift in Sources */,
-				F353E15927E657FB001FC48B /* ContentView.swift in Sources */,
+				F339AC6F27E8D8D3001D64E5 /* MetricsView.swift in Sources */,
+				F353E15927E657FB001FC48B /* StartView.swift in Sources */,
 				F353E15F27E657FB001FC48B /* ComplicationController.swift in Sources */,
 				F353E15727E657FB001FC48B /* MyEpisodeCompanionApp.swift in Sources */,
+				F339AC7527E8FF68001D64E5 /* SummaryView.swift in Sources */,
 				F353E15D27E657FB001FC48B /* NotificationView.swift in Sources */,
+				F339AC7727E9045B001D64E5 /* WorkoutManager.swift in Sources */,
+				F339AC6D27E8D795001D64E5 /* SessionPagingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,6 +814,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "MyEpisodeCompanion WatchKit Extension/MyEpisodeCompanion WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyEpisodeCompanion WatchKit Extension/Preview Content\"";
@@ -767,7 +823,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MyEpisodeCompanion WatchKit Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "MyEpisodeCompanion WatchKit Extension";
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = MyEpisodeCompanion_WatchKit_Extension.ComplicationController;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"Allow app to read health data to better understand episodes\"";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -791,6 +849,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "MyEpisodeCompanion WatchKit Extension/MyEpisodeCompanion WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyEpisodeCompanion WatchKit Extension/Preview Content\"";
@@ -799,7 +858,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MyEpisodeCompanion WatchKit Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "MyEpisodeCompanion WatchKit Extension";
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = MyEpisodeCompanion_WatchKit_Extension.ComplicationController;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"Allow app to read health data to better understand episodes\"";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -832,6 +893,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = MyEpisodeCompanion_WatchKit_Extension;
 				INFOPLIST_KEY_CFBundleDisplayName = "MyEpisodeCompanion WatchKit App";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"Allow app to read health data to better understand episodes\"";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.tanner.MyEpisodeCompanion;
 				MARKETING_VERSION = 1.0;
@@ -858,6 +921,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = MyEpisodeCompanion_WatchKit_Extension;
 				INFOPLIST_KEY_CFBundleDisplayName = "MyEpisodeCompanion WatchKit App";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"Allow app to read health data to better understand episodes\"";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.tanner.MyEpisodeCompanion;
 				MARKETING_VERSION = 1.0;
@@ -885,6 +950,9 @@
 				DEVELOPMENT_TEAM = X5BNG5QT8S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyEpisodeCompanion/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"Allow app to read health data to better understand episodes\"";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -917,6 +985,9 @@
 				DEVELOPMENT_TEAM = X5BNG5QT8S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyEpisodeCompanion/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"Allow app to read health data to better understand episodes\"";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
