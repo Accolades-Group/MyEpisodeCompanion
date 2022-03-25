@@ -117,6 +117,10 @@ struct MetricsView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .ignoresSafeArea(edges: .bottom)
             .scenePadding()
+        }.onReceive(episodeManager.timer){ data in
+           // print(data)
+           // episodeManager.tick()
+            episodeManager.timerTick()
         }
     }
 }

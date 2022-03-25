@@ -10,7 +10,7 @@ import HealthKit
 
 struct StartView: View {
     @EnvironmentObject var workoutManager : WorkoutManager
-    var workoutTypes : [HKWorkoutActivityType] = [.walking /*, .cooldown*/]
+    var workoutTypes : [HKWorkoutActivityType] = [.mindAndBody /*, .cooldown*/]
     var body: some View {
         List(workoutTypes){workoutType in
             NavigationLink("Record Episode",

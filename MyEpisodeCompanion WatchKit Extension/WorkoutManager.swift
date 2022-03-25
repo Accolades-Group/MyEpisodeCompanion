@@ -7,8 +7,56 @@
 
 import Foundation
 import HealthKit
+import AVFoundation
+import Combine
 
 class WorkoutManager : NSObject, ObservableObject {
+    
+    let audioSession = AVAudioSession.sharedInstance()
+    var audioRecorder : AVAudioRecorder = AVAudioRecorder()//TODO: URL & Settings
+    
+    func initAudio() {
+        
+        do {
+            
+            let recordSettings = [
+                AVSampleRateKey : NSNumber(value: Float(44100.0) as Float),
+                AVFormatIDKey : NSNumber(value: Int32(kAudioFormatMPEG4AAC) as Int32),
+                AVNumberOfChannelsKey : NSNumber(value: 1 as Int32),
+                AVEncoderAudioQualityKey : NSNumber(value: Int32(AVAudioQuality.medium.rawValue) as Int32)
+            ]
+            //let fileManager = FileManager.default
+            let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let documentDirectory = urls[0] as URL
+            let soundURL = documentDirectory.appendingPathComponent("sound.m4a")
+            
+            try audioSession.setCategory(.playAndRecord) //TODO: set to .record
+            audioRecorder = try AVAudioRecorder(url: soundURL, settings: recordSettings) //TODO: URL & Settings
+            
+            audioRecorder.prepareToRecord()
+            audioRecorder.record()
+            try audioSession.setActive(true)
+            audioRecorder.isMeteringEnabled = true
+        } catch let err {
+            print(err)
+        }
+
+    }
+    
+    func timerTick() {
+        //checkAudio()
+        
+    }
+    
+    func checkAudio(){
+        if(!audioRecorder.isRecording){
+            initAudio()
+        }
+        let correction : Float = 100
+        audioRecorder.updateMeters()
+        self.soundDb = Double(audioRecorder.averagePower(forChannel: 0) + correction)//TODO: Peak power or average power?
+    }
+    
     
     var selectedEpisode : HKWorkoutActivityType? {
         didSet {
@@ -26,6 +74,68 @@ class WorkoutManager : NSObject, ObservableObject {
         }
     }
     
+    @Published var timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    var subscription : Cancellable?
+    
+    /*
+    func tick(){
+        
+        guard let id = HKSampleType.quantityType(forIdentifier: .environmentalAudioExposure) else { return }
+        
+        let now = Date.now
+        
+        let freq = HKQuantity(unit: .hertz(), doubleValue: 250.0)
+        
+        let leftSensitivity = HKQuantity(unit: HKUnit.decibelHearingLevel(), doubleValue: 34.0)
+        let rightSensitivity = HKQuantity(unit: .decibelHearingLevel(), doubleValue: 27.0)
+        
+
+        
+       // let sensitiityPoint = HKAudiogramSensitivityPoint(frequency: <#T##HKQuantity#>, leftEarSensitivity: <#T##HKQuantity?#>, rightEarSensitivity: <#T##HKQuantity?#>)
+        
+        //let audioSample = HKAudiogramSample(
+
+       // let pred = HKQuery.predicateForSamples(
+       //     withStart: NSCalendar.current.date(byAdding: .hour, value: -24, to: now),
+       //     end: now)
+        
+       /* let query = HKSampleQuery(sampleType: id, predicate: pred, limit: 0, sortDescriptors: .none){ (sampleQuery, results, error) -> Void in
+            
+            if let results = results {
+                
+                results.forEach{ sample in
+                    
+                    if let unwrappedsample = sample as? HKDiscreteQuantitySample {
+                        let sound = unwrappedsample.mostRecentQuantity
+                        print("Updated")
+                        print("\(sound) db")
+                        print("Date: \(unwrappedsample.mostRecentQuantityDateInterval.end)")
+                        print("---------------------")
+
+                    }
+                    
+                    
+                }
+               */
+//                if let last = results.last as? HKDiscreteQuantitySample {
+//                    let soundlast = last.mostRecentQuantity
+//                    self.soundDb = soundlast.doubleValue(for: .decibelAWeightedSoundPressureLevel())
+//                    print("updated:  \(soundlast)  " )
+//                    print(last.mostRecentQuantityDateInterval.end
+//                }
+                
+                
+                
+                
+                
+ //           }
+            
+ //       }
+        
+      //  healthStore.execute(query)
+    }
+    */
+    
     let healthStore = HKHealthStore()
     var session: HKWorkoutSession?
     var builder: HKLiveWorkoutBuilder?
@@ -35,12 +145,29 @@ class WorkoutManager : NSObject, ObservableObject {
         configuration.activityType = workoutType
         configuration.locationType = .unknown //TODO:
         
+        //timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+        
+        let runLoop = RunLoop.main
+        subscription = runLoop.schedule(after: runLoop.now, interval: .seconds(5) , tolerance: .milliseconds(100)) {
+            //what happens when timer is fired
+            print("Timer fired")
+            self.checkAudio()
+        }
+        
+        
+
+        
+        initAudio()
+                
+        
         do {
             session = try HKWorkoutSession(
                 healthStore: healthStore,
                 configuration: configuration
             )
             builder = session?.associatedWorkoutBuilder()
+            
+            
         } catch {
             //Handle any exceptions.
             return
@@ -57,14 +184,71 @@ class WorkoutManager : NSObject, ObservableObject {
         //start the episode "workout" session and begin data collection
         let startDate = Date()
         session?.startActivity(with: startDate)
+        
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: nil)
+        let stepType = HKObjectType.quantityType(forIdentifier: .stepCount)!
+        
+        let soundType = HKObjectType.quantityType(forIdentifier: .environmentalAudioExposure)!
+        
+
+        let stepsQuery = HKAnchoredObjectQuery(type: stepType, predicate: predicate, anchor: nil, limit: 0){(query, samples, deletedObjects, anchor, error) -> Void in
+            
+            //Handle when the query first returns results
+            //TODO: Whatever you want with samples (not you are not on the main thread)
+
+            
+            
+            if !samples!.isEmpty {
+                print("Steps Query")
+            }
+            
+        }
+        
+        stepsQuery.updateHandler = { (query, samples, deletedObjects, anchor, error) -> Void in
+            
+            //Handle update notifications after the query has initially run
+            // TODO: do whatever you want with samples (note you are not on the main thread)
+            print("Update Handle")
+            print(samples?.debugDescription as Any)
+            
+        }
+        
+        let soundQuery = HKAnchoredObjectQuery(type: soundType, predicate: predicate, anchor: nil, limit: 0){(query, samples, deletedObjects, anchor, error) -> Void in
+            
+            //Handle when the query first returns results
+            //TODO: Whatever you want with samples (not you are not on the main thread)
+
+            
+            
+            if !samples!.isEmpty {
+                print("sound Query")
+            }
+            
+        }
+        
+        soundQuery.updateHandler = { (query, samples, deletedObjects, anchor, error) -> Void in
+            
+            //Handle update notifications after the query has initially run
+            // TODO: do whatever you want with samples (note you are not on the main thread)
+            print("Update Handle")
+            
+        }
+        
+        healthStore.execute(stepsQuery)
+        healthStore.execute(soundQuery)
+        
         builder?.beginCollection(withStart: startDate) { (success, error) in
             //The "workout" has started
         }
         
+
+        
     }
     // Request authorization to access HealthKit.
     func requestAuthorization() {
+        
         //the quantity type to write to the health store
+        
         let typesToShare : Set = [
             HKQuantityType.workoutType()
         ]
@@ -78,7 +262,7 @@ class WorkoutManager : NSObject, ObservableObject {
             HKQuantityType.quantityType(forIdentifier: .environmentalAudioExposure)!, //Audio Exposure
             HKQuantityType.quantityType(forIdentifier: .respiratoryRate)!, //Respitory Rate TODO: Can we retrieve this?
             HKQuantityType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!, //HRV
-            HKQuantityType.quantityType(forIdentifier: .vo2Max)!, //vo2Max TODO: Can we retrieve this?
+            HKQuantityType.quantityType(forIdentifier: .vo2Max)!, //vo2Max TODO: Can we retrieve this? probs not? Cardio Fitness?
             HKQuantityType.quantityType(forIdentifier: .oxygenSaturation)!, //Blood Oxygen Levels
             //TODO: Body temp?
             HKObjectType.activitySummaryType()
@@ -89,6 +273,8 @@ class WorkoutManager : NSObject, ObservableObject {
             //handle error.
             
         }
+        
+        
         
     }
     
@@ -116,6 +302,8 @@ class WorkoutManager : NSObject, ObservableObject {
     func endEpisode() {
         session?.end()
         showingSummaryView = true
+        timer.upstream.connect().cancel()
+        subscription?.cancel()
     }
     
     // MARK: - Workout Metrics
@@ -132,8 +320,13 @@ class WorkoutManager : NSObject, ObservableObject {
     @Published var oxygenSaturation : Double = 0
     @Published var workout : HKWorkout?
     
+    
+    
     func updateForStatistics(_ statistics : HKStatistics?){
+        
         guard let statistics = statistics else { return }
+        
+//print(statistics.quantityType.identifier.debugDescription)
         
         DispatchQueue.main.async {
             switch statistics.quantityType {
@@ -240,11 +433,14 @@ extension WorkoutManager: HKLiveWorkoutBuilderDelegate {
             
             let statistics = workoutBuilder.statistics(for: quantityType)
             
+//            print(statistics!.debugDescription)
+            
             //update the published values.
+            
             updateForStatistics(statistics)
+            
         }
     }
-    
 }
 
 
