@@ -8,20 +8,36 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var stateManager : StateManager
+    
     var body: some View {
         
-        NavigationView{
-        
-        NavigationLink(
-            "Record Episode",
-            destination: EpisodeRecordView())
-            .padding()
+        //Debug
+        if(stateManager.isDebugging){
+            stateManager.debugView
         }
+        
+        else if(stateManager.isLoggedIn){
+            
+            MainTabView()
+                .environmentObject(stateManager)
+            
+        }
+        
+        //Login / Register
+        else {
+            
+            LoginRegisterView()
+            
+        }
+        
+
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(StateManager())
     }
 }

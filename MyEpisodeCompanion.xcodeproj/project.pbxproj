@@ -37,6 +37,12 @@
 		F353E17027E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E16F27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift */; };
 		F353E17A27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */; };
 		F353E17C27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */; };
+		F3D78C6F27F22D87002086E8 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C6E27F22D87002086E8 /* UserSettings.swift */; };
+		F3D78C7127F232BF002086E8 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C7027F232BF002086E8 /* StateManager.swift */; };
+		F3D78C7427F23A3D002086E8 /* LoginRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C7327F23A3D002086E8 /* LoginRegisterView.swift */; };
+		F3D78C7727F25BD8002086E8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C7627F25BD7002086E8 /* HomeView.swift */; };
+		F3D78C7927F25E34002086E8 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C7827F25E34002086E8 /* MainTabView.swift */; };
+		F3D78C7C27F2602D002086E8 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C7B27F2602D002086E8 /* HistoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,7 +135,6 @@
 		F339AC7227E8DFAD001D64E5 /* ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
 		F339AC7427E8FF68001D64E5 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		F339AC7627E9045B001D64E5 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
-		F339AC7827E909FC001D64E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F339AC7927E9121A001D64E5 /* MyEpisodeCompanion WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MyEpisodeCompanion WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		F339AC7A27E9121B001D64E5 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		F353E12227E657F8001FC48B /* MyEpisodeCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyEpisodeCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +165,12 @@
 		F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITests.swift; sourceTree = "<group>"; };
 		F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyEpisodeCompanion.entitlements; sourceTree = "<group>"; };
+		F3D78C6E27F22D87002086E8 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		F3D78C7027F232BF002086E8 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
+		F3D78C7327F23A3D002086E8 /* LoginRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterView.swift; sourceTree = "<group>"; };
+		F3D78C7627F25BD7002086E8 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		F3D78C7827F25E34002086E8 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		F3D78C7B27F2602D002086E8 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,13 +262,18 @@
 		F353E12427E657F8001FC48B /* MyEpisodeCompanion */ = {
 			isa = PBXGroup;
 			children = (
-				F339AC7827E909FC001D64E5 /* Info.plist */,
+				F3D78C7A27F26023002086E8 /* History */,
+				F3D78C7527F24D7F002086E8 /* Home */,
 				F334533F27E6855E00A663CA /* EpisodeDataReport */,
 				F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */,
 				F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */,
+				F3D78C7027F232BF002086E8 /* StateManager.swift */,
+				F3D78C6E27F22D87002086E8 /* UserSettings.swift */,
 				F353E12727E657F8001FC48B /* ContentView.swift */,
+				F3D78C7227F23A22002086E8 /* LoginRegister */,
 				F353E12927E657FA001FC48B /* Assets.xcassets */,
 				F353E12B27E657FA001FC48B /* Preview Content */,
+				F3D78C7827F25E34002086E8 /* MainTabView.swift */,
 			);
 			path = MyEpisodeCompanion;
 			sourceTree = "<group>";
@@ -350,6 +366,30 @@
 				F339AC6A27E68AEB001D64E5 /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F3D78C7227F23A22002086E8 /* LoginRegister */ = {
+			isa = PBXGroup;
+			children = (
+				F3D78C7327F23A3D002086E8 /* LoginRegisterView.swift */,
+			);
+			path = LoginRegister;
+			sourceTree = "<group>";
+		};
+		F3D78C7527F24D7F002086E8 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				F3D78C7627F25BD7002086E8 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		F3D78C7A27F26023002086E8 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				F3D78C7B27F2602D002086E8 /* HistoryView.swift */,
+			);
+			path = History;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -604,9 +644,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D78C7427F23A3D002086E8 /* LoginRegisterView.swift in Sources */,
 				F353E12827E657F8001FC48B /* ContentView.swift in Sources */,
+				F3D78C7927F25E34002086E8 /* MainTabView.swift in Sources */,
 				F353E12627E657F8001FC48B /* MyEpisodeCompanionApp.swift in Sources */,
 				F334534327E6859000A663CA /* EpisodeRecordViewModel.swift in Sources */,
+				F3D78C7127F232BF002086E8 /* StateManager.swift in Sources */,
+				F3D78C7727F25BD8002086E8 /* HomeView.swift in Sources */,
+				F3D78C7C27F2602D002086E8 /* HistoryView.swift in Sources */,
+				F3D78C6F27F22D87002086E8 /* UserSettings.swift in Sources */,
 				F334534127E6857D00A663CA /* EpisodeRecordView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

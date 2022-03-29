@@ -30,6 +30,7 @@ struct MetricsView: View {
                     showSubseconds: context.cadence == .live
                 )
                 .foregroundColor(.yellow)
+                
                 //            //Cals
                 //            Text(Measurement(
                 //                value: episodeManager.activeEnergy,
@@ -42,6 +43,7 @@ struct MetricsView: View {
                 //                    )
                 //                )
                 //            )
+                
                 //BPM
                 
                 //Heart Rate

@@ -8,11 +8,18 @@
 import SwiftUI
 import HealthKit
 
+
+// Global variables
 var healthStore : HKHealthStore?
+var myUserSettings : UserSettings = UserSettings()
+
+
+
 
 @main
 struct MyEpisodeCompanionApp: App {
     
+    @StateObject var stateManager = StateManager()
     
     
     init(){
@@ -63,6 +70,7 @@ struct MyEpisodeCompanionApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(stateManager)
         }
     }
 }
