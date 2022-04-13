@@ -10,9 +10,9 @@ import HealthKit
 
 
 // Global variables
-var healthStore : HKHealthStore?
+var myHealthStore : HKHealthStore?
 var myUserSettings : UserSettings = UserSettings()
-
+//var myHealthHistory : History = History()
 
 
 
@@ -20,14 +20,17 @@ var myUserSettings : UserSettings = UserSettings()
 struct MyEpisodeCompanionApp: App {
     
     @StateObject var stateManager = StateManager()
-    
+    @StateObject private var dataController = DataController()
+    //var myHealthHistory : History = History()
     
     init(){
+        
+        
         
         if HKHealthStore.isHealthDataAvailable(){
             
             print("Yay!")
-            healthStore = HKHealthStore()
+            myHealthStore = HKHealthStore()
             
             //Request access to following data types
                 /*
@@ -46,10 +49,11 @@ struct MyEpisodeCompanionApp: App {
                 HKQuantityType.quantityType(forIdentifier: .respiratoryRate)!,
                 HKQuantityType.quantityType(forIdentifier: .bodyTemperature)!,
                 HKQuantityType.quantityType(forIdentifier: .oxygenSaturation)!,
-                HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
+                HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!,
+                HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
                                ])
 
-            healthStore?.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
+            myHealthStore?.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
                 if success {
                     // save the sample here or call method that saves sample
                 } else {
@@ -69,8 +73,8 @@ struct MyEpisodeCompanionApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(stateManager)
+            ContentView().environmentObject(stateManager)
+                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }

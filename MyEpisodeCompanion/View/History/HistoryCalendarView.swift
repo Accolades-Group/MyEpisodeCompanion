@@ -6,19 +6,29 @@
 //
 
 import SwiftUI
+import CoreData
 
-struct HistoryView: View {
+struct HistoryCalendarView: View {
     
     @EnvironmentObject var stateManager : StateManager
-
+    @Environment(\.managedObjectContext) var moc
+    
+    
     
     var body: some View {
         CalendarRootView()
+            .environment(\.managedObjectContext, moc)
+
     }
 }
 
 struct CalendarRootView : View {
     @Environment(\.calendar) var calendar
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var checkinHistory : FetchedResults<Checkin>
+    @FetchRequest(sortDescriptors: []) var episodeHistory : FetchedResults<Episode>
+
+    
     
     private var year: DateInterval{
         return DateInterval(
@@ -29,9 +39,53 @@ struct CalendarRootView : View {
     var body: some View{
         
         CalendarView(interval: year){date in
-            //TODO: If health history has a date
+            
+            //May return multiple episodes
+            let episodes = episodeHistory.filter({
+                Calendar.current.isDate(date, equalTo: $0.date!, toGranularity: .day)
+            })
+            
+            let checkins = checkinHistory.filter({
+                Calendar.current.isDate(date, equalTo: $0.date!, toGranularity: .day)
+            })
             
             
+            if !checkins.isEmpty || !episodes.isEmpty{
+                
+                let gradient = getCheckinColorGradient(checkins)
+                
+                ZStack{
+                    
+                   // Rectangle().fill(.pink).frame(width: 35, height: 35, alignment: .center)
+                
+                NavigationLink(
+                    destination: HistoryView(
+                        date: date,
+                        viewModel: HistoryViewModel(checks: checkins, episodes: episodes)
+                    )){
+
+                        ZStack{
+
+                            ForEach(episodes.indices){i in
+                                
+                                let color = getEmotionColors(episodes[i].getCore())
+                                
+                                Rectangle().fill(color).rotationEffect(Angle(degrees: Double(15 * i))).frame(width: 35, height: 35, alignment: .center)
+                            }
+                            
+                            Text("30")
+                                .hidden()
+                                .padding(episodes.isEmpty ? 8 : 4)
+                                .background(gradient) //TODO: Angular Gradient
+                                .clipShape(Circle())
+                                .padding(.vertical, 4)
+                                .overlay(
+                                    Text(String(self.calendar.component(.day, from: date))).foregroundColor(.black)
+                                )
+                        }
+                }
+                }
+            } else {
             // else ...
             Text("30")
                 .hidden()
@@ -42,8 +96,33 @@ struct CalendarRootView : View {
                 .overlay(
                     Text(String(self.calendar.component(.day, from: date))).foregroundColor(.black)
                 )
+            }
         }
     }
+}
+//TODO: Fix this, clunky
+func getCheckinColor(_ checkin: Checkin) -> Color {
+    
+    let core = EmotionConstants.Cores.getCoreByNameStr(checkin.howAmIFeeling ?? "")
+    
+    if core != EmotionConstants.Cores.Other {
+        return getEmotionColors(core)
+    }
+    
+    return .clear
+}
+
+func getCheckinColorGradient(_ checks : [Checkin]) -> AngularGradient{
+    
+    var colors : [Color] = []
+    checks.forEach{check in
+        if let unwrappedCore = check.unwrapFeelings()?.core{
+            colors.append(getEmotionColors(unwrappedCore))
+        }
+    }
+    if(colors.isEmpty){colors.append(.clear)}
+    return AngularGradient(colors: colors, center: .center)
+    
 }
 
 struct CalendarView<DateView>: View where DateView: View {
@@ -89,7 +168,6 @@ struct CalendarView<DateView>: View where DateView: View {
                 Divider()
                 
                 Text("Sat")
-                Divider()
             }
         }.padding()
             .frame(height: 50)
@@ -119,7 +197,6 @@ struct CalendarView<DateView>: View where DateView: View {
                 }.onAppear{
                     scrollReader.scrollTo(months[months.endIndex - 1])
                 }
-                
             }
         }
     }
@@ -239,8 +316,8 @@ fileprivate extension DateFormatter {
     }
 }
 
-struct HistoryView_Previews: PreviewProvider {
+struct HistoryCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        HistoryView()
+        HistoryCalendarView()
     }
 }

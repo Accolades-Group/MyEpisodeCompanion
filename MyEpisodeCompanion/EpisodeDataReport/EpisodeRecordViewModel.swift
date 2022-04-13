@@ -24,7 +24,7 @@ final class EpisodeRecordViewModel : ObservableObject {
         
         let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
         
-        healthStore?.requestAuthorization(toShare: [stepType], read: [stepType]){(success, error) in
+        myHealthStore?.requestAuthorization(toShare: [stepType], read: [stepType]){(success, error) in
             
             if success {
                 self.calculateDailyStepCountForPastWeek()
@@ -79,7 +79,7 @@ final class EpisodeRecordViewModel : ObservableObject {
             }
         }
         
-        healthStore?.execute(query)
+        myHealthStore?.execute(query)
         
         print("Calculated...")
     }

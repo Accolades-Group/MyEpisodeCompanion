@@ -87,7 +87,7 @@ final class UserSettings : ObservableObject {
         self.firstName = UserDefaults.standard.object(forKey: keys.firstName.rawValue) as? String ?? ""
         self.lastName = UserDefaults.standard.object(forKey: keys.firstName.rawValue) as? String ?? ""
         self.email = UserDefaults.standard.object(forKey: keys.email.rawValue) as? String ?? ""
-        self.registrationDate = UserDefaults.standard.object(forKey: keys.registrationDate.rawValue) as? Date ?? Date.now
+        self.registrationDate = UserDefaults.standard.object(forKey: keys.registrationDate.rawValue) as? Date ?? Calendar.current.date(byAdding: .month, value: -1, to: Date.now)!
         self.isCheckinReminderApproved = UserDefaults.standard.object(forKey: keys.isCheckinReminderApproved.rawValue) as? Bool ?? false
         self.checkinReminderTime = UserDefaults.standard.object(forKey: keys.checkinReminderTime.rawValue) as? Date ?? Date()
         self.hasWatch = UserDefaults.standard.object(forKey: keys.hasWatch.rawValue) as? Bool ?? false
