@@ -11,6 +11,7 @@
  */
 
 import Foundation
+import SwiftUI
 
 struct emotionDataModel{
     
@@ -74,7 +75,42 @@ class CoreEmotion : BasicData {
     // The description for how one might respond to this emotion
     let responseDescription: String
     
+    // The color associated with this emotion
+    let color : Color
+    let colorSecondary : Color
+    let colorTertiary : Color
+    
     init(name: String, description : String, stateDescription : String, responseDescription: String){
+        
+        if(name.contains("Joy")){
+            color = Color.Joy.Primary//EmotionConstants.Colors.JoyColor1
+            colorSecondary = .Joy.Secondary
+            colorTertiary = .Joy.Tertiary
+        }else if(name.contains("Sad")){
+            color = Color.Sadness.Primary//EmotionConstants.Colors.SadnessColor1
+            colorSecondary = .Sadness.Secondary
+            colorTertiary = .Sadness.Tertiary
+        }else if(name.contains("Anger")){
+            color = Color.Anger.Primary//EmotionConstants.Colors.AngerColor1
+            colorSecondary = .Anger.Secondary
+            colorTertiary = .Anger.Tertiary
+        }else if(name.contains("Fear")){
+            color = Color.Fear.Primary//EmotionConstants.Colors.FearColor1
+            colorSecondary = .Fear.Secondary
+            colorTertiary = .Fear.Tertiary
+        }else if(name.contains("Disgust")){
+            color = Color.Disgust.Primary //EmotionConstants.Colors.DisgustColor1
+            colorSecondary = .Disgust.Secondary
+            colorTertiary = .Disgust.Tertiary
+        }else{
+            color = .teal //Debug for times when something is wrong?
+            colorSecondary = .pink
+            colorTertiary = .indigo
+        }
+        
+        
+        
+        
         self.stateDescription = stateDescription
         self.responseDescription = responseDescription
         super.init(name: name, description: description)
@@ -104,6 +140,39 @@ class EmotionState: BasicData {
         self.responseActions = responses
         super.init(name: name, description: description)
     }
+    
+    func getColorGradient() -> [Color]{
+        var colors : [Color] = []
+        
+        let min = intensity.lowerBound
+        //let mid = ( intensity.lowerBound + intensity.upperBound ) / 2
+        let max = intensity.upperBound
+        
+        for index in (1...10){
+            if index < min || index > max {
+                //colors.append(.white)
+                //colors.append(core.colorTertiary)
+                colors.append(core.colorTertiary.opacity(0.1))
+            }else{
+               // colors.append(index < 4 ? core.colorTertiary : index > 8 ? core.color : core.colorSecondary)
+                colors.append(core.colorSecondary.opacity(Double(index) * 0.05))
+                //colors.append(core.color)
+                
+            }
+        }
+
+        
+   //     colors.append(min < 4 ? core.colorTertiary : min > 8 ? core.color : core.colorSecondary)
+   //     colors.append(mid < 4 ? core.colorTertiary : mid > 8 ? core.color : core.colorSecondary)
+   //     colors.append(max < 4 ? core.colorTertiary : max > 8 ? core.color : core.colorSecondary)
+        
+        if(colors.isEmpty){
+            colors.append(core.color)
+        }
+        return colors
+    }
+    
+    
 }
 
 /**
@@ -572,6 +641,15 @@ struct EmotionConstants {
             ]
         }
         
+        static func getEpisodeCores() -> [CoreEmotion]{
+            return [
+                Cores.Anger,
+                //Cores.Disgust,
+                Cores.Fear,
+                Cores.Sadness
+            ]
+        }
+        
         static func getCoreByNameStr(_ name : String) -> CoreEmotion{
             if name.contains(Joy.name) { return Joy }
             else if name.contains(Anger.name) {return Anger}
@@ -583,159 +661,9 @@ struct EmotionConstants {
             }
         }
         
-        /**
-         Returns all of the states associated to a core emotion
-         */
-        static func getStatesByCore(_ core : CoreEmotion) -> [EmotionState]{
-            
-            if(core == Anger){
-                return[
-                    States.Annoyance,
-                    States.Frustration,
-                    States.Exasperation,
-                    States.Argumentativeness,
-                    States.Bitterness,
-                    States.Vengefulness,
-                    States.Fury
-                ]
-            }else if(core == Fear){
-                return[
-                    States.Trepidation,
-                    States.Nervousness,
-                    States.Anxiety,
-                    States.Dread,
-                    States.Desperation,
-                    States.Panic,
-                    States.Horror,
-                    States.Terror]
-            }else if(core == Sadness){
-                return[
-                    States.Disappointment,
-                    States.Discouragement,
-                    States.Distraughtness,
-                    States.Resignation,
-                    States.Helplessness,
-                    States.Hopelessness,
-                    States.Misery,
-                    States.Despair,
-                    States.Grief,
-                    States.Sorrow,
-                    States.Anguish
-                ]
-            }else if(core == Disgust){
-                return[
-                    States.Dislike,
-                    States.Aversion,
-                    States.Distaste,
-                    States.Repugnance,
-                    States.Abhorrence,
-                    States.Loathing
-                ]
-            }else if(core == Joy){
-                return [
-                    States.SensoryPleasure,
-                    States.Rejoicing,
-                    States.CompassionateJoy,
-                    States.Amusement,
-                    States.Schadenfreude,
-                    States.Relief,
-                    States.Peace,
-                    States.Fiero,
-                    States.Pride,
-                    States.Naches,
-                    States.Wonder,
-                    States.Excitement,
-                    States.Ecstasy
-                ]
-            }
-            return []
-            
-        }
+
         
-        static func getAllResponsesByCore(_ core: CoreEmotion) -> [EmotionResponseAction]{
-            if(core == Anger){
-                return [
-                    Responses.Dispute,
-                    Responses.PassiveAggression,
-                    Responses.Insult,
-                    Responses.Quarrel,
-                    Responses.SimmerBrood,
-                    Responses.Suppress,
-                    Responses.Undermine,
-                    Responses.UsePhysicalForce,
-                    Responses.ScreamYellAnger,
-                    //Intentional Responses
-                    
-                    Responses.SetLimits,
-                    Responses.BeFirm,
-                    Responses.WalkAwayAnger,
-                    Responses.TakeTimeOut,
-                    Responses.BreatheAnger,
-                    Responses.PracticePatience,
-                    Responses.ReframeAnger,
-                    Responses.DistractAnger,
-                    Responses.AvoidAnger,
-                    Responses.RemoveInterference
-                        
-                ]
-            }else if(core == Joy){
-                return [
-                    Responses.Exclaim,
-                    Responses.EngageConnect,
-                    Responses.Gloat,
-                    Responses.Indulge,
-                    Responses.Maintain,
-                    Responses.Savor,
-                    Responses.SeekMore
-                ]
-            }else if(core == Sadness){
-                return[
-                    Responses.FeelShame,
-                    Responses.Mourn,
-                    Responses.Protest,
-                    Responses.RuminateSadness,
-                    Responses.SeekComfort,
-                    Responses.WithdrawSadness,
-                    
-                    //Intentional
-                    //TODO: Allow user to select if it was intentional or not, both of these are intentional and responsive(intrinsic)
-                    Responses.WithdrawSadnessIntentional,
-                    Responses.DistractSadness
-                    
-                ]
-            }else if(core == Disgust){
-                return [
-                    Responses.AvoidDisgust,
-                    Responses.Dehumanize,
-                    Responses.Vomit,
-                    Responses.WithdrawDisgust,
-                    
-                    //Intentional
-                    //TODO: Allow user to select if it was intentional or not, both of these are intentional and responsive(intrinsic)
-                    Responses.WithdrawDisgustIntentional,
-                    Responses.AvoidDisgustIntentional,
-                    
-                ]
-            }else if(core == Fear){
-                return [
-                    Responses.Freeze,
-                    Responses.Hesitate,
-                    Responses.ScreamFear,
-                    Responses.Worry,
-                    Responses.RuminateFear,
-                    Responses.AvoidFear,
-                    Responses.WithdrawFear,
-                    
-                    //Intentional
-                    Responses.ReframeFear,
-                    Responses.BeMindful,
-                    Responses.BreatheFear,
-                    Responses.DistractFear
-                    
-                ]
-            }
-            return []
-        }
+        
         
         //Remove?
         static let Other = CoreEmotion(name: "Other", description: "A an emotion that doesn't if into these other categories", stateDescription: "", responseDescription: "")
@@ -955,6 +883,7 @@ struct EmotionConstants {
             name: "Disappointment",
             description: "A feeling that expectations are not being met.",
             antidote: "Understanding that sadness is natural in appropriate circumstances, but also that experiencing loss is part of life and that one should not let oneself be overwhelmed. Trying to find a place of peace within oneself and thinking of constructive things that could be done instead.",
+            intensity: 0...5,
             responses: [
                 Responses.FeelShame,
                 Responses.Mourn,
@@ -968,6 +897,7 @@ struct EmotionConstants {
             name: "Discouragment",
             description: "A response to repeated failures to accomplish something: the belief that it can't be done.",
             antidote: "Understanding that a permanent state of sadness will not bring any real benefit. In the case of mourning someone, falling into long-term sadness and despair should not be seen as an homage paid to that person. It is better to pay homage by doing meaningful and altruistic acts.",
+            intensity: 1...8,
             responses: [
                 Responses.Protest,
                 Responses.SeekComfort,
@@ -981,6 +911,7 @@ struct EmotionConstants {
             name: "Distraughtness",
             description: "Sadness that makes it hard to think clearly.",
             antidote: "Understanding that a permanent state of sadness will not bring any real benefit. In the case of mourning someone, falling into long-term sadness and despair should not be seen as an homage paid to that person. It is better to pay homage by doing meaningful and altruistic acts.",
+            intensity: 1...8,
             responses: [
                 Responses.SeekComfort,
                 Responses.Protest,
@@ -993,6 +924,7 @@ struct EmotionConstants {
             name: "Resignation",
             description: "The belief that nothing can be done.",
             antidote: "TODO",
+            intensity: 0...10,
             responses: [
                 Responses.SeekComfort,
                 Responses.Protest,
@@ -1007,6 +939,7 @@ struct EmotionConstants {
             name: "Helplessness",
             description: "The realization that one cannot make as situation better or easier.",
             antidote: "TODO",
+            intensity: 4...10,
             responses: [
                 Responses.SeekComfort,
                 Responses.Protest,
@@ -1019,6 +952,7 @@ struct EmotionConstants {
             name: "Hopelessness",
             description: "The belief that nothing good will happen.",
             antidote: "TODO",
+            intensity: 5...10,
             responses: [
                 Responses.SeekComfort,
                 Responses.Mourn,
@@ -1031,6 +965,7 @@ struct EmotionConstants {
             name: "Misery",
             description: "Strong suffering or unhappiness.",
             antidote: "TODO",
+            intensity: 5...10,
             responses: [
                 Responses.SeekComfort,
                 Responses.Mourn,
@@ -1043,6 +978,7 @@ struct EmotionConstants {
             name: "Despair",
             description: "The loss of hope that a bad situation will improve or change.",
             antidote: "TODO",
+            intensity: 6...10,
             responses: [
                 Responses.SeekComfort,
                 Responses.Mourn,
@@ -1054,6 +990,7 @@ struct EmotionConstants {
             name: "Grief",
             description: "Sadness over a deep loss.",
             antidote: "TODO",
+            intensity: 6...10,
             responses: [
                 Responses.SeekComfort,
                 Responses.Mourn,
@@ -1067,6 +1004,7 @@ struct EmotionConstants {
             name: "Sorrow",
             description: "A feeling of distress and sadness, often caused by a loss.",
             antidote: "TODO",
+            intensity: 6...10,
             responses: [
                 Responses.SeekComfort,
                 Responses.Mourn,
@@ -1079,6 +1017,7 @@ struct EmotionConstants {
             name: "Anguish",
             description: "Intense sadness or suffering",
             antidote: "Realizing that things and people are impermanent by nature. Revolting against this cannot lead to a fulfilled life.",
+            intensity: 9...10,
             responses: [
                 Responses.SeekComfort,
                 Responses.Mourn,
@@ -1093,6 +1032,7 @@ struct EmotionConstants {
             name: "Dislike",
             description: "A strong preference against something.",
             antidote: "While evaluating impartially the ethical issues, generating compassion so as to find the best way to remedy the causes and conditions that triggered dislike.",
+            intensity: 0...5,
             responses: [
                 Responses.WithdrawDisgust,
                 Responses.AvoidDisgust,
@@ -1103,6 +1043,7 @@ struct EmotionConstants {
             name: "Aversion",
             description: "An impulse to avoid something disgusting.",
             antidote: "Evaluating impartially the degree of harmfulness, taking appropriate measures, and then letting aversion dissolve in a space of mindful awareness.",
+            intensity: 1...7,
             responses: [
                 Responses.AvoidDisgust,
                 Responses.WithdrawDisgust,
@@ -1113,6 +1054,7 @@ struct EmotionConstants {
             name: "Distaste",
             description: "Reaction to a bad taste, smell, thing or idea. Can be literal or metaphorical.",
             antidote: "Evaluating impartially the degree of harmfulness, taking appropriate measures, and then letting distaste dissolve in a space of mindful awareness.",
+            intensity: 1...7,
             responses: [Responses.AvoidDisgust,
                         Responses.Vomit,
                         Responses.WithdrawDisgust],
@@ -1122,6 +1064,7 @@ struct EmotionConstants {
             name: "Repugnance",
             description: "String distaste for something often a concept or idea.",
             antidote: "Evaluating impartially the degree of harmfulness, taking appropriate measures, and then letting repugnance dissolve in a space of mindful awareness.",
+            intensity: 1...9,
             responses: [Responses.WithdrawDisgust,
                         Responses.AvoidDisgust,
                         Responses.Dehumanize],
@@ -1131,6 +1074,7 @@ struct EmotionConstants {
             name: "Revulsion",
             description: "A mixture of disgust and loathing",
             antidote: "Adopting the outlook of a caring physician, who might deeply disapprove certain behaviors but will focus on doing all that is possible to cure a person of their afflictions.",
+            intensity: 7...10,
             responses: [Responses.AvoidDisgust,
                         Responses.Vomit,
                         Responses.WithdrawDisgust,
@@ -1141,6 +1085,7 @@ struct EmotionConstants {
             name: "Abhorrence",
             description: "A mixture of intense disgust and hatred.",
             antidote: "In the case of toxic substances or situations, doing the best one can to calmly avoid them. In the case of actions, adopting the outlook of a caring physician, who might deeply disapprove certain behaviors but will focus on doing all that is possible to cure a person of their afflictions.",
+            intensity: 7...10,
             responses: [Responses.AvoidDisgust,
                         Responses.WithdrawDisgust,
                         Responses.Dehumanize],
@@ -1150,6 +1095,7 @@ struct EmotionConstants {
             name: "Loathing",
             description: "Intense disgust focused on a person. Intense disgust focused on oneself is referred to as self-loathing.",
             antidote: "Adopting the outlook of a caring physician, who might deeply disapprove certain behaviors but will focus on doing all that is possible to cure a person of their afflictions.",
+            intensity: 8...10,
             responses: [Responses.WithdrawDisgust,
                         Responses.AvoidDisgust,
                         Responses.Dehumanize],
@@ -1160,6 +1106,7 @@ struct EmotionConstants {
             name: "Trepidation",
             description: "Anticipation of the possibility of danger.",
             antidote: "Trying to ponder what can be done. Calming the mind gives the best chance to find the appropriate solution to what caused the trepidation in the first place.",
+            intensity: 0...3,
             responses: [Responses.Hesitate,
                         Responses.RuminateFear,
                         Responses.Worry],
@@ -1169,6 +1116,7 @@ struct EmotionConstants {
             name: "Nervousness",
             description: "Uncertainty as to whether there is danger.",
             antidote: "Trying to ponder what can be done. Calming the mind gives the best chance to find the appropriate solution to what caused the nervousness in the first place.",
+            intensity: 1...7,
             responses: [Responses.Hesitate,
                         Responses.RuminateFear,
                         Responses.Worry],
@@ -1178,6 +1126,7 @@ struct EmotionConstants {
             name: "Anxiety",
             description: "Fear of an anticipated or actual threat and uncertainty about one's ability to cope with it.",
             antidote: "Making a special effort of letting go of ruminations about the past and anticipations of the future.",
+            intensity: 0...10,
             responses: [Responses.Hesitate,
                         Responses.Freeze,
                         Responses.WithdrawFear,
@@ -1189,6 +1138,7 @@ struct EmotionConstants {
             name: "Dread",
             description: "Anticipation of severe danger.",
             antidote: "Remaining as calm as as possible. Seeing what can be done for yourself and for others as well.",
+            intensity: 5...10,
             responses: [Responses.Freeze,
                         Responses.WithdrawFear,
                         Responses.RuminateFear,
@@ -1200,6 +1150,7 @@ struct EmotionConstants {
             name: "Desperation",
             description: "A response to the inability to reduce danger.",
             antidote: "TODO: Research an antidote",
+            intensity: 8...10,
             responses: [
                 Responses.AvoidFear,
                 Responses.Freeze,
@@ -1212,6 +1163,7 @@ struct EmotionConstants {
             name: "Panic",
             description: "Sudden uncontrollable fear.",
             antidote: "Making an effort to see if anything can act as a mitigating factor (depending on the causes involved).",
+            intensity: 9...10,
             responses: [Responses.Freeze,
                         Responses.ScreamFear,
                         Responses.WithdrawFear,
@@ -1223,6 +1175,7 @@ struct EmotionConstants {
             name: "Horror",
             description: "A mixture of fear, disgust, and shock.",
             antidote: "Trying to see if anything can be done immediately. If that is not the case, creating distance to see if something can be done from afar. Responding with firmness and compassion, never with hatred.",
+            intensity: 9...10,
             responses: [Responses.Freeze,
                         Responses.ScreamFear,
                         Responses.WithdrawFear],
@@ -1232,6 +1185,7 @@ struct EmotionConstants {
             name: "Terror",
             description: "Intense, overpowering fear.",
             antidote: "Instilling some calmness in the mind in order to take most appropriate decision.",
+            intensity: 9...10,
             responses: [Responses.Freeze,
                         Responses.ScreamFear,
                         Responses.WithdrawFear],
@@ -1242,6 +1196,7 @@ struct EmotionConstants {
             name: "Annoyance",
             description: "Very mild anger caused by a nuisance or inconvenience.",
             antidote: "Patience, open-mindedness, concern for others.",
+            intensity: 0...2,
             responses: [
                 Responses.Suppress,
                 Responses.PassiveAggression,
@@ -1253,6 +1208,7 @@ struct EmotionConstants {
             name: "Frustration",
             description: "A response to repeated failures to overcome an obstacle.",
             antidote: "Letting go, letting go of grasping, putting things in a larger perspective.",
+            intensity: 0...10,
             responses: [
                 Responses.Suppress,
                 Responses.PassiveAggression,
@@ -1268,6 +1224,7 @@ struct EmotionConstants {
             name: "Exasperation",
             description: "Anger caused by a repeated or strong nuisance.",
             antidote: "Letting go of grasping. Patience, inner calm. Trying to understand the causes and conditions that brought about the undesirable situation.",
+            intensity: 3...7,
             responses: [
                 Responses.Suppress,
                 Responses.PassiveAggression,
@@ -1284,6 +1241,7 @@ struct EmotionConstants {
             name: "Argumentativeness",
             description: "A tendency to engage in disagreements.",
             antidote: "Making effort to understand the other’s perspective, cognitive empathy, benevolence, wishing to solve the problem through a mutually agreeable solution.",
+            intensity: 1...10,
             responses: [
                 Responses.Suppress,
                 Responses.Insult,
@@ -1296,6 +1254,7 @@ struct EmotionConstants {
             name: "Bitterness",
             description: "Anger after unfair treatment.",
             antidote: "TODO: Research an antidote",
+            intensity: 2...10,
             responses: [
                 Responses.Suppress,
                 Responses.PassiveAggression,
@@ -1311,6 +1270,7 @@ struct EmotionConstants {
             name: "Vengefulness",
             description: "Desire to retaliate after one is hurt.",
             antidote: "Contemplating the negative effects of taking revenge, in the short and long term; forgiveness not as condoning harmful behavior but as breaking the cycle of resentment and hatred.",
+            intensity: 5...10,
             responses: [
                 Responses.Dispute,
                 Responses.Insult,
@@ -1326,6 +1286,7 @@ struct EmotionConstants {
             name: "Fury",
             description: "Uncontrolled and often violent anger.",
             antidote: "Taking a break, physically and mentally, from the circumstances that brought fury about. Looking at fury itself with the eye of awareness as if gazing at a raging fire and slowly letting it calm down.",
+            intensity: 9...10,
             responses: [
                 Responses.Insult,
                 Responses.Quarrel,
@@ -1339,6 +1300,91 @@ struct EmotionConstants {
     }
     
     struct Responses {
+        
+        static func getAllResponsesByCore(_ core: CoreEmotion) -> [EmotionResponseAction]{
+            if(core == Cores.Anger){
+                return [
+                    Dispute,
+                    PassiveAggression,
+                    Insult,
+                    Quarrel,
+                    SimmerBrood,
+                    Suppress,
+                    Undermine,
+                    UsePhysicalForce,
+                    ScreamYellAnger,
+                    //Intentional Responses
+                    
+                    SetLimits,
+                    BeFirm,
+                    WalkAwayAnger,
+                    TakeTimeOut,
+                    BreatheAnger,
+                    PracticePatience,
+                    ReframeAnger,
+                    DistractAnger,
+                    AvoidAnger,
+                    RemoveInterference
+                        
+                ]
+            }else if(core == Cores.Joy){
+                return [
+                    Exclaim,
+                    EngageConnect,
+                    Gloat,
+                    Indulge,
+                    Maintain,
+                    Savor,
+                    SeekMore
+                ]
+            }else if(core == Cores.Sadness){
+                return[
+                    FeelShame,
+                    Mourn,
+                    Protest,
+                    RuminateSadness,
+                    SeekComfort,
+                    WithdrawSadness,
+                    
+                    //Intentional
+                    //TODO: Allow user to select if it was intentional or not, both of these are intentional and responsive(intrinsic)
+                    WithdrawSadnessIntentional,
+                    DistractSadness
+                    
+                ]
+            }else if(core == Cores.Disgust){
+                return [
+                    AvoidDisgust,
+                    Dehumanize,
+                    Vomit,
+                    WithdrawDisgust,
+                    
+                    //Intentional
+                    //TODO: Allow user to select if it was intentional or not, both of these are intentional and responsive(intrinsic)
+                    WithdrawDisgustIntentional,
+                    AvoidDisgustIntentional,
+                    
+                ]
+            }else if(core == Cores.Fear){
+                return [
+                    Freeze,
+                    Hesitate,
+                    ScreamFear,
+                    Worry,
+                    RuminateFear,
+                    AvoidFear,
+                    WithdrawFear,
+                    
+                    //Intentional
+                    ReframeFear,
+                    BeMindful,
+                    BreatheFear,
+                    DistractFear
+                    
+                ]
+            }
+            return []
+        }
         
         //Joy
         static let Exclaim = EmotionResponseAction(
@@ -1547,7 +1593,7 @@ struct EmotionConstants {
         
         static let Suppress = EmotionResponseAction(
             name: "Suppress",
-            description: "Try to avoid feeling or acting upon the emotoin that is being experienced.",
+            description: "Try to avoid feeling or acting upon the emotion that is being experienced.",
             core: Cores.Anger)
         
         static let UsePhysicalForce = EmotionResponseAction(
@@ -1636,22 +1682,27 @@ struct EmotionConstants {
             name: "Disagreement",
             description: "Was a part of, or witnessed a disagreement or argument //TODO",
             category: .conflict)
+        
         static let Criticism = Trigger(
             name: "Criticism",
             description: "When we hear criticism, it often triggers deep feelings of shame, embarrassment, frustration, anger, inadequacy, hopelessness, etc. making it difficult for them to perceive the whole picture",
             category: .conflict)
+        
         static let Yelling = Trigger(
             name: "Yelling",
             description: "Witnessed, or was the subject of yelling //TODO",
             category: .conflict)
+        
         static let Violence = Trigger(
             name: "Violence",
             description: "Witnessed or was subject to an act of violence //TODO",
             category: .conflict)
+        
         static let Abuse = Trigger(
             name: "Abuse",
             description: "Witnessed, or was subject to an act of abuse //TODO",
             category: .conflict)
+        
         static let Discrimination = Trigger(
             name: "Discrimination",
             description: "Witnessed discrimination or was discriminated against //TODO",
@@ -1662,18 +1713,22 @@ struct EmotionConstants {
             name: "Enclosed Space",
             description: "Witnessed or experienced an enclosed space //TODO",
             category: .lossOfPower)
+        
         static let Coercion = Trigger(
             name: "Coercion",
             description: "Was pursuaded into doing something by threat or by force //TODO",
             category: .lossOfPower)
+        
         static let Possessiveness = Trigger(
             name: "Possessiveness",
             description: "//TODO",
             category: .lossOfPower)
+        
         static let CrossedBoundary = Trigger(
             name: "Crossed Boundaries",
             description: "//TODO",
             category: .lossOfPower)
+        
         static let Authority = Trigger(
             name: "Authority",
             description: "//TODO",
@@ -1684,22 +1739,27 @@ struct EmotionConstants {
             name: "Invalidation",
             description: "//TODO",
             category: .rejection)
+        
         static let BeingIgnored = Trigger(
             name: "Being Ignored",
             description: "Was ignored or disregarded by another person //TODO",
             category: .rejection)
+        
         static let Lonliness = Trigger(
             name: "Loneliness",
             description: "Witnessed or experienced a form of lonliness //TODO",
             category: .rejection)
+        
         static let BeingMisunderstood = Trigger(
             name: "Being Misunderstood",
             description: "Failed to have your intentions, thoughts, actions or ideas interpreted properly//TODO",
             category: .rejection)
+        
         static let Rejection = Trigger(
             name: "Rejection",
             description: "Had your emotions, ideas, feelings or affections refused or dismissed //TODO",
             category: .rejection)
+        
         static let Abandonment = Trigger(
             name: "Abandonment",
             description: "Was refused support, love, or care by a caretaker //TODO",
@@ -1710,6 +1770,7 @@ struct EmotionConstants {
             name: "Being Touched",
             description: "Was touched physically in an unwanted way //TODO",
             category: .intimacy)
+        
         static let Sex = Trigger(
             name: "Sex",
             description: "Witnessed or was apart of a sexual act //TODO",
@@ -2061,7 +2122,9 @@ struct EmotionConstants {
                 junkFood,
                 music,
                 progressiveRelaxation,
-                attentionSeeking
+                attentionSeeking,
+                caffeine,
+                working
             ]
         }
         
@@ -2112,7 +2175,7 @@ struct EmotionConstants {
             category: .support)
         
         static let electronics = CopingMethod(
-            name: "Electronics Use", description: "TODO: ... Dissociating into electronics such as tv, video games, or the internet can help us forget ... ", category: .unhealthysoothing) // + Escape
+            name: "Electronics Use", description: "TODO: ... Dissociating into electronics such as tv, video games, or the internet can help us forget ", category: .unhealthysoothing) // + Escape
         
         static let alcohol = CopingMethod(
             name: "Alcohol Use",
@@ -2135,11 +2198,137 @@ struct EmotionConstants {
         
         static let attentionSeeking = CopingMethod(name: "Attention Seeking", description: "Seeking attention can be a way to validate yourself and feel better by having the attention of people that matter to you", category: .support) //Negaive way to recieve support?  maybe category also includes
         
+        static let caffeine = CopingMethod(name: "Caffeine", description: "Caffeine is addictive because of the way that the drug affects the human brain and produces the alert feeling that people crave.", category: .compulsions) //TODO: Category wrong
+        
+        static let working = CopingMethod(name: "Working", description: "Overworking can be a way to escape... //TODO: ", category: .escape) //TODO: Category wrong
+        
         
         //TODO: Napping? Didn't Cope?
     }
     
+    struct Colors {
+        
+        static let AngerColor1 : Color = Color(red: 0.969, green: 0.384, blue: 0.384)
+        static let AngerColor2 : Color = Color(red: 0.839, green: 0.733, blue: 0.733)
+        
+        
+        static let SadnessColor1 = Color(red: 0, green: 0.733, blue: 0.941)
+        static let SadnessColor2 = Color(red: 0.762, green: 0.86, blue: 0.887)
+        
+        
+        static let DisgustColor1 = Color(red: 0.137, green: 0.639, blue: 0.578)
+        static let DisgustColor2 = Color(red: 0.692, green: 0.754, blue: 0.746)
+        
+        
+        static let FearColor1 = Color(red: 0.589, green: 0.325, blue: 0.655)
+        static let FearColor2 = Color(red: 0.826, green: 0.795, blue: 0.833)
+        
+        
+        static let JoyColor1 = Color(red: 0.98, green: 0.737, blue: 0.255)
+        static let JoyColor2 = Color(red: 0.842, green: 0.801, blue: 0.719)
+        
+    }
     
+    //todo: Put these in a struct?
+    static func getStatesByResponses(_ responses : [EmotionResponseAction]) -> [EmotionState]{
+        
+        var retArr : [EmotionState] = []
+        
+        if let unwrappedCore = responses.first?.core {
+            
+            retArr = getStatesByCore(unwrappedCore)
+            
+            responses.forEach{response in
+                retArr.forEach{state in
+                    if !state.responseActions.contains(response){
+                        retArr.removeAll(where: {$0 == state})
+                    }
+                }
+            }
+            
+            
+        }
+        
+        
+        
+        //get all by core,
+        //filter by state contains repsonses
+        
+        
+        
+        
+        
+        return retArr
+    }
+    
+    /**
+     Returns all of the states associated to a core emotion
+     */
+    static func getStatesByCore(_ core : CoreEmotion) -> [EmotionState]{
+        
+        if(core == Cores.Anger){
+            return[
+                States.Annoyance,
+                States.Frustration,
+                States.Exasperation,
+                States.Argumentativeness,
+                States.Bitterness,
+                States.Vengefulness,
+                States.Fury
+            ]
+        }else if(core == Cores.Fear){
+            return[
+                States.Trepidation,
+                States.Nervousness,
+                States.Anxiety,
+                States.Dread,
+                States.Desperation,
+                States.Panic,
+                States.Horror,
+                States.Terror]
+        }else if(core == Cores.Sadness){
+            return[
+                States.Disappointment,
+                States.Discouragement,
+                States.Distraughtness,
+                States.Resignation,
+                States.Helplessness,
+                States.Hopelessness,
+                States.Misery,
+                States.Despair,
+                States.Grief,
+                States.Sorrow,
+                States.Anguish
+            ]
+        }else if(core == Cores.Disgust){
+            return[
+                States.Dislike,
+                States.Aversion,
+                States.Distaste,
+                States.Repugnance,
+                States.Abhorrence,
+                States.Loathing
+            ]
+        }else if(core == Cores.Joy){
+            return [
+                States.SensoryPleasure,
+                States.Rejoicing,
+                States.CompassionateJoy,
+                States.Amusement,
+                States.Schadenfreude,
+                States.Relief,
+                States.Peace,
+                States.Fiero,
+                States.Pride,
+                States.Naches,
+                States.Wonder,
+                States.Excitement,
+                States.Ecstasy
+            ]
+        }
+        return []
+        
+    }
     
 }
 
@@ -2153,7 +2342,7 @@ fileprivate struct Love {
         
         //Opposite of distaste
         //Name?
-        EmotionState(name: "Savory", description: "Reaction to a pleasent taste, smell, thing or idea. Can be literal or metaphorical", antidote: "TODO", intensity: 0...10, responses: [], core: love),
+        //?? EmotionState(name: "Savory", description: "Reaction to a pleasent taste, smell, thing or idea. Can be literal or metaphorical", antidote: "TODO", intensity: 0...10, responses: [], core: love),
         
         //Opposite of abhorrence
         EmotionState(name: "Admiration", description: "A mixture of intense love and appreciation", antidote: "TODO", intensity: 0...10, responses: [], core: love),
@@ -2162,7 +2351,12 @@ fileprivate struct Love {
         EmotionState(name: "Attraction", description: "An impulse to seek or approach something not necessarily physical", antidote: "TODO", intensity: 0...10, responses: [], core: love),
         
         //Opposite of repugnance
-        EmotionState(name: "Acceptance", description: "String taste or approval of something, often a concept, idea or person.", antidote: "", intensity: 0...10, responses: [], core: love)
+        EmotionState(name: "Acceptance", description: "String taste or approval of something, often a concept, idea or person.", antidote: "", intensity: 0...10, responses: [], core: love),
+        
+        EmotionState(name: "Compassion", description: "A desire to want to offer caring support in order to help relieve the suffering of another", antidote: "", intensity: 0...10, responses: [], core: love),
+        
+        //TODO: Romantic love?
+        EmotionState(name: "Infatuation", description: "An intense, romantic, passionate feeling of attraction that causes one to want to create a relationship bond or partnership", antidote: "", intensity: 0...10, responses: [], core: love)
         
         
         //compassion, opposite of loathing

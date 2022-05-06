@@ -29,11 +29,11 @@ struct ContentView: View {
             
             
             else if(stateManager.isLoggedIn){
-                
+
                 MainTabView()
                     .environmentObject(stateManager)
                     .environment(\.managedObjectContext, moc)
-                
+
             }
             
             //Login / Register

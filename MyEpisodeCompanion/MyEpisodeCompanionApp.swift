@@ -25,11 +25,11 @@ struct MyEpisodeCompanionApp: App {
     
     init(){
         
-        
+
         
         if HKHealthStore.isHealthDataAvailable(){
             
-            print("Yay!")
+          //  print("Yay!")
             myHealthStore = HKHealthStore()
             
             //Request access to following data types

@@ -9,17 +9,24 @@ import SwiftUI
 
 struct ControlsView: View {
     @EnvironmentObject var episodeManager : WorkoutManager
+    @Environment(\.managedObjectContext) var moc
+    
+    @FetchRequest(sortDescriptors: []) var trackedEpisodes : FetchedResults<TrackedEpisode>
+
     var body: some View {
         HStack { //To create side-by-side buttons if second is needed
             VStack{
                 Button {
-                    episodeManager.endEpisode()
+                    episodeManager.endEpisode(context: moc)
                 } label: {
                     Image(systemName: "xmark").padding()
                 }
                 .tint(.green)
                 .font(.title2)
                 Text("End Episode")
+                
+                Text("Tracked Episode Count: \(trackedEpisodes.count)")
+
             }
             
 //            VStack{

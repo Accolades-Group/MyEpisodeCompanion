@@ -9,9 +9,10 @@ import Foundation
 
 final class StateManager : ObservableObject {
     
+    
     //Debugging
     @Published var isDebugging = false
-    @Published var debugView = DebugQuestionView()
+    @Published var debugView = CustomStyles()
     @Published var isDebugData = true
     
     //TODO: Verify login
@@ -19,7 +20,7 @@ final class StateManager : ObservableObject {
     
     //Tabs
     enum Tab : Int{
-        case Home = 0, History = 1, Delete = 2
+        case Home = 0, History = 1, Resources = 2, Account = 3
     }
     @Published var tabViewSelection : Tab = .Home
     @Published var checkinReportIsShown : Bool = false

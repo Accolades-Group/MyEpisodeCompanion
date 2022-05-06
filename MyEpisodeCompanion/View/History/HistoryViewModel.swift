@@ -38,7 +38,14 @@ final class HistoryViewModel : ObservableObject  {
                 headspaceResponse: "This is the response to what my headspace is like",
                 needs: "I need to drink more water?",
                 stressLevel: 82,
-                copingMethods: [EmotionConstants.CopingMethods.meditation, EmotionConstants.CopingMethods.alcohol, EmotionConstants.CopingMethods.gambling]))
+                copingMethods: [EmotionConstants.CopingMethods.meditation, EmotionConstants.CopingMethods.alcohol, EmotionConstants.CopingMethods.gambling]
+                /*
+            hasSecondary: false,
+                secondaryCore: nil,
+                secondaryState: nil,
+                secondaryResponse: nil
+                 */
+            ))
         }else{
             checks.forEach{check in
                 if let unwrapped = check.unwrapCheckin(){

@@ -7,8 +7,8 @@
 // Hero Animation: https://www.youtube.com/watch?v=AjiLR9ORhzM&t=311s
 
 
-//TODO: Remove space above calendar, before <back button
-//TODO: sometimes fullscreen detail view gets "stuck" when minimizing
+//TODO: BugFix 1 sometimes fullscreen detail view gets "stuck" when minimizing
+    //This bug being caused by matched geometry effect
 import SwiftUI
 
 struct HistoryView: View {
@@ -33,6 +33,7 @@ struct HistoryView: View {
     var body: some View {
         VStack{
             DateView(date: date)
+
             ScrollView(.vertical, showsIndicators: false){
                 
                 HStack{
@@ -50,6 +51,7 @@ struct HistoryView: View {
                 VStack(spacing: 30){
                     HStack(alignment: .bottom){
                         VStack(alignment: .leading, spacing: 8){
+                            
                             ForEach(viewModel.checkinHistory){check in
                                 
                                 Button{
@@ -61,11 +63,14 @@ struct HistoryView: View {
                                     
                                     CheckinCardView(checkin: check)
                                         .scaleEffect(currentItem?.id == check.id && showDetailPage ? 1 : 0.93)
+                                        
                                     
                                 }.buttonStyle(ScaledButtonStyle())
-                                    .opacity(showDetailPage ? (currentItem?.id == check.id ? 1 : 0) : 1)//hide other items if not selected
+                                    .opacity(showDetailPage ? 0 : 1) //Bugfix 1
+                                    //.opacity(showDetailPage ? (currentItem?.id == check.id ? 1 : 0) : 1)//hide other items if not selected
                                 
                             }
+                            
                         }
                     }
                 }
@@ -78,7 +83,7 @@ struct HistoryView: View {
             }
             .background(alignment: .top){
                 RoundedRectangle(cornerRadius: 15, style: .continuous)
-                    .fill(getEmotionColors(currentItem?.core ?? EmotionConstants.Cores.Other))//where does it show up?
+                    .fill(currentItem?.core.color ?? EmotionConstants.Cores.Other.color) //TODO: Gradient from multiple cores?
                     .frame(height: animateView ? nil : 350, alignment: .top)
                     .scaleEffect(animateView ? 1 : 0.93)
                     .opacity(animateView ? 1 : 0)
@@ -91,19 +96,46 @@ struct HistoryView: View {
     @ViewBuilder
     func CheckinCardView(checkin : UnwrappedCheckin) -> some View{
         VStack(alignment: .leading, spacing: 25){
+            //debug
+            
             ZStack(alignment: .center){
                 
+                checkin.core.color
                 
+                //Background gradient if two emotions exist
+//                if checkin.hasSecondary, let unwrappedSecondCore = checkin.secondaryCore {
+//
+//                    LinearGradient(colors: [checkin.core.color, unwrappedSecondCore.color], startPoint: .top, endPoint: .bottom)
+//
+//                } else {
+//                    //single checkin color
+//                    checkin.core.color
+//                }
                 
-                //Episode Description
-                GeometryReader{proxy in
+
+                
+                VStack(spacing: 15){
                     
-                    getEmotionColors(checkin.core)//.opacity(0.8)
+//                    //Debugging
+//                    Group{
+//
+//                        Text("show detail page: \(showDetailPage.description)")
+//
+//                        if (currentItem != nil) {
+//                            Text("Has current item")
+//
+//                            if currentItem?.id == checkin.id {
+//                                Text("Current item is \(checkin.state.name)")
+//                            }
+//
+//                        } else {
+//                            Text("Current item is nil")
+//                        }
+//
+//                    }
                     
-                   // let size = proxy.size
-                    
-                    VStack{
-                        //Core & State name
+                    //Core & State name
+                    //TODO: Multiple emotions?
                         Group{
                             Text(checkin.core.name)
                             +
@@ -124,18 +156,21 @@ struct HistoryView: View {
                         Group{
                             Text("You felt ")
                             +
-                            Text(checkin.state.name).bold()
+                            Text(checkin.state.name).bold() //TODO: Multiple states
                             +
-                            Text(" because \(checkin.stateResponse)")
-                        }.padding()
+                            Text(" because \(checkin.stateResponse)") //TODO: multiple responses
+                        }
+                        .lineLimit(10)
+                        //.padding()
                         
                         //Headspace
                         Group{
-                        Text("Your headspace was filled with thoughts of: ")
+                        Text("Your headspace was filled with thoughts of: \n")
                         +
                         Text(checkin.headspaceResponse)
                         }
-                        .padding()
+                        .lineLimit(10)
+                        //.padding()
                         
                         //Needed
                         Group{
@@ -151,21 +186,19 @@ struct HistoryView: View {
                             Text(viewModel.getCopingText(checkin))
                         }.padding()
                         
-                    }.multilineTextAlignment(.center)
+                    }.padding(.horizontal)
+                    .multilineTextAlignment(.center)//.frame(minHeight: 400, maxHeight: 800)
                     
-                }
-                .frame(height: 400)
-                .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 15))
-                .foregroundColor(.primary)
-                //wrong spot?
+                    .foregroundColor(.primary)
+                //Creates a space at top of page when detail view is selected
                 //.offset(y: currentItem?.id == checkin.id && animateView ? safeArea().top : 0)
                 
                 
                 
-            }
+            }.clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 15))
             //.offset(y: currentItem?.id == checkin.id && animateView ? safeArea().top : 0)
         }
-        .matchedGeometryEffect(id: checkin.id, in: animation)
+        .matchedGeometryEffect(id: checkin.id, in: animation) //BugFix 1
     }
     
     // MARK: Detail View
@@ -176,15 +209,24 @@ struct HistoryView: View {
                 CheckinCardView(checkin: checkin)
                     .scaleEffect(animateView ? 1 : 0.93)
                 
+                Divider()
                 //non scrolling vstack
-                VStack{
+                VStack(spacing: 25){
+                    //About the state
+                    //TODO: Multiple states
+                    Text("About \(checkin.state.name)").font(.title2)
                     
-                }
+                    Text("\(checkin.state.name) is \(checkin.state.description)")
+                    
+                    Text("We can combat \(checkin.state.name) by")
+                    Text(checkin.state.antidote)
+                    
+                }.padding()
                 
-                //InnerScrolling VStack
+                //InnerScrolling VStack Recommendations?
                 VStack(spacing: 15){
                     //detail text
-                    Text("Lorem Ipsum")
+                    //Text("Lorem Ipsum")
                 }
                 .padding()
                 .offset(y: scrollOffset > 0 ? scrollOffset : 0)
@@ -227,66 +269,6 @@ struct HistoryView: View {
         .transition(.identity)
     }
     
-    /*
-     Old method
-    var body: some View {
-        GeometryReader{geo in
-            VStack(){
-                
-                DateView(date: date)
-                    .frame(width: geo.size.width, height: 50, alignment: .center)
-                
-                
-                
-                HStack(spacing: 10){
-                    if(!viewModel.episodeHistory.isEmpty){
-                        EpisodeStatisticsView(viewModel : viewModel)
-                            .frame(height: 165)
-                            .background(.thinMaterial)
-                            .cornerRadius(15)
-                    }
-                    
-                    if(!viewModel.checkinHistory.isEmpty){
-                        CheckinStatisticsView(viewModel : viewModel)
-                            .frame(height: 165)
-                            .cornerRadius(15)
-                    }
-                }.padding(.horizontal)
-
-                //ScrollView Showing individual checks in
-                ScrollView{
-                    //TODO: For Each...
-                   // if let check = viewModel.checkinHistory.first{
-                    
-                    ForEach(viewModel.checkinHistory){check in
-                        
-                        CheckinDetailView(checkin: check)
-                            .frame(alignment: .center)
-                            .cornerRadius(15)
-                            .padding()
-                        
-                    }
-                    
-//                        CheckinDetailView()
-//                        .frame(alignment: .center)
-//                        .cornerRadius(15)
-//                        .padding()
-//
-//                    EpisodeDetailView()
-//                        .frame(alignment: .center)
-//                        .cornerRadius(15)
-//                        .padding()
-//
-//                    CheckinDetailView2()
-//                    .frame(alignment: .center)
-//                    .cornerRadius(15)
-//                    .padding()
-                }
-            }
-            
-        }
-    }
-    */
 }
 
 fileprivate struct EpisodeDetailView : View {
@@ -367,15 +349,30 @@ fileprivate struct CheckinDetailView : View {
             
             //TODO: Core emotion color
             //TODO: Intensity?
-            getEmotionColors(checkin.core).opacity(0.8)
-          //  Color.purple.opacity(0.5)
+            /*
+            if checkin.hasSecondary, let unwrappedSecondary = checkin.secondaryCore {
+                
+                //Linear gradient for multiple cores
+                LinearGradient(colors: [checkin.core.color, unwrappedSecondary.color], startPoint: .top, endPoint: .bottom).opacity(0.8)
+            }else {
+                //single core
+                getEmotionColors(checkin.core).opacity(0.8)
+            }
+             */
+            
+            
+            
+            checkin.core.color.opacity(0.8)
+            
+            
+            
             
             VStack{
-                
+                //TODO: Multiple states
                 Text("\(checkin.state.name)").fontWeight(.bold)
                 
                 Text(checkin.state.description).italic().multilineTextAlignment(.center)
-                
+                //TODO: Multiple States
                 Text("You felt **\(checkin.state.name)** because \(checkin.stateResponse).").padding(.vertical).multilineTextAlignment(.center)
                 
                 
@@ -488,8 +485,9 @@ fileprivate struct DateView : View {
     let date : Date
     
     var body: some View {
+
             HStack(spacing: 25){
-                
+                //Mon
                 VStack{
                     
                     let tmpDate = Calendar.current.date(byAdding: .day, value: -3, to: date)!
@@ -532,7 +530,6 @@ fileprivate struct DateView : View {
                         .fontWeight(.light).foregroundColor(.red)
                     
                 }
-                
                 VStack{
                     
                     
@@ -554,7 +551,6 @@ fileprivate struct DateView : View {
                         .foregroundColor(isFuture ? .gray : .black)
                     
                 }
-                
                 VStack{
                     
                     let tmpDate = Calendar.current.date(byAdding: .day, value: 2, to: date)!
@@ -572,7 +568,7 @@ fileprivate struct DateView : View {
                         .foregroundColor(isFuture ? .gray : .black)
                     
                 }
-                
+                //Sun
                 VStack{
                     
                     let tmpDate = Calendar.current.date(byAdding: .day, value: 3, to: date)!
@@ -590,9 +586,7 @@ fileprivate struct DateView : View {
                         .foregroundColor(isFuture ? .gray : .black)
                     
                 }
-                
-                
-        }
+            }
     }
 }
 

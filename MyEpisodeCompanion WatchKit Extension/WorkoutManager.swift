@@ -9,9 +9,11 @@ import Foundation
 import HealthKit
 import AVFoundation
 import Combine
+import CoreData
 
 class WorkoutManager : NSObject, ObservableObject {
     
+    //private var dataController = DataController()
     let audioSession = AVAudioSession.sharedInstance()
     var audioRecorder : AVAudioRecorder = AVAudioRecorder()//TODO: URL & Settings
     
@@ -55,6 +57,7 @@ class WorkoutManager : NSObject, ObservableObject {
         let correction : Float = 100
         audioRecorder.updateMeters()
         self.soundDb = Double(audioRecorder.averagePower(forChannel: 0) + correction)//TODO: Peak power or average power?
+        
     }
     
     
@@ -150,8 +153,8 @@ class WorkoutManager : NSObject, ObservableObject {
         let runLoop = RunLoop.main
         subscription = runLoop.schedule(after: runLoop.now, interval: .seconds(5) , tolerance: .milliseconds(100)) {
             //what happens when timer is fired
-            print("Timer fired")
             self.checkAudio()
+            
         }
         
         
@@ -239,6 +242,7 @@ class WorkoutManager : NSObject, ObservableObject {
         
         builder?.beginCollection(withStart: startDate) { (success, error) in
             //The "workout" has started
+            
         }
         
 
@@ -299,14 +303,46 @@ class WorkoutManager : NSObject, ObservableObject {
         }
     }
     
-    func endEpisode() {
-        session?.end()
-        showingSummaryView = true
+    func endEpisode(context moc : NSManagedObjectContext) {
+        
+        
         timer.upstream.connect().cancel()
         subscription?.cancel()
+        
+        let episode = TrackedEpisode(context: moc)
+        episode.date = session?.startDate
+        episode.avgHeartRate = Int16(averageHeartRate)
+        episode.peakHeartRate = Int16(peakHeartRate)
+        episode.avgDb = Int16(averageSoundDb)
+        episode.peakDb = Int16(peakSoundDB)
+        //episode.duration = Int16((NSInteger(workout?.duration) % 1) * 1000)
+        episode.duration = Int16(NSInteger(builder?.elapsedTime ?? 1))
+        
+        
+        
+        
+        print("date: \(String(describing: episode.date))")
+        print("avgHr: \(episode.avgHeartRate)")
+        print("peakHR: \(episode.peakHeartRate)")
+        print("avgHR: \(episode.avgHeartRate)")
+        print("avgDB: \(episode.avgDb)")
+        print("peakDB: \(episode.peakDb)")
+        print("duration: \(episode.duration)")
+        
+        session?.end()
+        
+        do{
+            try moc.save()
+        } catch {
+            print(error)
+        }
+        
+        
+        showingSummaryView = true
     }
     
     // MARK: - Workout Metrics
+    @Published var peakHeartRate : Double = 0
     @Published var averageHeartRate : Double = 0
     @Published var heartRate: Double = 0
     @Published var activeEnergy: Double = 0
@@ -314,6 +350,7 @@ class WorkoutManager : NSObject, ObservableObject {
     @Published var steps: Double = 0
     @Published var soundDb : Double = 0
     @Published var averageSoundDb : Double = 0
+    @Published var peakSoundDB : Double = 0
     @Published var respiratoryRate : Double = 0
     @Published var hRV : Double = 0
     @Published var v02Max : Double = 0
@@ -326,6 +363,7 @@ class WorkoutManager : NSObject, ObservableObject {
         
         guard let statistics = statistics else { return }
         
+        
 //print(statistics.quantityType.identifier.debugDescription)
         
         DispatchQueue.main.async {
@@ -335,6 +373,7 @@ class WorkoutManager : NSObject, ObservableObject {
                 let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
                 self.heartRate = statistics.mostRecentQuantity()?.doubleValue(for: heartRateUnit) ?? 0
                 self.averageHeartRate = statistics.averageQuantity()?.doubleValue(for: heartRateUnit) ?? 0
+                self.peakHeartRate = (self.heartRate > self.peakHeartRate) ? self.heartRate : self.peakHeartRate
                 
                 //Cal Burn
             case HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned):
@@ -382,7 +421,7 @@ class WorkoutManager : NSObject, ObservableObject {
         selectedEpisode = nil
         builder = nil
         session = nil
-        workout = nil
+       // workout = nil
         activeEnergy = 0
         averageHeartRate = 0
         heartRate = 0

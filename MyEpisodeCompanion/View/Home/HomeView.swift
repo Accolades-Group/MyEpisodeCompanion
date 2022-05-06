@@ -13,6 +13,7 @@ struct HomeView: View {
     @Environment(\.managedObjectContext) var moc
     
     @FetchRequest(sortDescriptors: []) var checkinHistory : FetchedResults<Checkin>
+    @FetchRequest(sortDescriptors: []) var trackedEpisodes : FetchedResults<TrackedEpisode>
 
     //TODO: Make these buttons in custom styles
     let backgroundColor : Color = Color(red: 0.858, green: 1, blue: 0.915)
@@ -28,6 +29,7 @@ struct HomeView: View {
                 NavigationLink(
                     destination: CheckinReportView().environmentObject(stateManager)
                         .environment(\.managedObjectContext, moc)
+                        .navigationBarHidden(true)
                         .navigationBarTitle("", displayMode: .inline),//.hiddenNavigationBarStyle(),
                     isActive: $stateManager.checkinReportIsShown,
                     label: {
@@ -47,25 +49,41 @@ struct HomeView: View {
                 
                 NavigationLink(
                     destination:
-                        Text("TODO: Episode Report").fontWeight(.bold).foregroundColor(.red),
-                        //CheckinReportView().environmentObject(stateManager).environment(\.managedObjectContext, moc),//.hiddenNavigationBarStyle(),
+                        EpisodeReportView()
+                        .environmentObject(stateManager)
+                        .environment(\.managedObjectContext, moc),
                     isActive: $stateManager.episodeReportIsShown,
                     label: {
+                        
                         ZStack{
-                            RoundedRectangle(cornerRadius: 55).frame(width: 305, height: 180, alignment: .center).foregroundColor(backgroundColor)
+                            RoundedRectangle(cornerRadius: 55).frame(width: 305, height: 180, alignment: .center).foregroundColor(backgroundColor).overlay{
+                                //let count = trackedEpisodes.count
+                                if(!trackedEpisodes.isEmpty){
+                                Image(systemName: "exclamationmark")
+                                    .resizable()
+                                    .frame(width: 10, height: 50).foregroundColor(.red)
+                                    .position(x: 250, y: 30)
+                                }
+                            }
                             HStack{
-                                //Image(systemName: "calendar").resizable().frame(width: 35, height: 35, alignment: .center).foregroundColor(.purple)
+
                                 Image("episodeReport") //TODO: Resize Image
                                     .resizable()
                                     .frame(width: 125, height: 125, alignment: .center)
+                                
                                 Text("Report an Episode")
                                     .fontWeight(.bold)
                                     .frame(width: 120, alignment: .center).foregroundColor(textColor)
                             }
+                            
+                            
+                            
+                                //.position(x: 5, y: 5)
                         }
+                        
                     })
                 
-                    
+                //    Text("Tracked Episode Count: \(trackedEpisodes.count)")
 
                 }
 

@@ -11,6 +11,7 @@ import SwiftUI
 struct MyEpisodeCompanionApp: App {
     
     @StateObject var episodeManager = WorkoutManager()
+    @StateObject private var dataController = DataController()
     
     @SceneBuilder var body: some Scene {
         WindowGroup {
@@ -20,6 +21,7 @@ struct MyEpisodeCompanionApp: App {
                 SummaryView()
             }
             .environmentObject(episodeManager)
+            .environment(\.managedObjectContext, dataController.container.viewContext)
         }
 
         WKNotificationScene(controller: NotificationController.self, category: "myCategory")

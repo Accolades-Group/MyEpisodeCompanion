@@ -13,15 +13,15 @@ func getEmotionColors(_ core : CoreEmotion, isSelected: Bool = true) -> Color{
 
     
     switch core{
-    case EmotionConstants.Cores.Anger: return isSelected ? Color(red: 0.969, green: 0.384, blue: 0.384) : Color(red: 0.839, green: 0.733, blue: 0.733)
+    case EmotionConstants.Cores.Anger: return isSelected ? Color.Anger.Primary : .Anger.Tertiary
         
-    case EmotionConstants.Cores.Sadness: return isSelected ? Color(red: 0, green: 0.733, blue: 0.941) : Color(red: 0.762, green: 0.86, blue: 0.887)
+    case EmotionConstants.Cores.Sadness: return isSelected ? Color.Sadness.Primary : .Sadness.Tertiary
         
-    case EmotionConstants.Cores.Disgust: return isSelected ? Color(red: 0.137, green: 0.639, blue: 0.578) : Color(red: 0.692, green: 0.754, blue: 0.746)
+    case EmotionConstants.Cores.Disgust: return isSelected ? Color.Disgust.Primary : .Disgust.Tertiary
         
-    case EmotionConstants.Cores.Fear: return isSelected ? Color(red: 0.589, green: 0.325, blue: 0.655) : Color(red: 0.826, green: 0.795, blue: 0.833)
+    case EmotionConstants.Cores.Fear: return isSelected ? Color.Fear.Primary : .Fear.Tertiary
         
-    case EmotionConstants.Cores.Joy: return isSelected ? Color(red: 0.98, green: 0.737, blue: 0.255) : Color(red: 0.842, green: 0.801, blue: 0.719)
+    case EmotionConstants.Cores.Joy: return isSelected ? Color.Joy.Primary : .Joy.Tertiary
         
     default:
         return isSelected ? Color(red: 0.191, green: 0.187, blue: 0.192) : Color(red: 0.606, green: 0.582, blue: 0.613)
@@ -40,6 +40,30 @@ struct NextButtonStyle: ButtonStyle{
     }
 }
 
+struct CopingButtonStyle: ButtonStyle {
+    
+    var isSelected : Bool
+    var color : Color
+    //let selectedColor : Color = .blue
+    let unSelectedColor : Color = .gray.opacity(0.2)
+    
+    func makeBody(configuration: Configuration) -> some View {
+        
+        configuration.label
+            .font(.body)
+            .foregroundColor(isSelected ? .white : .black)
+            .padding(5)
+            .frame(minWidth: 100, idealWidth: 120, maxWidth: 150, alignment: .center)
+            .background(isSelected ? color : unSelectedColor)
+            .clipShape(Capsule())
+            .overlay{
+                Capsule().stroke(color, lineWidth: 2).frame(minWidth: 100, maxWidth: 150)
+            }
+            
+    }
+    
+}
+
 struct EmotionButtonStyle: ButtonStyle{
     
     var color: Color
@@ -55,8 +79,104 @@ struct EmotionButtonStyle: ButtonStyle{
             .foregroundColor(.white)
             .padding(.horizontal, size == .small ? 5 : size == .medium ? 10 : 15)
             .padding(.vertical, 5)
+            .frame(width: 170)
             .background(color)
             .clipShape(RoundedRectangle(cornerRadius: 17.5))
+    }
+}
+
+struct StateEmotionButtonStyle: ButtonStyle{
+    
+    var state: EmotionState
+    //var color: Color
+    var isSelected: Bool
+    var size: ButtonSizes = .medium
+    
+    enum ButtonSizes {
+        case small, medium, large
+    }
+    
+    func makeBody(configuration : Configuration) -> some View{
+        
+        let colors = state.getColorGradient()
+        
+        configuration.label
+            .font(size == .small ? .callout : size == .medium ? .body : .title3)
+            .foregroundColor(isSelected ? .white : .black)
+            .padding(.horizontal, size == .small ? 5 : size == .medium ? 10 : 15)
+            .padding(.vertical, 5)
+            .frame(width: 170)
+            .background{
+                ZStack{
+                    //state.core.colorTertiary.opacity(0.1)
+                    Color.white
+                LinearGradient(colors:
+                                        isSelected ? [state.core.color] :
+                                       // [.white]
+                                       colors
+                                       , startPoint: .leading, endPoint: .trailing)
+                }
+            }
+            .clipShape(Capsule())
+            
+            .overlay(
+                
+                Capsule().stroke(state.core.color, lineWidth: 2)
+            )
+        
+
+    }
+    /*
+    func makeGradient() -> [Color]{
+        
+        let min = state.intensity.lowerBound
+        let max = state.intensity.upperBound
+        let mid = (max + min) / 2
+        
+        var colors : [Color] = []
+        
+        ForEach(min..<max){index in
+            if((0...3).contains(index)){
+                colors.append(state.core.colorTertiary)
+            }else if((4...7).contains(index)){
+                colors.append(state.core.colorSecondary)
+            }else if((7...10).contains(index)){
+                colors.append(state.core.color)
+            }
+        }
+        
+        return colors
+    }
+     */
+     
+}
+
+
+struct EmotionButtonStyle2: ButtonStyle{
+    
+    var color: Color
+    var isSelected : Bool
+    var size: ButtonSizes = .medium
+    
+    enum ButtonSizes {
+        case small, medium, large
+    }
+    
+    func makeBody(configuration : Configuration) -> some View{
+        configuration.label
+            .font(size == .small ? .callout : size == .medium ? .body : .title3)
+            .foregroundColor(isSelected ? .white  : color)
+            .padding(.horizontal, size == .small ? 5 : size == .medium ? 10 : 15)
+            .padding(.vertical, 5)
+            //.frame(width: 100)
+            .frame(minWidth: 100, maxWidth: 150)
+            .background(isSelected ? color : .white)
+            .clipShape(Capsule())
+            .overlay(
+                //Capsule().stroke(color, lineWidth: 2).frame(width: 100)
+                Capsule().stroke(color, lineWidth: 2).frame(minWidth: 100, maxWidth: 180)
+            )
+            //.clipShape(RoundedRectangle(cornerRadius: 17.5))
     }
     
 }
@@ -73,12 +193,12 @@ struct CustomCorner: Shape {
 
 struct CalendarShape: View{
     let gradient = AngularGradient(colors: [
-        getEmotionColors(EmotionConstants.Cores.Joy),
-        getEmotionColors(EmotionConstants.Cores.Fear)
+        EmotionConstants.Cores.Joy.color,
+        EmotionConstants.Cores.Fear.color
     ], center: .center)
     let colors : [Color] = [
-        getEmotionColors(EmotionConstants.Cores.Fear),
-        getEmotionColors(EmotionConstants.Cores.Anger)
+        EmotionConstants.Cores.Fear.color,
+        EmotionConstants.Cores.Anger.color
     ]
     var body: some View{
         
@@ -103,11 +223,315 @@ struct CalendarShape: View{
     }
 }
 
+struct SleepQualitySlider : View {
+    @State var offset : CGFloat = 0
+    
+    @Binding var sliderValue : Float
+    let minVal : CGFloat = 0
+    let maxVal : CGFloat = 10
+    @State var color : Color = .red
+    
+    let barHeight : CGFloat = 20
+    let barWidth : CGFloat = 300
+    let circleWidth : CGFloat = 25
+    let circleOutlineWidth : CGFloat = 5
+    let circleRadius : CGFloat = 15 //(circle width + outlineWidth) / 2 = r
+    let minOffX : CGFloat = 15 // radius
+    let maxOffX : CGFloat = 285 // bar width - radius
+    
+    var body: some View{
+        
+        
+        VStack(alignment: .center){
+            
+            GeometryReader{geo in
+                
+                VStack{
+                    
+                    HStack{
+                        Text("\(sliderValue, specifier: "%.f")")
+                    }.frame(width: barWidth)
+                    
+                    ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)){
+                        
+                        //Background empty
+                        Capsule()
+                            .fill(Color.black.opacity(0.25))
+                            .frame(width: barWidth, height: barHeight)
+                        
+                        //Background Filled
+                        Capsule()
+                            .fill(color)
+                            .frame(width: offset + circleRadius, height: barHeight) //circle radius = 15
+                        
+                        //Increment Dots
+                        //12 hour lines + 12 30 min lines = 24 lines
+                        //300 /
+                        let spacing = barWidth / (maxVal) - 0.5
+                        HStack(spacing: spacing){
+                            
+                            ForEach(0..<Int(maxVal)){index in
+                                
+                                let color : Color = index == 0 ? Color.clear : .white
+                                
+                                
+                                let height : CGFloat = barHeight - 5
+
+                                Rectangle()
+                                    .fill(color)
+                                    .frame(width: 1, height: height)
+                                
+                            }
+                        }
+                        
+                        //Slider Button
+                        Circle()
+                            .fill(color)
+                            .frame(width: 25, height: 25)
+                            .background(Circle().stroke(Color.white, lineWidth: 5))
+                            //.background()
+                            .offset(x: offset)
+                            .gesture(
+                                DragGesture().onChanged({(value) in
+                                
+                                    let centerVal = CGFloat(value.location.x) - circleRadius
+                                
+                                //if in range
+                                if centerVal >= -15
+                                    && centerVal <= maxOffX {
+                                    
+                                    //set offset (circle radius = 15)
+                                    offset = centerVal
+                                    
+                                    
+                                    updateValue()
+                                }
+                                
+                                
+                                })
+                                /*.onEnded{value in
+                                    
+                                    let centerVal = CGFloat(value.location.x) - circleRadius
+                                    
+                                    //sliderValue = Float(centerVal)
+                                    
+                                    let rem = centerVal.truncatingRemainder(dividingBy: spacing)
+                                    
+                                    if rem < spacing / 2 {
+                                        offset -= rem
+                                    } else {
+                                        offset += rem
+                                    }
+                                    
+                                    
+                                    updateValue()
+                                    
+                                }*/
+                            )
+                            
+                    }
+                    
+                    HStack{
+                        Text("\(Int(minVal))")
+                        Spacer()
+                        
+                        Text("\(Int(maxVal))")
+                    }.frame(width: barWidth)
+                   // Text("Geo w: \(geo.size.width)")
+                }
+            }.frame(width: barWidth, height: 100, alignment: .center)
+        }
+    }
+    
+    func updateValue(){
+        if offset < 0 {
+            sliderValue = Float(minVal)
+            
+        } else if offset >= maxOffX - (circleRadius / 2){
+            sliderValue = Float(maxVal)
+            
+        }else{
+
+            //let val = ceil(maxOffX / offset)
+            //let val = (offset / 12).rounded()
+            sliderValue = Float(ceil((offset / maxOffX) * 10))
+        }
+        
+        withAnimation(){
+            self.color =
+            sliderValue < 3 ? .red :
+            (3...4).contains(sliderValue) ? .orange :
+            (4...7).contains(sliderValue) ? .yellow :
+                .green
+        }
+        //value = sliderValue
+        
+    }
+    
+}
+
+/**
+ Source: https://www.youtube.com/watch?v=z0PqbaHHjfA
+ */
+struct SleepQtySlider : View {
+    
+    @State var offset : CGFloat = 0
+    
+    @Binding var sliderValue : Float
+    
+    
+    let minVal : CGFloat = 0
+    let maxVal : CGFloat = 12
+    @State var color : Color = .red
+    
+    let barHeight : CGFloat = 20
+    let barWidth : CGFloat = 300
+    let circleWidth : CGFloat = 25
+    let circleOutlineWidth : CGFloat = 5
+    let circleRadius : CGFloat = 15 //(circle width + outlineWidth) / 2 = r
+    let minOffX : CGFloat = 15 // radius
+    let maxOffX : CGFloat = 285 // bar width - radius
+    
+    
+    var body: some View{
+        
+        
+        VStack(alignment: .center){
+            
+            GeometryReader{geo in
+                
+                VStack{
+                    
+                    HStack{
+                        Text("\(sliderValue, specifier: "%.1f")")
+                    }.frame(width: barWidth)
+                    
+                    ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)){
+                        
+                        //Background empty
+                        Capsule()
+                            .fill(Color.black.opacity(0.25))
+                            .frame(width: barWidth, height: barHeight)
+                        
+                        //Background Filled
+                        Capsule()
+                            .fill(color)
+                            .frame(width: offset + circleRadius, height: barHeight) //circle radius = 15
+                        
+                        //Increment Dots
+                        //12 hour lines + 12 30 min lines = 24 lines
+                        //300 /
+                        let spacing = barWidth / (maxVal * 2) - 0.5
+                        HStack(spacing: spacing){
+                            
+                            ForEach(0..<Int(maxVal * 2)){index in
+                                
+                                let color : Color =
+                                (index == 0 || index == Int(maxVal * 2)) ? Color.clear : .white
+                                
+                                
+                                let height : CGFloat = index % 2 == 0 ? barHeight - 5 : barHeight - 12
+
+                                Rectangle()
+                                    .fill(color)
+                                    .frame(width: 1, height: height)
+                                
+                            }
+                        }
+                        
+                        //Slider Button
+                        Circle()
+                            .fill(color)
+                            .frame(width: 25, height: 25)
+                            .background(Circle().stroke(Color.white, lineWidth: 5))
+                            //.background()
+                            .offset(x: offset)
+                            .gesture(
+                                DragGesture().onChanged({(value) in
+                                
+                                    let centerVal = CGFloat(value.location.x) - circleRadius
+                                
+                                //if in range
+                                if centerVal >= -15
+                                    && centerVal <= maxOffX {
+                                    
+                                    //set offset (circle radius = 15)
+                                    offset = centerVal 
+                                    
+                                    
+                                    updateValue()
+                                }
+                                
+                                
+                                }).onEnded{value in
+                                    
+                                    let centerVal = CGFloat(value.location.x) - circleRadius
+                                    
+                                    //sliderValue = Float(centerVal)
+                                    
+                                    let rem = centerVal.truncatingRemainder(dividingBy: spacing)
+                                    
+                                    if rem < spacing / 2 {
+                                        offset -= rem
+                                    } else {
+                                        offset += rem
+                                    }
+                                    
+                                    
+                                    updateValue()
+                                    
+                                })
+                            
+                    }
+                    
+                    HStack{
+                        Text("\(Int(minVal))")
+                        Spacer()
+                        
+                        Text("\(Int(maxVal))")
+                    }.frame(width: barWidth)
+                   // Text("Geo w: \(geo.size.width)")
+                }
+            }.frame(width: barWidth, height: 100, alignment: .center)
+        }
+    }
+    
+    func updateValue(){
+        if offset < 0 {
+            sliderValue = Float(minVal)
+            
+        } else if offset >= maxOffX - (circleRadius / 2){
+            sliderValue = Float(maxVal)
+            
+        }else{
+            //let denominator = 2
+            let val = ceil((offset / (maxVal * 2)) / 0.5) * 0.5
+            //let val = (offset / 12).rounded()
+            sliderValue = Float(val)
+        }
+        
+        withAnimation(){
+            color = sliderValue < 3 ? .red :
+            (3..<5).contains(sliderValue) ? .orange :
+            (5..<7).contains(sliderValue) ? .yellow :
+            (7..<9).contains(sliderValue) ? .green :
+            (9...10).contains(sliderValue) ? .blue :
+                .black
+        }
+        //value = sliderValue
+        
+    }
+}
+
 struct CustomStyles: View {
     @State var isSelected = false
     let core : CoreEmotion = EmotionConstants.Cores.Anger
+    let state : EmotionState = EmotionConstants.States.Argumentativeness
+    @State var sliderValue : Float = 0
     var body: some View {
         VStack{
+            SleepQtySlider(sliderValue: $sliderValue)
+            SleepQualitySlider(sliderValue: $sliderValue)
             Spacer()
             Button("Continue"){
                 
@@ -116,14 +540,80 @@ struct CustomStyles: View {
             CalendarShape()
             
             Spacer()
+            Group{
+                
+                Button("Work"){
+                    isSelected.toggle()
+                }.buttonStyle(CopingButtonStyle(isSelected: isSelected, color: .green))
+            
         Button(){
             isSelected.toggle()
             print(isSelected)
         }label:{
-            Text(core.name)
-        }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(core, isSelected: isSelected)))
+            Text(EmotionConstants.States.Annoyance.name)
+        }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Annoyance, isSelected: isSelected))
             
+            
+            
+            Button(){
+                isSelected.toggle()
+                print(isSelected)
+            }label:{
+                Text(EmotionConstants.States.Frustration.name)
+            }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Frustration, isSelected: isSelected))
+                
+                Button(){
+                    isSelected.toggle()
+                    print(isSelected)
+                }label:{
+                    Text(EmotionConstants.States.Exasperation.name)
+                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Exasperation, isSelected: isSelected))
+                
+                
+                Button(){
+                    isSelected.toggle()
+                    print(isSelected)
+                }label:{
+                    Text(EmotionConstants.States.Argumentativeness.name)
+                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Argumentativeness, isSelected: isSelected))
+                
+
+                
+                Button(){
+                    isSelected.toggle()
+                    print(isSelected)
+                }label:{
+                    Text(EmotionConstants.States.Bitterness.name)
+                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Bitterness, isSelected: isSelected))
+                
+
+                
+                Button(){
+                    isSelected.toggle()
+                    print(isSelected)
+                }label:{
+                    Text(EmotionConstants.States.Vengefulness.name)
+                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Vengefulness, isSelected: isSelected))
+                
+                
+                Button(){
+                    isSelected.toggle()
+                    print(isSelected)
+                }label:{
+                    Text(EmotionConstants.States.Fury.name)
+                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Fury, isSelected: isSelected))
+            
+            }
             Spacer()
+            
+            Button(){
+                isSelected.toggle()
+                print(isSelected)
+            }label:{
+                Text(core.name)
+            }.buttonStyle(EmotionButtonStyle2(color: core.color, isSelected: isSelected))
+                
+                
         }
 
     }

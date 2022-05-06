@@ -7,8 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F334534127E6857D00A663CA /* EpisodeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F334534027E6857D00A663CA /* EpisodeRecordView.swift */; };
-		F334534327E6859000A663CA /* EpisodeRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F334534227E6859000A663CA /* EpisodeRecordViewModel.swift */; };
+		F3396CDC2810DF5500F805F8 /* HealthHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */; };
+		F3396CDD2810DF5600F805F8 /* HealthHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */; };
+		F3396CDE2810DF5700F805F8 /* HealthHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */; };
+		F3396CDF2810DF5800F805F8 /* HealthHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */; };
+		F3396CE2281225C000F805F8 /* StressStackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CE1281225C000F805F8 /* StressStackViewModel.swift */; };
+		F3396CE4281225CD00F805F8 /* StressStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CE3281225CD00F805F8 /* StressStackView.swift */; };
+		F3396CE7281232E700F805F8 /* Stressor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CE5281232E700F805F8 /* Stressor+CoreDataClass.swift */; };
+		F3396CE8281232E700F805F8 /* Stressor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CE6281232E700F805F8 /* Stressor+CoreDataProperties.swift */; };
+		F3396CEE28171F6B00F805F8 /* ResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CED28171F6B00F805F8 /* ResourcesView.swift */; };
+		F3396CF12817213B00F805F8 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CF02817213B00F805F8 /* AccountView.swift */; };
+		F3396CF52817721800F805F8 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CF42817721800F805F8 /* SpeechRecognizer.swift */; };
+		F3396CF7281B29E600F805F8 /* FileExportTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CF6281B29E600F805F8 /* FileExportTool.swift */; };
 		F339AC6B27E68AEB001D64E5 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F339AC6A27E68AEB001D64E5 /* HealthKit.framework */; };
 		F339AC6D27E8D795001D64E5 /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC6C27E8D795001D64E5 /* SessionPagingView.swift */; };
 		F339AC6F27E8D8D3001D64E5 /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC6E27E8D8D3001D64E5 /* MetricsView.swift */; };
@@ -17,6 +27,7 @@
 		F339AC7527E8FF68001D64E5 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC7427E8FF68001D64E5 /* SummaryView.swift */; };
 		F339AC7727E9045B001D64E5 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339AC7627E9045B001D64E5 /* WorkoutManager.swift */; };
 		F339AC7B27E9121B001D64E5 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F339AC7A27E9121B001D64E5 /* HealthKit.framework */; };
+		F34722B82821F5A700E7963E /* ColorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34722B72821F5A700E7963E /* ColorConstants.swift */; };
 		F353E12627E657F8001FC48B /* MyEpisodeCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */; };
 		F353E12827E657F8001FC48B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E12727E657F8001FC48B /* ContentView.swift */; };
 		F353E12A27E657FA001FC48B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F353E12927E657FA001FC48B /* Assets.xcassets */; };
@@ -38,9 +49,15 @@
 		F353E17A27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */; };
 		F353E17C27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */; };
 		F39A459E2804D48C00B1A440 /* DesignNotes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F39A459D2804D48C00B1A440 /* DesignNotes.rtf */; };
+		F39A45A12808BDB900B1A440 /* EpisodeReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A45A02808BDB900B1A440 /* EpisodeReportView.swift */; };
+		F39A45A32808BDC700B1A440 /* EpisodeReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A45A22808BDC700B1A440 /* EpisodeReportViewModel.swift */; };
+		F39A45A52810AD7B00B1A440 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C8F27F3DFA7002086E8 /* DataController.swift */; };
+		F39A45A62810B3C000B1A440 /* HealthHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */; };
+		F39A45AA2810B89100B1A440 /* TrackedEpisode+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A45A82810B89000B1A440 /* TrackedEpisode+CoreDataClass.swift */; };
+		F39A45AB2810B89100B1A440 /* TrackedEpisode+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A45A82810B89000B1A440 /* TrackedEpisode+CoreDataClass.swift */; };
+		F39A45AC2810B89100B1A440 /* TrackedEpisode+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A45A92810B89000B1A440 /* TrackedEpisode+CoreDataProperties.swift */; };
+		F39A45AD2810B89100B1A440 /* TrackedEpisode+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A45A92810B89000B1A440 /* TrackedEpisode+CoreDataProperties.swift */; };
 		F3B8577927F658E700CDAC3F /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8577827F658E700CDAC3F /* HistoryView.swift */; };
-		F3B8578127F79D5900CDAC3F /* Checkin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8577F27F79D5900CDAC3F /* Checkin+CoreDataProperties.swift */; };
-		F3B8578527FB8B6A00CDAC3F /* Checkin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8578427FB8B6A00CDAC3F /* Checkin+CoreDataClass.swift */; };
 		F3B8578827FB924200CDAC3F /* Episode+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8578627FB924200CDAC3F /* Episode+CoreDataClass.swift */; };
 		F3B8578927FB924200CDAC3F /* Episode+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8578727FB924200CDAC3F /* Episode+CoreDataProperties.swift */; };
 		F3B8578D27FCB47800CDAC3F /* CheckinReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8578C27FCB47800CDAC3F /* CheckinReportView.swift */; };
@@ -143,8 +160,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F334534027E6857D00A663CA /* EpisodeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeRecordView.swift; sourceTree = "<group>"; };
-		F334534227E6859000A663CA /* EpisodeRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeRecordViewModel.swift; sourceTree = "<group>"; };
+		F3396CE1281225C000F805F8 /* StressStackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressStackViewModel.swift; sourceTree = "<group>"; };
+		F3396CE3281225CD00F805F8 /* StressStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressStackView.swift; sourceTree = "<group>"; };
+		F3396CE5281232E700F805F8 /* Stressor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stressor+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F3396CE6281232E700F805F8 /* Stressor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stressor+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		F3396CED28171F6B00F805F8 /* ResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesView.swift; sourceTree = "<group>"; };
+		F3396CF02817213B00F805F8 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		F3396CF42817721800F805F8 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
+		F3396CF6281B29E600F805F8 /* FileExportTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExportTool.swift; sourceTree = "<group>"; };
 		F339AC6A27E68AEB001D64E5 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.4.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		F339AC6C27E8D795001D64E5 /* SessionPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
 		F339AC6E27E8D8D3001D64E5 /* MetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
@@ -154,6 +177,7 @@
 		F339AC7627E9045B001D64E5 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
 		F339AC7927E9121A001D64E5 /* MyEpisodeCompanion WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MyEpisodeCompanion WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		F339AC7A27E9121B001D64E5 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		F34722B72821F5A700E7963E /* ColorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstants.swift; sourceTree = "<group>"; };
 		F353E12227E657F8001FC48B /* MyEpisodeCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyEpisodeCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanionApp.swift; sourceTree = "<group>"; };
 		F353E12727E657F8001FC48B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -183,9 +207,12 @@
 		F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyEpisodeCompanion.entitlements; sourceTree = "<group>"; };
 		F39A459D2804D48C00B1A440 /* DesignNotes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = DesignNotes.rtf; sourceTree = "<group>"; };
+		F39A45A02808BDB900B1A440 /* EpisodeReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeReportView.swift; sourceTree = "<group>"; };
+		F39A45A22808BDC700B1A440 /* EpisodeReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeReportViewModel.swift; sourceTree = "<group>"; };
+		F39A45A72810B88F00B1A440 /* MyEpisodeCompanion WatchKit App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyEpisodeCompanion WatchKit App-Bridging-Header.h"; sourceTree = "<group>"; };
+		F39A45A82810B89000B1A440 /* TrackedEpisode+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackedEpisode+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F39A45A92810B89000B1A440 /* TrackedEpisode+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackedEpisode+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F3B8577827F658E700CDAC3F /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		F3B8577F27F79D5900CDAC3F /* Checkin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Checkin+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		F3B8578427FB8B6A00CDAC3F /* Checkin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Checkin+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F3B8578627FB924200CDAC3F /* Episode+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F3B8578727FB924200CDAC3F /* Episode+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F3B8578C27FCB47800CDAC3F /* CheckinReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckinReportView.swift; sourceTree = "<group>"; };
@@ -255,24 +282,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F334533F27E6855E00A663CA /* EpisodeDataReport */ = {
+		F3396CEA28171CBB00F805F8 /* Checkin */ = {
 			isa = PBXGroup;
 			children = (
-				F334534027E6857D00A663CA /* EpisodeRecordView.swift */,
-				F334534227E6859000A663CA /* EpisodeRecordViewModel.swift */,
+				F3B8578C27FCB47800CDAC3F /* CheckinReportView.swift */,
+				F3B8578E27FCB48B00CDAC3F /* CheckinReportViewModel.swift */,
 			);
-			path = EpisodeDataReport;
+			path = Checkin;
+			sourceTree = "<group>";
+		};
+		F3396CEB28171CCD00F805F8 /* Episode */ = {
+			isa = PBXGroup;
+			children = (
+				F39A45A02808BDB900B1A440 /* EpisodeReportView.swift */,
+				F39A45A22808BDC700B1A440 /* EpisodeReportViewModel.swift */,
+			);
+			path = Episode;
+			sourceTree = "<group>";
+		};
+		F3396CEC28171F5B00F805F8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F3396CED28171F6B00F805F8 /* ResourcesView.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F3396CEF2817212D00F805F8 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				F3396CF02817213B00F805F8 /* AccountView.swift */,
+			);
+			path = Account;
 			sourceTree = "<group>";
 		};
 		F353E11927E657F8001FC48B = {
 			isa = PBXGroup;
 			children = (
+				F3396CF6281B29E600F805F8 /* FileExportTool.swift */,
+				F3396CE5281232E700F805F8 /* Stressor+CoreDataClass.swift */,
+				F3396CE6281232E700F805F8 /* Stressor+CoreDataProperties.swift */,
+				F39A45A82810B89000B1A440 /* TrackedEpisode+CoreDataClass.swift */,
+				F39A45A92810B89000B1A440 /* TrackedEpisode+CoreDataProperties.swift */,
 				F3B8579327FE1C6400CDAC3F /* FunctionalityNotes.rtf */,
 				F39A459D2804D48C00B1A440 /* DesignNotes.rtf */,
 				F3B8578627FB924200CDAC3F /* Episode+CoreDataClass.swift */,
 				F3B8578727FB924200CDAC3F /* Episode+CoreDataProperties.swift */,
-				F3B8578427FB8B6A00CDAC3F /* Checkin+CoreDataClass.swift */,
-				F3B8577F27F79D5900CDAC3F /* Checkin+CoreDataProperties.swift */,
 				F353E12427E657F8001FC48B /* MyEpisodeCompanion */,
 				F353E13527E657FA001FC48B /* MyEpisodeCompanionTests */,
 				F353E13F27E657FA001FC48B /* MyEpisodeCompanionUITests */,
@@ -282,6 +337,7 @@
 				F353E17827E657FB001FC48B /* MyEpisodeCompanion WatchKit AppUITests */,
 				F353E12327E657F8001FC48B /* Products */,
 				F353E19727E65B58001FC48B /* Frameworks */,
+				F39A45A72810B88F00B1A440 /* MyEpisodeCompanion WatchKit App-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -304,7 +360,6 @@
 			children = (
 				F3B8579027FCE59A00CDAC3F /* View */,
 				F3D78C7F27F37F56002086E8 /* Model */,
-				F334533F27E6855E00A663CA /* EpisodeDataReport */,
 				F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */,
 				F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */,
 				F3D78C7027F232BF002086E8 /* StateManager.swift */,
@@ -406,24 +461,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F3B8578B27FCB42700CDAC3F /* Report */ = {
+		F3B8578B27FCB42700CDAC3F /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				F3B8578C27FCB47800CDAC3F /* CheckinReportView.swift */,
-				F3B8578E27FCB48B00CDAC3F /* CheckinReportViewModel.swift */,
+				F3396CE1281225C000F805F8 /* StressStackViewModel.swift */,
+				F3396CE3281225CD00F805F8 /* StressStackView.swift */,
 			);
-			path = Report;
+			path = Tools;
 			sourceTree = "<group>";
 		};
 		F3B8579027FCE59A00CDAC3F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F3396CEF2817212D00F805F8 /* Account */,
+				F3396CEC28171F5B00F805F8 /* Resources */,
 				F3D78C7827F25E34002086E8 /* MainTabView.swift */,
 				F353E12727E657F8001FC48B /* ContentView.swift */,
 				F3D78C7527F24D7F002086E8 /* Home */,
 				F3D78C7A27F26023002086E8 /* History */,
-				F3B8578B27FCB42700CDAC3F /* Report */,
+				F3B8578B27FCB42700CDAC3F /* Tools */,
 				F3B8579127FCE6C300CDAC3F /* CustomStyles.swift */,
+				F34722B72821F5A700E7963E /* ColorConstants.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -439,6 +497,8 @@
 		F3D78C7527F24D7F002086E8 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				F3396CEB28171CCD00F805F8 /* Episode */,
+				F3396CEA28171CBB00F805F8 /* Checkin */,
 				F3D78C7627F25BD7002086E8 /* HomeView.swift */,
 			);
 			path = Home;
@@ -463,6 +523,7 @@
 				F3D78C8427F38D4A002086E8 /* EmotionsModel.swift */,
 				F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */,
 				F3D78C8F27F3DFA7002086E8 /* DataController.swift */,
+				F3396CF42817721800F805F8 /* SpeechRecognizer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -619,6 +680,7 @@
 					};
 					F353E14527E657FA001FC48B = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1330;
 					};
 					F353E15027E657FB001FC48B = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -721,18 +783,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3396CE7281232E700F805F8 /* Stressor+CoreDataClass.swift in Sources */,
+				F3396CF52817721800F805F8 /* SpeechRecognizer.swift in Sources */,
 				F3B8578927FB924200CDAC3F /* Episode+CoreDataProperties.swift in Sources */,
+				F3396CF7281B29E600F805F8 /* FileExportTool.swift in Sources */,
 				F3D78C7427F23A3D002086E8 /* LoginRegisterView.swift in Sources */,
 				F353E12827E657F8001FC48B /* ContentView.swift in Sources */,
+				F3396CEE28171F6B00F805F8 /* ResourcesView.swift in Sources */,
 				F3D78C7927F25E34002086E8 /* MainTabView.swift in Sources */,
-				F3B8578527FB8B6A00CDAC3F /* Checkin+CoreDataClass.swift in Sources */,
+				F39A45AA2810B89100B1A440 /* TrackedEpisode+CoreDataClass.swift in Sources */,
+				F3396CE8281232E700F805F8 /* Stressor+CoreDataProperties.swift in Sources */,
+				F3396CE2281225C000F805F8 /* StressStackViewModel.swift in Sources */,
+				F39A45A32808BDC700B1A440 /* EpisodeReportViewModel.swift in Sources */,
 				F3D78C8127F37F6C002086E8 /* Checkin.swift in Sources */,
 				F353E12627E657F8001FC48B /* MyEpisodeCompanionApp.swift in Sources */,
-				F334534327E6859000A663CA /* EpisodeRecordViewModel.swift in Sources */,
 				F3D78C7127F232BF002086E8 /* StateManager.swift in Sources */,
 				F3B8577927F658E700CDAC3F /* HistoryView.swift in Sources */,
+				F3396CF12817213B00F805F8 /* AccountView.swift in Sources */,
 				F3D78C9027F3DFA7002086E8 /* DataController.swift in Sources */,
 				F3D78C7727F25BD8002086E8 /* HomeView.swift in Sources */,
+				F34722B82821F5A700E7963E /* ColorConstants.swift in Sources */,
 				F3B8579227FCE6C300CDAC3F /* CustomStyles.swift in Sources */,
 				F3B8578F27FCB48B00CDAC3F /* CheckinReportViewModel.swift in Sources */,
 				F3D78C7C27F2602D002086E8 /* HistoryCalendarView.swift in Sources */,
@@ -741,11 +811,12 @@
 				F3D78C6F27F22D87002086E8 /* UserSettings.swift in Sources */,
 				F3B8578D27FCB47800CDAC3F /* CheckinReportView.swift in Sources */,
 				F3B8578827FB924200CDAC3F /* Episode+CoreDataClass.swift in Sources */,
+				F39A45A12808BDB900B1A440 /* EpisodeReportView.swift in Sources */,
 				F3D78C8B27F3DB14002086E8 /* HistoryViewModel.swift in Sources */,
-				F334534127E6857D00A663CA /* EpisodeRecordView.swift in Sources */,
 				F3D78C8527F38D4A002086E8 /* EmotionsModel.swift in Sources */,
-				F3B8578127F79D5900CDAC3F /* Checkin+CoreDataProperties.swift in Sources */,
+				F39A45AC2810B89100B1A440 /* TrackedEpisode+CoreDataProperties.swift in Sources */,
 				F3D78C8327F382E9002086E8 /* Episode.swift in Sources */,
+				F3396CE4281225CD00F805F8 /* StressStackView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,6 +824,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3396CDF2810DF5800F805F8 /* HealthHistory.xcdatamodeld in Sources */,
 				F353E13727E657FA001FC48B /* MyEpisodeCompanionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -761,6 +833,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3396CDE2810DF5700F805F8 /* HealthHistory.xcdatamodeld in Sources */,
 				F353E14127E657FA001FC48B /* MyEpisodeCompanionUITests.swift in Sources */,
 				F353E14327E657FA001FC48B /* MyEpisodeCompanionUITestsLaunchTests.swift in Sources */,
 			);
@@ -770,8 +843,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F39A45A62810B3C000B1A440 /* HealthHistory.xcdatamodeld in Sources */,
 				F339AC7127E8DC4E001D64E5 /* ElapsedTimeView.swift in Sources */,
+				F39A45A52810AD7B00B1A440 /* DataController.swift in Sources */,
 				F339AC7327E8DFAD001D64E5 /* ControlsView.swift in Sources */,
+				F39A45AB2810B89100B1A440 /* TrackedEpisode+CoreDataClass.swift in Sources */,
+				F39A45AD2810B89100B1A440 /* TrackedEpisode+CoreDataProperties.swift in Sources */,
 				F353E15B27E657FB001FC48B /* NotificationController.swift in Sources */,
 				F339AC6F27E8D8D3001D64E5 /* MetricsView.swift in Sources */,
 				F353E15927E657FB001FC48B /* StartView.swift in Sources */,
@@ -788,6 +865,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3396CDC2810DF5500F805F8 /* HealthHistory.xcdatamodeld in Sources */,
 				F353E17027E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -796,6 +874,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3396CDD2810DF5600F805F8 /* HealthHistory.xcdatamodeld in Sources */,
 				F353E17C27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift in Sources */,
 				F353E17A27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift in Sources */,
 			);
@@ -1027,6 +1106,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NKAA46P4LV;
@@ -1037,12 +1117,19 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.tanner.MyEpisodeCompanion;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tanner.MyEpisodeCompanion.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyEpisodeCompanion WatchKit App-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 8.3;
@@ -1055,6 +1142,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NKAA46P4LV;
@@ -1065,12 +1153,18 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.tanner.MyEpisodeCompanion;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tanner.MyEpisodeCompanion.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyEpisodeCompanion WatchKit App-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
@@ -1095,6 +1189,7 @@
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"Allow app to read health data to better understand episodes\"";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Allow app to access microphone to check decibel levels of surroundings during episodes\"";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "\"Allow app to transcribe voice for question responses\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1133,6 +1228,7 @@
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"Allow app to read health data to better understand episodes\"";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"Allow app to record biometric data taken during episodes\"";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Allow app to access microphone to check decibel levels of surroundings during episodes\"";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "\"Allow app to transcribe voice for question responses\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

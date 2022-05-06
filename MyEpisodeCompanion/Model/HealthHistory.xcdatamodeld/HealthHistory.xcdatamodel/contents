@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21C52" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Checkin" representedClassName="Checkin" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="howAmIFeeling" optional="YES" attributeType="String"/>
+        <attribute name="emotionResponse" optional="YES" attributeType="String"/>
         <attribute name="howHaveICoped" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="sleepQuality" optional="YES" attributeType="Integer 16" minValueString="1" maxValueString="10" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="sleepQuantity" optional="YES" attributeType="Float" minValueString="0" maxValueString="24" defaultValueString="0.0" usesScalarValueType="NO"/>
-        <attribute name="stressLevel" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="100" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="stressLevel" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="whatDoIFeelINeed" optional="YES" attributeType="String"/>
         <attribute name="whereIsMyHeadSpace" optional="YES" attributeType="String"/>
     </entity>
@@ -22,13 +22,30 @@
         <attribute name="whatDidThatRemindMeOf" optional="YES" attributeType="String"/>
         <attribute name="whatTriggeredMe" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="Stressor" representedClassName="Stressor" syncable="YES">
+        <attribute name="addDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="stressDescription" optional="YES" attributeType="String"/>
+        <attribute name="weight" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="TrackedEpisode" representedClassName="TrackedEpisode" syncable="YES">
+        <attribute name="avgDb" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="avgHeartRate" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="peakDb" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="peakHeartRate" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="Trauma" representedClassName="Trauma" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <elements>
         <element name="Checkin" positionX="-27" positionY="18" width="128" height="164"/>
-        <element name="Trauma" positionX="-27" positionY="9" width="128" height="59"/>
         <element name="Episode" positionX="-18" positionY="36" width="128" height="164"/>
+        <element name="Stressor" positionX="-18" positionY="99" width="128" height="104"/>
+        <element name="TrackedEpisode" positionX="-18" positionY="90" width="128" height="119"/>
+        <element name="Trauma" positionX="-27" positionY="9" width="128" height="59"/>
     </elements>
 </model>

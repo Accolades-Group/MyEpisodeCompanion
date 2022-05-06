@@ -10,11 +10,16 @@ import HealthKit
 
 struct StartView: View {
     @EnvironmentObject var workoutManager : WorkoutManager
+    @Environment(\.managedObjectContext) var moc
+    
+    @FetchRequest(sortDescriptors: []) var trackedEpisodes : FetchedResults<TrackedEpisode>
+    
+
     var workoutTypes : [HKWorkoutActivityType] = [.mindAndBody /*, .cooldown*/]
     var body: some View {
         List(workoutTypes){workoutType in
             NavigationLink("Record Episode",
-                           destination: SessionPagingView(),
+                           destination: SessionPagingView().environment(\.managedObjectContext, moc),
                            tag: workoutType,
                            selection: $workoutManager.selectedEpisode
             ).padding(EdgeInsets(top: 15, leading: 5, bottom: 15, trailing: 5)

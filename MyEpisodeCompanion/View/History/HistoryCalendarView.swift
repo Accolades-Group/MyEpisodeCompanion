@@ -54,7 +54,7 @@ struct CalendarRootView : View {
                 
                 let gradient = getCheckinColorGradient(checkins)
                 
-                ZStack{
+              //  ZStack{
                     
                    // Rectangle().fill(.pink).frame(width: 35, height: 35, alignment: .center)
                 
@@ -62,13 +62,14 @@ struct CalendarRootView : View {
                     destination: HistoryView(
                         date: date,
                         viewModel: HistoryViewModel(checks: checkins, episodes: episodes)
-                    )){
+                    ).navigationTitle("").navigationBarTitleDisplayMode(.inline)){
 
                         ZStack{
 
                             ForEach(episodes.indices){i in
                                 
-                                let color = getEmotionColors(episodes[i].getCore())
+                                //let color = getEmotionColors(episodes[i].getCore())
+                                let color = episodes[i].getCore().color
                                 
                                 Rectangle().fill(color).rotationEffect(Angle(degrees: Double(15 * i))).frame(width: 35, height: 35, alignment: .center)
                             }
@@ -83,7 +84,7 @@ struct CalendarRootView : View {
                                     Text(String(self.calendar.component(.day, from: date))).foregroundColor(.black)
                                 )
                         }
-                }
+            //    }
                 }
             } else {
             // else ...
@@ -103,7 +104,7 @@ struct CalendarRootView : View {
 //TODO: Fix this, clunky
 func getCheckinColor(_ checkin: Checkin) -> Color {
     
-    let core = EmotionConstants.Cores.getCoreByNameStr(checkin.howAmIFeeling ?? "")
+    let core = EmotionConstants.Cores.getCoreByNameStr(checkin.emotionResponse ?? "")
     
     if core != EmotionConstants.Cores.Other {
         return getEmotionColors(core)
@@ -116,9 +117,15 @@ func getCheckinColorGradient(_ checks : [Checkin]) -> AngularGradient{
     
     var colors : [Color] = []
     checks.forEach{check in
-        if let unwrappedCore = check.unwrapFeelings()?.core{
-            colors.append(getEmotionColors(unwrappedCore))
+        if let unwrappedCore = check.unwrapFeelings(feelings: check.emotionResponse)?.core{
+            colors.append(unwrappedCore.color)
         }
+        //Secondary emotion color
+        /*
+        if let unwrappedSecondary = check.unwrapFeelings(feelings: check.secondaryEmotionRespose)?.core{
+            colors.append(unwrappedSecondary.color)
+        }
+         */
     }
     if(colors.isEmpty){colors.append(.clear)}
     return AngularGradient(colors: colors, center: .center)
