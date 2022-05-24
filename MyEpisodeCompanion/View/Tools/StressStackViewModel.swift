@@ -27,28 +27,31 @@ final class StressStackViewModel : ObservableObject {
 
     @Published var totalWeight : Int = 0
     @Published var rowCount : Int = 0
-    @Published var colCount : Int = 3
+    @Published var colCount : Int = 2
     @Published var stressCount : Int = 0
+    
+    @Published var stressH: CGFloat = 60
+    @Published var stressW : CGFloat = UIScreen.main.bounds.width / 2
+    @Published var areaBottom : CGFloat = 0
+    @Published var stackPadding : CGFloat = 4
     
     func recalculate(_ stressors : [Stressor]){
         
         totalWeight = 0
         stressCount = stressors.count
-        // 0-3 = 1 ; 4 = 2; 7 = 3;
+
         
         rowCount = stressCount / colCount
-        
+                
         if stressCount % colCount != 0 {
             rowCount += 1
         }
-        //
-        
-       // rowCount = stressors.count < 3 ? 1 : Int(ceil(Double(stressors.count/3))) //TODO: Is this all necessary? lol
         
         stressors.forEach{ stress in
             totalWeight += Int(stress.weight)
         }
     }
+    
     
     func cancelButton() {
         isStressorPromptEnabled = false
@@ -57,45 +60,45 @@ final class StressStackViewModel : ObservableObject {
     }
     
     
-    // STRESSOR PLACEMENT /////////////////
+    // STRESSOR PLACEMENT Depreciated? /////////////////
     
     /** Returns the row that the stressor is in */
     func getRow(_ index : Int) -> Int {
-        return 1 + Int(ceil(Double(index / colCount)))
+        
+        
+        return (index / colCount) + 1
+        
+        
+        //return 1 + Int(ceil(Double(index / colCount)))
         //return index/colCount
     }
     /** Returns the column that the stressor is in */
     func getColumn(_ index : Int) -> Int{
-        return index % 3
+        return index % colCount
     }
     
     /** Gets the Y offset position based on the height of the container (passed in from Geometry Reader) and the index of the stressor object */
-    func getYOffset(_ size : CGSize, _ index : Int) -> CGFloat{
+    func getYOffset(_ index : Int) -> CGFloat{
         
-        let objectHeight = size.width/6
-        let areaHeight = size.height
+       // let objectHeight = size.width/6
+        //let areaHeight = size.height
+        
                 // height of 1st row      minus      height of object * the row it's on
-        return (areaHeight - objectHeight) - (objectHeight * CGFloat(getRow(index) + 1))    }
+        return ((areaBottom - stressH) - (stressH * ( CGFloat(getRow(index)) - 1 )) - (CGFloat(getRow(index)) * stackPadding) ) //- (stressH * CGFloat(getRow(index - 1)))
+       // return (areaBottom - stressH) - (stressH * CGFloat(getRow(index) + 1))
+        
+    }
     
     /** Gets the X ofset based on the width of the screen and the given index of the stressor object. If the object is in the top row, it centers the object based on how many stressors are in that row. */
     func getXOffset(index : Int) -> CGFloat{
         
-        let w:CGFloat = UIScreen.main.bounds.width/3//150//Stressor.init().width
-        var offset = (CGFloat(getColumn(index)) * w)
         
-        if(isTopRow(index: index)){
-            let rem = stressCount % 3
-            if(rem == 1){
-                offset += w
-            }else if(rem == 2){
-                offset += w/2
-            }
+        if(isTopRow(index: index) && (stressCount % 2 != 0)){
+           return stressW/2
         }
-        //else
-        return offset
+
+        return (CGFloat(getColumn(index)) * stressW) + (CGFloat(getColumn(index)) * stackPadding)
     }
-    
-    
     
     /** Returns true if the given object is in the top row of the stack */
     func isTopRow(index : Int) -> Bool {
@@ -116,7 +119,6 @@ final class StressStackViewModel : ObservableObject {
     }
     
     func getDensityTotalColor() -> Color{
-        
         return totalWeight < 150 ? .green : totalWeight > 300 ? .red : .yellow
     }
     
@@ -142,6 +144,8 @@ final class StressStackViewModel : ObservableObject {
             stressor.name = stressName
             stressor.addDate = addDate
             stressor.id = UUID()
+            stressor.isPast = false
+            stressor.removeDate = nil
             
             do {
                 try moc.save()
@@ -168,6 +172,17 @@ final class StressStackViewModel : ObservableObject {
                 print(error)
             }
         }
+    }
+    /***/
+    func deleteStressor(stressor del : Stressor, context moc : NSManagedObjectContext){
+        
+        //Don't delete, change it to inactive?
+        //moc.delete(del)
+        
+        del.isPast = true
+        del.removeDate = Date.now
+        
+        try? moc.save()
     }
     
     

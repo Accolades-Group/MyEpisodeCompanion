@@ -10,7 +10,7 @@ import AuthenticationServices
 
 struct LoginRegisterView: View {
     var body: some View {
-        //Text("Hello, Login Registration!")
+        
         //ASAuthorizationAppleID
         NavigationView {
             VStack{
@@ -27,14 +27,32 @@ struct LoginRegisterView: View {
                         switch auth.credential {
                         case let credential as ASAuthorizationAppleIDCredential:
                             
-                            myUserSettings.email = credential.email ?? ""
+                          //  myUserSettings.email = credential.email ?? ""
                             
-                            myUserSettings.firstName = credential.fullName?.givenName ?? ""
+                          //  myUserSettings.firstName = credential.fullName?.givenName ?? ""
                             
-                            myUserSettings.lastName = credential.fullName?.familyName ?? ""
+                         //   myUserSettings.lastName = credential.fullName?.familyName ?? ""
                             
                             //User apple id
                             let userID = credential.user
+                            
+                            let email : String = credential.email ?? "No Email Given"
+                            
+                            let firstName : String = credential.fullName?.givenName ?? "No First Name"
+                            
+                            let lastName : String  = credential.fullName?.familyName ?? "No Lastname"
+                            
+                            print("userID: \(userID)")
+                            print("email: \(email)")
+                            print("firstname: \(firstName)")
+                            print("lastName: \(lastName)")
+                            
+                            //credential.user
+                            //    "001108.4616045feab6456eb317c34119985faf.2113"    
+                            
+                            print("")
+                            
+                            
                         default:
                             break
                         }
@@ -48,7 +66,7 @@ struct LoginRegisterView: View {
                     .padding()
                     .cornerRadius(8)
                 
-            }.navigationTitle("Sign In")
+            }.navigationTitle("")
         }
     }
 }

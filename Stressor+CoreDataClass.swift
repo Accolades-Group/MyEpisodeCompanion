@@ -9,7 +9,3 @@
 import Foundation
 import CoreData
 
-@objc(Stressor)
-public class Stressor: NSManagedObject {
-
-}

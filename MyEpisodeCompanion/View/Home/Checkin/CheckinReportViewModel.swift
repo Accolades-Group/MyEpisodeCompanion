@@ -14,6 +14,8 @@ import AVFoundation
 
 final class CheckinReportViewModel : ObservableObject {
     
+    
+    
     /**
      The core emotion for this checkin. These are basic emotions such as anger, sadness or joy
      */
@@ -51,17 +53,22 @@ final class CheckinReportViewModel : ObservableObject {
     /**
      A number to represent the quality of sleep a user had
      */
-    @Published var sleepQuality : Float = 5
+    @Published var sleepQuality : Float = 0
     /**
      A number to represent the amount of time the user slept for
      */
-    @Published var sleepQuantity : Float = 8
+    @Published var sleepQuantity : Float = 0
     
     /**
      For future use:
      A boolean for tracking if sleep amount was recorded from the user's Health Kit Data
      */
     @Published var didGetSleepFromHK : Bool = false
+    
+    /**
+     A boolean for tracking if the sleep data was retrieved from a previous checkin
+     */
+    @Published var didGetSleepFromPrior : Bool = false
     
     /**
      A number to represnt the amount of stress a user is feeling in a range of 0-100
@@ -87,6 +94,9 @@ final class CheckinReportViewModel : ObservableObject {
     @Published var isRecording : Bool = false
     @Published var speechRecognizer : SpeechRecognizer = SpeechRecognizer()
     @Published var transcribeText : String = ""
+    
+    
+    
     
     func toggleRecording(viewSection : ViewSection) {
         isRecording.toggle()
@@ -123,7 +133,8 @@ final class CheckinReportViewModel : ObservableObject {
         needQuestion,
         sleepQuestion,
         copeQuestion,
-        review
+        review,
+        congratulations
         
     }
     
@@ -160,6 +171,7 @@ final class CheckinReportViewModel : ObservableObject {
         case .sleepQuestion: return Text("What was your sleep like?")
         case .copeQuestion: return Text("How have you coped with your stress or ") + Text(core?.name ?? "").foregroundColor(getEmotionColors(core ?? EmotionConstants.Cores.Joy)) + Text(" today?")
         case .review: return Text("Please review your Check In")
+        case .congratulations: return Text("") // empty
         //default: return Text("")
         }
     }
@@ -179,36 +191,85 @@ final class CheckinReportViewModel : ObservableObject {
    // @Published var sectionIndex : ViewSection = .emotionQuestion
     
     init(){
-        //TODO: Grab sleep from healthkit if available
+        
         //TODO: Grab biometrics from healthkit if available
+        
         if let unwrappedStore = myHealthStore {
-            if let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis){
+            // First, define the object type we want
+            if let sleepType = HKObjectType.categoryType(forIdentifier: HKCategoryTypeIdentifier.sleepAnalysis){
+                //Use sortDescriptor to get the recent data first
                 let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
-                let query = HKSampleQuery(sampleType: sleepType, predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]){(query, tmpResult, error ) -> Void in
+                
+                //query with a block completion to execute
+                let query = HKSampleQuery(sampleType: sleepType, predicate: nil, limit: 30, sortDescriptors: [sortDescriptor]){ (query, tmpResult, error) -> Void in
                     
                     if error != nil {
-                        //TODO: Log error
+                        print(" ***** Error! ***** ")
+                        print(error?.localizedDescription as Any)
                         return
                     }
+                    
                     if let result = tmpResult {
+                        
+                        //do something with my data
                         for item in result {
                             if let sample = item as? HKCategorySample {
-                                
-                                let value = (sample.value == HKCategoryValueSleepAnalysis.inBed.rawValue) ? "InBed" : "Asleep"
-                                if(value.contains("Asleep")){
-                                    let sleeptime = Calendar.current.dateComponents([.hour, .minute], from: sample.startDate, to: sample.endDate)
-                                    print(sleeptime)
-                                    //TODO: Save as sleep time float. Make sleeptime a string and convert it?
+                                if sample.value == HKCategoryValueSleepAnalysis.asleep.rawValue {
+                                    //TODO: within last 24 hrs?
+                                    
+                                    print("Asleep Time : \(sample.startDate) \(sample.endDate) \(sample.description)")
+                                    var duration = (sample.endDate.timeIntervalSince(sample.startDate) / 60) / 60
+                                    duration = round(duration * 0.5)/0.5
+                                    print("Duration : \(duration)")
+                                    print("Done")
+                                    
+                                    if(duration > 0){
+                                        DispatchQueue.main.async{
+                                            self.sleepQuantity = Float(duration)
+                                            self.didGetSleepFromHK = true
+                                            
+                                        }
+                                    }
                                 }
-                                
-                                
                             }
                         }
-                    }
+                    } else {print("No results")}
+                    
                 }
+                
                 unwrappedStore.execute(query)
-            }
+                
+            }else{print("failed sleep type")}
+        } else {print("Failed to unwrap store")}
+        
+
+         
+    }
+    
+    
+    func checkPrior(_ check : UnwrappedCheckin){
+        
+        if Calendar.current.isDateInToday(check.date){
+            sleepQuality = Float(check.sleepQuality)
+            sleepQuantity = check.sleepQuantity
+            didGetSleepFromPrior = true
         }
+        
+    }
+    
+    func getBackgroundImage() -> Image {
+        var imgStr : String
+        switch self.core {
+        case EmotionConstants.Cores.Sadness: imgStr = "bluecircle"
+        case EmotionConstants.Cores.Fear: imgStr = "purplecircle"
+        case EmotionConstants.Cores.Joy: imgStr = "yellowcircle"
+        case EmotionConstants.Cores.Anger: imgStr = "redcircle"
+        case EmotionConstants.Cores.Disgust: imgStr = "greencircle"
+            
+        default: imgStr = ""
+        }
+        
+        return Image(imgStr)
     }
     
     /**
@@ -239,6 +300,12 @@ final class CheckinReportViewModel : ObservableObject {
             return Text("")
         }
         
+    }
+    
+    func toggleCore(_ coreEmotion : CoreEmotion){
+        
+        core = core == coreEmotion ? nil : coreEmotion
+        state = nil
     }
     
     func setAlert(_ viewSection : ViewSection) {
@@ -308,6 +375,9 @@ final class CheckinReportViewModel : ObservableObject {
         case .review:
             //isShowingSubmitConfirmation = true
             return false
+            
+        case .congratulations:
+            return false //never should be called
         }
     }
     
@@ -322,7 +392,7 @@ final class CheckinReportViewModel : ObservableObject {
     /**
      Builds a checkin from the current checkin data and saves it to the database
      */
-    func buildCheckin(context moc : NSManagedObjectContext){
+    func buildCheckin(context moc : NSManagedObjectContext) -> Error?{
         //TODO: Validate data first!!!!
         if let unwrappedCore = core, let unwrappedState = state {
         let checkin = Checkin(context: moc)
@@ -334,11 +404,17 @@ final class CheckinReportViewModel : ObservableObject {
 
             do{
                 try moc.save()
+                
             }catch{
                 print(error)
+                return error
             }
-        
+            
+        } else {
+            //TODO: Return error
+            
         }
+        return nil
     }
 }
 

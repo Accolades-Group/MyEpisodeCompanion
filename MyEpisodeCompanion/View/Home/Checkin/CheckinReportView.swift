@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ConfettiSwiftUI
 
 
 //TODO: Sleep question - 1) Pull data from HK, 2) "You have already recorded x amount of hours of sleep today, did you get more rest?"
@@ -16,8 +17,12 @@ struct CheckinReportView: View {
 
     @FetchRequest(sortDescriptors: [SortDescriptor(\.weight, order: .reverse)]) var stressors : FetchedResults<Stressor>
     
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var checks : FetchedResults<Checkin>
+    
     @StateObject var viewModel : CheckinReportViewModel = CheckinReportViewModel()
+    
     @State var currentViewSection : CheckinReportViewModel.ViewSection = .emotionQuestion
+    
     
     init(){
         UITextView.appearance().backgroundColor = .clear
@@ -27,34 +32,35 @@ struct CheckinReportView: View {
         
         NavigationView{
             GeometryReader{ geo in
+                
                 //Background
-                Image(viewModel.core == EmotionConstants.Cores.Joy ? "yellowcircle" :
-                        viewModel.core == EmotionConstants.Cores.Disgust ? "greencircle" :
-                        viewModel.core == EmotionConstants.Cores.Sadness ? "bluecircle" :
-                        viewModel.core == EmotionConstants.Cores.Anger ? "redcircle" :
-                        viewModel.core == EmotionConstants.Cores.Fear ? "purplecircle" : "")
+                viewModel.getBackgroundImage()
+
                 VStack{
                     //ZStack{
                         //Toolbar shape goes here
                         HStack{
                             Button{
+                                
                                 if(self.currentViewSection == .emotionQuestion){
                                     stateManager.goHome()
                                 }else{
                                     self.currentViewSection = viewModel.previousSection(self.currentViewSection)
                                 }
+                                
                             } label: {
                                 Image(systemName: "arrow.left")
                                     .frame(width: 30)
-                            }.frame(width: 90, alignment: .leading)
+                            }
+                            .frame(width: 90, alignment: .leading)
                             
                             Spacer()
                             
                             //Progress Dots
                             HStack(spacing: 10){
-                                ForEach(0..<CheckinReportViewModel.ViewSection.allCases.count - 1){i in
+                                ForEach(0..<CheckinReportViewModel.ViewSection.review.rawValue){i in
                                    
-                                    Circle().fill(i < currentViewSection.rawValue ? viewModel.core?.colorSecondary ?? .blue : .gray).frame(width: 10, height: 10, alignment: .center)
+                                    Circle().fill(i <= currentViewSection.rawValue ? viewModel.core?.colorSecondary ?? .gray : .gray).frame(width: 10, height: 10, alignment: .center)
                                     
                                 }
                             }
@@ -63,6 +69,8 @@ struct CheckinReportView: View {
 
                             
                             Button(){
+                                
+                                
                                 
                                 if(currentViewSection == .stressLevelQuestion){
                                     viewModel.calculateStress(Array(stressors))
@@ -77,7 +85,9 @@ struct CheckinReportView: View {
                                     viewModel.setAlert(currentViewSection)
                                 }
                             } label : {
-                                if(currentViewSection == .review){
+                                if(currentViewSection == .congratulations){
+                                    //Empty
+                                }else if(currentViewSection == .review){
                                     Text("Submit")
                                 }else{
                                     Image(systemName: "arrow.right").frame(width: 30).foregroundColor(viewModel.isValidResponse(currentViewSection) ? .blue : .gray)
@@ -85,42 +95,47 @@ struct CheckinReportView: View {
                             }.frame(width: 80, alignment: .trailing)
                             
                             
+                            
                         }
                         .padding(.horizontal, 8)
                         .frame(width: geo.size.width, height: 50)
-                        //.edgesIgnoringSafeArea(.top)
                         .font(.system(size: 22))
                        
-                        
-                    //}.frame(width: geo.size.width)
-                     //   .edgesIgnoringSafeArea(.top).background(.pink)
+
                     
                     HStack{
                         viewModel.getQuestionText(self.currentViewSection)
-                                .font(.title2).fontWeight(.bold).multilineTextAlignment(.center).padding(10)
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .multilineTextAlignment(.center)
+                                .padding(10)
                     }.frame(width:geo.size.width, height: 90, alignment: .top)
                     
                     Spacer()
                     
                     //Content
-                    switch self.currentViewSection{
-                    case .emotionQuestion:
-                        EmotionSelectionView(viewModel: viewModel)
-                        //DebugQuestionView()
-                    case .emotionExplanationQuestion :
-                        TextQuestionView(viewModel: viewModel, viewSection: self.currentViewSection)
-                    case .headspaceQuestion : TextQuestionView(viewModel: viewModel, viewSection: self.currentViewSection)
-                    case .sleepQuestion :
-                        SleepQuestionView(viewModel: viewModel)
-                    case .needQuestion : TextQuestionView(viewModel: viewModel, viewSection: self.currentViewSection)
-                    case .stressLevelQuestion : StressStackView().environment(\.managedObjectContext, moc)
-                    case .copeQuestion : CopingSelectionView(viewModel: viewModel)
-                    case .review : ReviewView(viewModel: viewModel).environment(\.managedObjectContext, moc)
-                    default: Text("How did you get here? \(self.currentViewSection.rawValue)") //Keep for futureproofing
+                    VStack{
+                        switch self.currentViewSection{
+                        case .emotionQuestion:
+                            EmotionSelectionView(viewModel: viewModel)
+                            //DebugQuestionView()
+                        case .emotionExplanationQuestion :
+                            TextQuestionView(viewModel: viewModel, viewSection: self.currentViewSection)
+                        case .headspaceQuestion : TextQuestionView(viewModel: viewModel, viewSection: self.currentViewSection)
+                        case .sleepQuestion :
+                            SleepQuestionView(viewModel: viewModel)
+                        case .needQuestion : TextQuestionView(viewModel: viewModel, viewSection: self.currentViewSection)
+                        case .stressLevelQuestion : StressStackView().environment(\.managedObjectContext, moc)
+                        case .copeQuestion : CopingSelectionView(viewModel: viewModel)
+                        case .review : ReviewView(viewModel: viewModel).environment(\.managedObjectContext, moc)
+                        case .congratulations:
+                            CongratulationsView()
+                        default: Text("How did you get here? \(self.currentViewSection.rawValue)") //Keep for futureproofing
+                        }
                     }
+                    .frame(width: geo.size.width)
                     
                     Spacer()
-                    
                     
                 }
                 
@@ -133,53 +148,43 @@ struct CheckinReportView: View {
             }
             .alert("Confirm Submission?", isPresented: $viewModel.isShowingSubmitConfirmation){
                 Button("Submit"){
-                    viewModel.buildCheckin(context: moc)
-                    //todo: Confetti
-                    stateManager.goHome()
+                    //If no error returned
+                    if nil != viewModel.buildCheckin(context: moc){
+                        currentViewSection = .congratulations
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                            stateManager.goHome()
+                        }
+                    }
                 }
+            }
+            
+        }.onAppear{
+            
+            if let recent = checks.first?.unwrapCheckin(){
+                viewModel.checkPrior(recent)
             }
         }
-
     }
-//        CheckinNavigationView(destination: DebugQuestionView(), isRoot: true, isLast: false, color: .blue) {
-            
-          //  EmotionSelectionView(viewModel: viewModel)
-                
-              //  .environmentObject(viewModel)
-            
-//        }
-        
-        /*
-        
-        QuestionNavigationView(viewModel: viewModel, viewSection: .emotionQuestion)//.emotionQuestion)
-            .environment(\.managedObjectContext, moc).navigationTitle("")
-        
-            .alert(viewModel.alertText, isPresented: $viewModel.isShowingAlert){
-                Button("OK", role: .cancel){
-                    viewModel.alertText = ""
-                }
-            }
-        //Alert for confirming submission of data
-            .alert("Confirm Submission?", isPresented: $viewModel.isShowingSubmitConfirmation){
-                HStack{
-                    Button("Submit"){
-                        //TODO: Throw error?
-                        viewModel.buildCheckin(context: moc)
-                        stateManager.goHome()
-                    }
-                    Button("Cancel", role: .cancel){
-                        //?
-                    }
-                }
-            }
-        
-            */
-            
-        
- //   }
 }
 
 
+
+fileprivate struct CongratulationsView : View {
+    
+    @State var confetti = 0
+    
+    var body: some View {
+        
+        VStack{
+            Text("CONGRATULATIONS").font(.title)
+        }.confettiCannon(counter: $confetti, confettiSize: 10, radius: 350, repetitions: 3)
+            .onAppear{
+                confetti += 2
+            }
+    }
+    
+}
 
 /**
  A view used for determining the user's emotion and state
@@ -187,38 +192,23 @@ struct CheckinReportView: View {
 fileprivate struct EmotionSelectionView : View {
     
     /** The view model passed in from the parent view */
-    //@EnvironmentObject var viewModel : CheckinReportViewModel
     @StateObject var viewModel : CheckinReportViewModel
     
     var body: some View{
-//
-//        CheckinNavigationView(destination: TextQuestionView(viewModel: viewModel, viewSection: .emotionExplanationQuestion), isRoot: true, isLast: false, viewSection: .emotionQuestion) {
-            
+        
             VStack{
-                
 
-                
                 Spacer()
                 //Content...
                 //The grid of core emotion buttons
                 LazyVGrid(columns: [GridItem(.fixed(110)), GridItem(.fixed(110)), GridItem(.fixed(110))], alignment: .center, spacing: 15){
                     
                     ForEach(EmotionConstants.Cores.getAll()){core in
-//                        Color.gray
-                        Button {
-                            //Cleaner method
-                            //viewModel.core = viewModel.core == core ?  nil : core
 
-                            //Better readability
-                            if viewModel.core == core {
-                                viewModel.core = nil
-                            } else {
-                                withAnimation(.spring()){
-                                viewModel.core = core
-                                }
+                        Button {
+                            withAnimation(){
+                                viewModel.toggleCore(core)
                             }
-                            //Always reset state when changing core
-                            viewModel.state = nil
 
                         } label : {
                             Text(core.name).bold()
@@ -237,7 +227,6 @@ fileprivate struct EmotionSelectionView : View {
                     
                 }
                 .frame(width: viewModel.core == nil ? 0 : UIScreen.main.bounds.width - 20, height: 130, alignment: .center)
-                //.background(.thinMaterial)
                 .cornerRadius(15)
                 .padding(.top, 5)
                 
@@ -249,9 +238,6 @@ fileprivate struct EmotionSelectionView : View {
                                    ]){
                     ForEach(viewModel.getStateOptions()){state in
                         
-
-                        
-                        
                         Button{
                             if(viewModel.state == state){
                                 viewModel.state = nil
@@ -260,19 +246,13 @@ fileprivate struct EmotionSelectionView : View {
                             }
                         } label : {
                             Text(state.name)//.bold()
-                        }//.buttonStyle(EmotionButtonStyle2(color: state.core.color, isSelected: viewModel.state == state))
-                        //.buttonStyle(EmotionButtonStyle(color: state.core.color))
+                        }
                         .buttonStyle(StateEmotionButtonStyle(state: state, isSelected: viewModel.state == state))
                     }
                 }.frame(height: 300, alignment: .center)
                 
                 
             }
-                
-            
- //       }.environmentObject(viewModel)
-        
-            
     }
 }
 
@@ -319,12 +299,20 @@ fileprivate struct SleepQuestionView : View {
             
             
             Text("Hrs Slept").font(.title3)
-            SleepQtySlider(sliderValue: $viewModel.sleepQuantity)
+            SleepQtySlider(sleepQty: $viewModel.sleepQuantity)
             
             Divider().frame(width: 300, height: 20)
             
             Text("Sleep Quality").font(.title3)
-            SleepQualitySlider(sliderValue: $viewModel.sleepQuality)
+            SleepQualitySlider(sleepQuality: $viewModel.sleepQuality)
+            
+            VStack{
+                if(viewModel.didGetSleepFromPrior){
+                    Text("Sleep Data Imported from Prior Checkin")
+                }else if(viewModel.didGetSleepFromHK){
+                    Text("Sleep Data Imported from Health Kit Data")
+                }
+            }.frame(width: UIScreen.main.bounds.width - 20, height: 30, alignment: .center)
 
         }.padding()
     }

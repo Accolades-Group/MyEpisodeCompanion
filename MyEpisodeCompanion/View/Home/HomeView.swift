@@ -51,7 +51,10 @@ struct HomeView: View {
                     destination:
                         EpisodeReportView()
                         .environmentObject(stateManager)
-                        .environment(\.managedObjectContext, moc),
+                        .environment(\.managedObjectContext, moc)
+                        .navigationBarHidden(true)
+                        .navigationBarTitle("", displayMode: .inline)
+                    ,
                     isActive: $stateManager.episodeReportIsShown,
                     label: {
                         
@@ -76,12 +79,33 @@ struct HomeView: View {
                                     .frame(width: 120, alignment: .center).foregroundColor(textColor)
                             }
                             
-                            
-                            
-                                //.position(x: 5, y: 5)
+
                         }
                         
                     })
+                    
+                    
+                    NavigationLink(
+                        destination: CheckinReportView().environmentObject(stateManager)
+                            .environment(\.managedObjectContext, moc)
+                            .navigationBarHidden(true)
+                            .navigationBarTitle("", displayMode: .inline),//.hiddenNavigationBarStyle(),
+                        isActive: $stateManager.checkinReportIsShown,
+                        label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 55).frame(width: 305, height: 100, alignment: .center).foregroundColor(backgroundColor)
+                                HStack{
+                                    //Image(systemName: "calendar").resizable().frame(width: 35, height: 35, alignment: .center).foregroundColor(.purple)
+                                    Image(systemName: "bolt")
+                                        .resizable()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                    Text("Trauma History")
+                                        .fontWeight(.bold)
+                                        .frame(width: 120, alignment: .center).foregroundColor(textColor)
+                                }
+                            }
+                        })
+                    
                 
                 //    Text("Tracked Episode Count: \(trackedEpisodes.count)")
 

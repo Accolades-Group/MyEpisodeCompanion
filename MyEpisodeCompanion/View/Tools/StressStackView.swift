@@ -11,30 +11,29 @@ struct StressStackView: View {
     
     @Environment(\.managedObjectContext) var moc
     
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.weight, order: .reverse)]) var stressors : FetchedResults<Stressor>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.weight, order: .reverse)], predicate: NSPredicate(format: "isPast != true")) var stressors : FetchedResults<Stressor>
     //@FetchRequest(sortDescriptors: [SortDescriptor(\.weight)]) var stressors : FetchedResults<Stressor>
+    
+   // @State var stressors : [Stressor] = [Stressor(), Stressor(), Stressor()]
     
     @StateObject var viewModel : StressStackViewModel = StressStackViewModel()
     
     
-    
+    //TODO: Zstack causes buttons to appear over top of menubar
+    //      On checkin view, spacing between question and top of stress total + buttons
     var body: some View {
+      //  VStack{
         ZStack{
             
-            // Stress Stack Layer ////////
-            GeometryReader{geo in
-                
-                //Add a new stressor
+            VStack{
                 HStack{
                     Button{
-                        
                         
                         //debug
                         withAnimation(){
                             viewModel.isStressorPromptEnabled = true
                             viewModel.isDeleteSelectorEnabled = false
                         }
-                        
                     } label: {
                         
                         Image(systemName: "plus.circle")
@@ -47,14 +46,11 @@ struct StressStackView: View {
                     Spacer()
                     VStack{
                         Text("Total Stress:").bold()
-                        //Text("30").bold()
-                        Text("\(viewModel.totalWeight)")
-                        // Text("Stressors \(stressors.count)")
-                        // Text("Rows \(viewModel.rowCount)")
-                        
+                        Text("\(viewModel.totalWeight)").foregroundColor(viewModel.getDensityTotalColor())
+
                     }.padding(.top)
-                    .font(.title2)
-                    .foregroundColor(viewModel.getDensityTotalColor())
+                        .font(.title2)
+                        
                     
                     Spacer()
                     //Remove Stressor
@@ -68,66 +64,120 @@ struct StressStackView: View {
                             .padding([.top, .trailing])
                         
                     }.foregroundColor(viewModel.isDeleteSelectorEnabled ? .red : .blue)
-                }.frame(height: 50, alignment: .center).padding(.top, 100)
+                }.frame(height: 50, alignment: .center).padding(.bottom, 10)
                 
-                if !stressors.isEmpty{
+                Spacer()
+                
+                ScrollView(.vertical, showsIndicators: false){
+                    VStack(spacing:1){
                     
-                    //ForEach(0...stressors.endIndex, id:\.self){index in
-                    ForEach(stressors, id:\.self){stressor in
-                        if let index = stressors.lastIndex(of: stressor){
+                    let rowCount = (stressors.count % viewModel.colCount == 0) ? (stressors.count / 2) : (stressors.count / 2) + 1
                             
-                            
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(viewModel.getDensityColor(stressor.weight))
-                                .frame(
-                                    width: geo.size.width/3,
-                                    height: geo.size.width/6)
-                                .overlay(
-                                   // Text("row: \(viewModel.getRow(index)) wt: \(stressor.weight) idx: \(index)").foregroundColor(.black)
-                                    //Text("\(stressor.name ?? "No Name") wt: \(stressor.weight)").foregroundColor(.black)
+                    
+                    ForEach(0..<rowCount){row in
+                        
+                        HStack(spacing:1){
+                            Spacer()
+                            ForEach(0..<2){col in
+                                
+                                let index = (row * 2) + col
+                                
+                                if index < stressors.count{
+                                    let stressor = stressors[index]
                                     
-                                    Text(stressor.name ?? "No Name")
+                                    StressShape(color: viewModel.getDensityColor(stressor.weight), width: viewModel.stressW - 10, height: viewModel.stressH, stressor: stressor).onTapGesture{
                                     
-                                ).offset(
-                                    x: viewModel.getXOffset(index: index),
-                                    y: viewModel.getYOffset(geo.size, index)
-                                ).onTapGesture {
-                                    viewModel.selectedStressor = stressor
-                                    if viewModel.isDeleteSelectorEnabled {
-                                        viewModel.isDeleteConfirmationPresented = true
-                                    }else{
-                                        viewModel.isStressorViewEnabled = true
+                                        
+                                        viewModel.selectedStressor = stressor
+                                        if viewModel.isDeleteSelectorEnabled {
+                                            viewModel.isDeleteConfirmationPresented = true
+                                        }else{
+                                            viewModel.isStressorViewEnabled = true
+                                        }
                                     }
+                                    
                                 }
-                        }
+
+                            }
+                            Spacer()
+                        }.rotationEffect(.radians(.pi))
+                            .scaleEffect(x: -1, y: 1, anchor: .center)
+                        
                     }
                     
-                }
-                
-            }
-            .confirmationDialog("Are you sure you want to add stressor ",
-                                isPresented: $viewModel.isAddEditConfirmationPresented,
-                                titleVisibility: .visible){
-                Button("Yes"){
-                    withAnimation(){
-                        
-                        if let edit = stressors.first(where: {$0.id == viewModel.selectedStressor?.id}){
-                            
-                            viewModel.editStressor(stressor: edit, context: moc)
-                            
-                            
-                        } else {
-                            viewModel.addStressor(context: moc)
-                            
-                        }
+                    }.onAppear{
                         viewModel.recalculate(Array(stressors))
-                        viewModel.cancelButton()
-                        
                     }
+
+                    //.rotationEffect(.radians(.pi))
+                    //.scaleEffect(x: -1, y: 1, anchor: .center)
+                    
+                //   ForEach(0..<rows){row in
+                        
+
+                   // }
+//                    ForEach(0..<rows){row in
+//                        HStack{
+//                            Spacer()
+//                            ForEach(0..<cols){col in
+//                                if let stressor = stressors[row + col]{
+//                                    //StressShape(color: .blue, width: 50, height: 50, stressor: stressor)
+//                                    Text("HI!")
+//                                }
+//                            }
+//                            Spacer()
+//                        }
+//                    }
+                    
+                    
+                    // Stress Stack Layer ////////
+                    /*
+                     GeometryReader{geo in
+                     
+                     //Add a new stressor
+                     
+                     HStack{
+                     
+                     }.onAppear{
+                     //TODO: Messy? Move?
+                     viewModel.stressW = CGFloat(geo.size.width / 2) - viewModel.stackPadding
+                     viewModel.areaBottom = geo.size.height
+                     }
+                     
+                     
+                     if !stressors.isEmpty{
+                     
+                     
+                     //ForEach(0...stressors.endIndex, id:\.self){index in
+                     
+                     ForEach(stressors, id:\.self){stressor in
+                     
+                     if let index = stressors.lastIndex(of: stressor){
+                     
+                     
+                     
+                     StressShape(color: viewModel.getDensityColor(stressor.weight), width: viewModel.stressW, height: viewModel.stressH, stressor: stressor)
+                     .offset(
+                     x: viewModel.getXOffset(index: index),
+                     y: viewModel.getYOffset(index)
+                     ).onTapGesture {
+                     viewModel.selectedStressor = stressor
+                     if viewModel.isDeleteSelectorEnabled {
+                     viewModel.isDeleteConfirmationPresented = true
+                     }else{
+                     viewModel.isStressorViewEnabled = true
+                     }
+                     }
+                     }
+                     }
+                     
+                     }
+                     }//.frame(width: geo.size.width, height: geo.size.height - 50, alignment: .center)
+                     */
+                    
                 }
-                Button("No", role: .cancel){
-                    viewModel.cancelButton()
-                }
+                    .rotationEffect(.radians(.pi))
+                .scaleEffect(x: -1, y: 1, anchor: .center)
             }
             .confirmationDialog(
                 "Are you sure you want to delete \(viewModel.selectedStressor?.name ?? "")",
@@ -141,8 +191,7 @@ struct StressStackView: View {
                         
                         if let del = stressors.first(where: {$0.id == viewModel.selectedStressor?.id}){
                             withAnimation(){
-                                moc.delete(del)
-                                try? moc.save()
+                                viewModel.deleteStressor(stressor: del, context: moc)
                                 viewModel.recalculate(Array(stressors))
                             }
                         }
@@ -153,7 +202,34 @@ struct StressStackView: View {
                     viewModel.cancelButton()
                 }
             }
+            .confirmationDialog("Are you sure you want to add stressor ",
+                                isPresented: $viewModel.isAddEditConfirmationPresented,
+                                titleVisibility: .visible){
+                Button("Yes"){
+                    withAnimation(){
+                        viewModel.cancelButton()
+                        
+                        if let edit = stressors.first(where: {$0.id == viewModel.selectedStressor?.id}){
+                            
+                            viewModel.editStressor(stressor: edit, context: moc)
+                            
+                        } else {
+                            withAnimation(){
+                                viewModel.addStressor(context: moc)
+                            }
+                            
+                        }
+                        viewModel.recalculate(Array(stressors))
+                        
+                    }
+                }
+                Button("No", role: .cancel){
+                    viewModel.cancelButton()
+                }
+            }
+
             // End Stress Stack Layer /////////
+            
             
             if(viewModel.isStressorPromptEnabled){
                 StressEditView(viewModel: viewModel)
@@ -162,8 +238,12 @@ struct StressStackView: View {
             }
             
             
-        }.onAppear{
+        }
+        //}
+        .onAppear{
+            
             viewModel.recalculate(Array(stressors))
+            
         }
     }
 }
@@ -174,7 +254,7 @@ struct StressDescriptionView : View {
     var body: some View{
         if let selectedStressor = viewModel.selectedStressor{
             ZStack{
-                Color.black.opacity(0.6).ignoresSafeArea()
+                Color.black.opacity(0.6)//.ignoresSafeArea()
                 Form{
                     
                     Section(header: Text("Name & Weight")){
@@ -206,18 +286,24 @@ struct StressDescriptionView : View {
                        // Text("\(selectedStressor.addDate ?? Date.distantPast, style: .date)")
                     }
                     
-                    
+                    VStack{
+                        
                     HStack{
+                        Spacer()
                         Button("Edit"){
-                            withAnimation(){
                                 viewModel.isStressorViewEnabled = false
                                 viewModel.isStressorPromptEnabled = true
-                            }
                         }.buttonStyle(NextButtonStyle())
-                        
+                        Spacer()
                         Button("Cancel", role: .cancel){
                             viewModel.cancelButton()
                         }.buttonStyle(NextButtonStyle())
+                        Spacer()
+                    }
+                        Button("Delete"){
+                            //viewModel.cancelButton()
+                            viewModel.isDeleteConfirmationPresented = true
+                        }.buttonStyle(DeleteButtonStyle())
                     }
                     
                 }.frame(height: 500, alignment: .center).cornerRadius(20).padding()
@@ -233,20 +319,13 @@ struct StressEditView : View {
     
     var body: some View{
         ZStack{
-            Color.black.opacity(0.6).ignoresSafeArea()
+            Color.black.opacity(0.6)//.ignoresSafeArea()
             Form{
                 Section(header: Text("Choose a stress level or event")){
-//                    HStack{
-//                        Text("Stress Weight")
-//                        Spacer()
-//                        Text("Life Event")
-//                    }
-                    //Text("Choose a stress level or event")
+
                     Picker(selection: $selectedInventoryStressor, label: EmptyView()){
                         ForEach(StressInventory.allCases, id: \.self){item in
                             HStack{
-//                                Text("\(item.weight)").padding(.leading)
-//                                Spacer()
                                 Spacer()
                                 Text("\(item.weight) - \(item.rawValue)").padding(.trailing)
                                 Spacer()
@@ -282,15 +361,17 @@ struct StressEditView : View {
                 }
                 
                 HStack{
+                    Spacer()
                     Button("Submit"){
                         if(viewModel.isValidStressor()){
                             viewModel.isAddEditConfirmationPresented = true
                         }
                     }.buttonStyle(NextButtonStyle())
-                    
+                    Spacer()
                     Button("Cancel", role: .cancel){
                         viewModel.cancelButton()
                     }.buttonStyle(NextButtonStyle())
+                    Spacer()
                 }
                 
             }.frame(height: 500, alignment: .center).cornerRadius(20).padding()
@@ -316,8 +397,8 @@ struct StressEditView : View {
 struct StressStackView_Previews: PreviewProvider {
     static var previews: some View {
         //StressEditView(viewModel: StressStackViewModel())
-        StressDescriptionView(viewModel : StressStackViewModel())
-//        StressStackView()
-//            .environment(\.managedObjectContext, DataController().container.viewContext)
+        //StressDescriptionView(viewModel : StressStackViewModel())
+        StressStackView()
+            .environment(\.managedObjectContext, DataController().container.viewContext)
     }
 }

@@ -18,7 +18,7 @@ import Foundation
 final class UserSettings : ObservableObject {
     
     private enum keys : String, CaseIterable {
-        case name, firstName, lastName, email, isLoggedIn, registrationDate, isCheckinReminderApproved, checkinReminderTime, hasWatch
+        case name, firstName, lastName, email, isLoggedIn, registrationDate, isCheckinReminderApproved, checkinReminderTime, hasWatch, providerEmails
     }
     
     // Resets all user data
@@ -29,7 +29,7 @@ final class UserSettings : ObservableObject {
     }
     
     // The displayed name for the user
-    @Published var name : String {
+    @Published var name : PersonNameComponents {
         didSet{
             UserDefaults.standard.set(name, forKey: keys.name.rawValue)
         }
@@ -84,15 +84,23 @@ final class UserSettings : ObservableObject {
         }
     }
     
+    @Published var careProviderEmails : [String] {
+        didSet{
+            UserDefaults.standard.set(careProviderEmails, forKey: keys.providerEmails.rawValue)
+        }
+    }
+    
     init(){
-        self.name = UserDefaults.standard.object(forKey: keys.name.rawValue) as? String ?? ""
+        self.name = UserDefaults.standard.object(forKey: keys.name.rawValue) as? PersonNameComponents ?? PersonNameComponents()
         self.firstName = UserDefaults.standard.object(forKey: keys.firstName.rawValue) as? String ?? ""
         self.lastName = UserDefaults.standard.object(forKey: keys.firstName.rawValue) as? String ?? ""
+        
         self.email = UserDefaults.standard.object(forKey: keys.email.rawValue) as? String ?? ""
         self.registrationDate = UserDefaults.standard.object(forKey: keys.registrationDate.rawValue) as? Date ?? Calendar.current.date(byAdding: .month, value: -1, to: Date.now)!
         self.isCheckinReminderApproved = UserDefaults.standard.object(forKey: keys.isCheckinReminderApproved.rawValue) as? Bool ?? false
         self.checkinReminderTime = UserDefaults.standard.object(forKey: keys.checkinReminderTime.rawValue) as? Date ?? Date()
         self.hasWatch = UserDefaults.standard.object(forKey: keys.hasWatch.rawValue) as? Bool ?? false
+        self.careProviderEmails = UserDefaults.standard.object(forKey: keys.providerEmails.rawValue) as? [String] ?? []
     }
     
 }

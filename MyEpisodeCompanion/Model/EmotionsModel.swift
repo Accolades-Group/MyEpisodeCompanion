@@ -624,6 +624,686 @@ class EmotionModel {
     
 }
 
+// New Emotion Model Using Enums ///////
+enum CoreEmotions : String, CaseIterable {
+    case Joy, Anger, Disgust, Fear, Sadness
+    
+    /** Name of the core emotion */
+    var name : String{
+        return self.rawValue
+    }
+    
+    /** Description of the core emotion */
+    var description : String {
+        switch self{
+            
+        case .Joy:
+            return "Enjoyment describes the many good feelings that arise from experiences both novel and familiar."
+        case .Anger:
+            return "We get angry when something blocks us or when we think we're being treated unfairly."
+        case .Disgust:
+            return "Feeling disgusted by what is toxic helps us to avoid being poisoned, physically or socially."
+        case .Fear:
+            return "We get angry when something blocks us or when we think we're being treated unfairly."
+        case .Sadness:
+            return "Sadness is a response to loss, and feeling sad allows us to take a timeout and show others that we need support."
+        }
+    }
+    
+    
+    
+    // The description of being in this emotional state
+    var stateDescription : String {
+        switch self{
+            
+        case .Joy:
+            return "Enjoyment contains both peace and ecstasy. The intensity of these states varies: We can feel mild or strong peacefulness, but we can only feel intense ecstasy. All states of enjoyment are triggered by feeling connection and/or sensory pleasure."
+        case .Anger:
+            return "Anger contains both annoyance and fury. The intensity of these states varies: We can feel mild or strong annoyance, but we can only feel intense fury. All states of anger are triggered by a feeling of being blocked in our progress."
+        case .Disgust:
+            return "Disgust contains both dislike and loathing. The intensity of these states varies: We can feel mild or strong dislike, but we can only feel intense loathing. All states of disgust are triggered by the feeling that something is toxic."
+        case .Fear:
+            return "Fear contains both anxiety and terror. The intensity of these states varies: We can feel mild or strong anxiety, but we can only feel intense terror. All states of fear are triggered by feeling a threat of harm."
+        case .Sadness:
+            return "Sadness contains both disappointment and despair. The intensity of these states varies: We can feel mild or strong disappointment, but we can only feel intense despair. All states of sadness are triggered by a feeling of loss."
+        }
+    }
+    
+    // The description for how one might respond to this emotion
+    var responseDescription : String {
+        switch self{
+            
+        case .Joy:
+            return "For example, we might exclaim to express our feeling of amusement among friends, but experience our amusement quietly while alone. Expressing amusement by exclaiming can be constructive as means of sharing enjoyment, but destructive if it's in response to making fun of someone."
+        case .Anger:
+            return "For example, we might suppress our feelings of frustration at work, but scream and yell to express our frustration with a family member. Suppressing our frustration can be constructive in cases where it helps us avoid arguments, but destructive if we are being hurt by not speaking up for ourselves."
+        case .Disgust:
+            return "For example, we might avoid feeling aversion towards others at work, but find ourselves feeling aversion towards individuals we read about in the news. Avoiding aversion can be constructive in overcoming bias, but can be destructive if it leads us to get involved with a harmful person."
+        case .Fear:
+            return "For example, we might avoid feeling anxiety at work, but ruminate on our anxiety at home. Avoiding anxiety can be constructive if it helps us give a presentation to a room full of colleagues, but destructive if it prevents us from confronting our difficult relationship with our boss."
+        case .Sadness:
+            return "For example, we might withdraw from feeling helpless in public, but seek comfort at home. Withdrawing from feeling helpless can be constructive to overcoming intense grief, but destructive if we don't seek support when we need it."
+        }
+    }
+    
+    var colorPrimary : Color {
+        switch self{
+        case .Joy:
+            return Color.Joy.Primary
+        case .Anger:
+            return Color.Anger.Primary
+        case .Disgust:
+            return Color.Disgust.Primary
+        case .Fear:
+            return Color.Fear.Primary
+        case .Sadness:
+            return Color.Sadness.Primary
+        }
+    }
+    
+    var colorSecondary : Color {
+        switch self{
+        case .Joy:
+            return Color.Joy.Secondary
+        case .Anger:
+            return Color.Anger.Secondary
+        case .Disgust:
+            return Color.Disgust.Secondary
+        case .Fear:
+            return Color.Fear.Secondary
+        case .Sadness:
+            return Color.Sadness.Secondary
+        }
+    }
+    
+    var colorTertiary : Color {
+        switch self{
+        case .Joy:
+            return Color.Joy.Tertiary
+        case .Anger:
+            return Color.Anger.Tertiary
+        case .Disgust:
+            return Color.Disgust.Tertiary
+        case .Fear:
+            return Color.Fear.Tertiary
+        case .Sadness:
+            return Color.Sadness.Tertiary
+        }
+    }
+    
+    //get State Emotions
+    
+    
+}
+
+enum EmotionStates : String, CaseIterable {
+    
+    case sensoryPleasure, rejoicing, compassionateJoy, amusement, schadenfreude, relief, peace, fiero, pride, naches,wonder, excitement, extasy,
+    
+    disappointment, discouragement, distraughtness, resignation, helplessness, hopelessness, misery, despair, grief, sorrow, anguish,
+    
+    dislike, aversion, distaste, repugnance, revulsion, abhorrence, loathing,
+    
+    trepidation, nervousness, anxiety, dread, desperation, panic, horror, terror,
+    
+    annoyance, frustration, exasperation, argumentativeness, bitterness, vengefulness, fury
+    
+    
+    var name: String{
+        switch self {
+        case .sensoryPleasure : return "Sensory Pleasure"
+        case .compassionateJoy: return "Compassionate Joy"
+            
+        default : return self.rawValue.capitalized
+        }
+    }
+    
+    var description: String{
+        switch self{
+        case .sensoryPleasure: return "Enjoyment derived through one of the five physical senses: sight, sound, touch, taste and smell"
+        case .rejoicing: return "A warm, uplifting or elevated feeling that people experience when they see acts of human goodness, kindness and compassion."
+        case .compassionateJoy: return "Enjoyment of helping to relieve another person's suffering."
+        case .amusement: return "Light, playful feelings of enjoyment and good humor."
+        case .schadenfreude:
+            return "Enjoyment of the misfortunes of another person, usually a rival."
+        case .relief:
+            return "When something expected to be unpleasant, especially the threat of harm, is avoided or comes to an end."
+        case .peace:
+            return "An experience of ease and contentment."
+        case .fiero:
+            return "Enjoyment of meeting a difficult challenge (an Italian Word)."
+        case .pride:
+            return "Deep pleasure and satisfaction derived from one's own achevements or the achievements of an associate."
+        case .naches:
+            return "Joyful pride in the accomplishments of one's children or mentees (a Yiddish word)."
+        case .wonder:
+            return "An experience of something that is very surprising, beautiful, amazing or hard to believe."
+        case .excitement:
+            return "A powerful enthusiasm."
+        case .extasy:
+            return "Rapturous delight. A state of very great happiness, nearly overwhelming."
+            
+        case .disappointment:
+            return "A feeling that expectations are not being met."
+        case .discouragement:
+            return "A response to repeated failures to accomplish something: the belief that it can't be done."
+        case .distraughtness:
+            return "Sadness that makes it hard to think clearly."
+        case .resignation:
+            return "The belief that nothing can be done."
+        case .helplessness:
+            return "The realization that one cannot make as situation better or easier."
+        case .hopelessness:
+            return "The belief that nothing good will happen."
+        case .misery:
+            return "Strong suffering or unhappiness."
+        case .despair:
+            return "The loss of hope that a bad situation will improve or change."
+        case .grief:
+            return "Sadness over a deep loss."
+        case .sorrow:
+            return "A feeling of distress and sadness, often caused by a loss."
+        case .anguish:
+            return "Intense sadness or suffering"
+            
+        case .dislike:
+            return "A strong preference against something."
+        case .aversion:
+            return "An impulse to avoid something disgusting."
+        case .distaste:
+            return "Reaction to a bad taste, smell, thing or idea. Can be literal or metaphorical."
+        case .repugnance:
+            return "String distaste for something often a concept or idea."
+        case .revulsion:
+            return "A mixture of disgust and loathing"
+        case .abhorrence:
+            return "A mixture of intense disgust and hatred."
+        case .loathing:
+            return "Intense disgust focused on a person. Intense disgust focused on oneself is referred to as self-loathing."
+            
+        case .trepidation:
+            return "Anticipation of the possibility of danger."
+        case .nervousness:
+            return "Uncertainty as to whether there is danger."
+        case .anxiety:
+            return "Fear of an anticipated or actual threat and uncertainty about one's ability to cope with it."
+        case .dread:
+            return "Anticipation of severe danger."
+        case .desperation:
+            return "A response to the inability to reduce danger."
+        case .panic:
+            return "Sudden uncontrollable fear."
+        case .horror:
+            return "A mixture of fear, disgust, and shock."
+        case .terror:
+            return "Intense, overpowering fear."
+            
+        case .annoyance:
+            return "Very mild anger caused by a nuisance or inconvenience."
+        case .frustration:
+            return "A response to repeated failures to overcome an obstacle."
+        case .exasperation:
+            return "Anger caused by a repeated or strong nuisance."
+        case .argumentativeness:
+            return "A tendency to engage in disagreements."
+        case .bitterness:
+            return "Anger after unfair treatment."
+        case .vengefulness:
+            return "Desire to retaliate after one is hurt."
+        case .fury:
+            return "Uncontrolled and often violent anger."
+        }
+    }
+    
+    // The core emotion associated with this state
+    var core : CoreEmotions {
+        switch self{
+        case .sensoryPleasure, .rejoicing, .compassionateJoy, .amusement, .schadenfreude, .relief, .peace, .fiero, .pride, .naches, .wonder, .excitement, .extasy : return .Joy
+            
+        case .disappointment, .discouragement, .distraughtness, .resignation, .helplessness, .hopelessness, .misery, .despair, .grief, .sorrow, .anguish: return .Sadness
+            
+        case .dislike, .aversion, .distaste, .repugnance, .revulsion, .abhorrence, .loathing : return .Disgust
+            
+        case .trepidation, .nervousness, .anxiety, .dread, .desperation, .panic, .horror, .terror: return .Fear
+            
+        case .annoyance, .frustration, .exasperation, .argumentativeness, .bitterness, .vengefulness, .fury: return .Anger
+        }
+    }
+
+    // The intensity that this state falls in, i.e. Terror -> 9-10; Frustration -> 0-10
+    var intensity : ClosedRange<Int>{
+        switch self{
+        case .sensoryPleasure : return 0...5
+        case .rejoicing, .amusement: return 1...8
+        case .compassionateJoy: return 3...7
+        case .schadenfreude: return 2...8
+        case .relief, .peace:
+            return 1...10
+        case .fiero:
+            return 2...10
+        case .pride:
+            return 3...9
+        case .naches:
+            return 2...10
+        case .wonder:
+            return 4...10
+        case .excitement:
+            return 5...10
+        case .extasy:
+            return 8...10
+            
+        case .disappointment:
+            return 0...5
+        case .discouragement, .distraughtness:
+            return 1...8
+        case .resignation:
+            return 0...10
+        case .helplessness:
+            return 4...10
+        case .hopelessness, .misery:
+            return 5...10
+        case .despair, .grief, .sorrow:
+            return 6...10
+        case .anguish:
+            return 9...10
+            
+        case .dislike:
+            return 0...5
+        case .aversion, .distaste:
+            return 1...7
+        case .repugnance:
+            return 1...9
+        case .abhorrence, .revulsion:
+            return 7...10
+        case .loathing:
+            return 8...10
+            
+        case .trepidation:
+            return 0...3
+        case .nervousness:
+            return 1...7
+        case .anxiety:
+            return 0...10
+        case .dread:
+            return 5...10
+        case .desperation:
+            return 8...10
+        case .terror, .horror, .panic:
+            return 9...10
+            
+        case .annoyance:
+            return 0...2
+        case .frustration:
+            return 0...10
+        case .exasperation:
+            return 3...7
+        case .argumentativeness:
+            return 1...10
+        case .bitterness:
+            return 2...10
+        case .vengefulness:
+            return 5...10
+        case .fury:
+            return 9...10
+        }
+    }
+    
+    // The usual responses to this state
+    var responseActions : [EmotionResponses]{
+        switch self {
+            
+        case .sensoryPleasure:
+            return [.savor, .seekMore]
+        case .rejoicing:
+            return [.engageConnect, .exclaim, .savor, .seekMore, .indulge]
+        case .compassionateJoy:
+            return [.engageConnect, .exclaim, .savor, .seekMore]
+        case .amusement:
+            return [.engageConnect, .exclaim, .maintain, .seekMore, .indulge]
+        case .schadenfreude:
+            return [.engageConnect, .exclaim, .gloat, .maintain, .seekMore]
+        case .relief:
+            return [.engageConnect, .exclaim, .savor, .indulge]
+        case .peace:
+            return [.engageConnect, .maintain]
+        case .fiero:
+            return [.maintain, .seekMore, .engageConnect, .indulge, .savor, .gloat]
+        case .pride:
+            return [.seekMore, .engageConnect, .exclaim, .indulge, .savor]
+        case .naches:
+            return [.engageConnect, .exclaim, .savor, .gloat]
+        case .wonder:
+            return [.engageConnect, .exclaim, .savor, .seekMore, .indulge]
+        case .excitement:
+            return [.engageConnect, .exclaim, .maintain, .seekMore, .indulge]
+        case .extasy:
+            return [.maintain, .savor, .indulge]
+            
+        case .disappointment:
+            return [.feelShame, .mourn, .ruminateSadness, .seekComfort, .withdrawSadness]
+        case .discouragement:
+            return [.protest, .seekComfort, .mourn, .ruminateSadness, .withdrawSadness]
+        case .distraughtness:
+            return [.seekComfort, .protest, .feelShame, .withdrawSadness]
+        case .resignation:
+            return [.seekComfort, .protest, .withdrawSadness, .feelShame, .mourn, .ruminateSadness]
+        case .helplessness:
+            return [.seekComfort, .protest, .feelShame, .ruminateSadness, .withdrawSadness]
+        case .hopelessness:
+            return [.seekComfort, .mourn, .feelShame, .ruminateSadness, .withdrawSadness]
+        case .misery:
+            return [.seekComfort, .mourn, .protest, .ruminateSadness, .withdrawSadness]
+        case .despair:
+            return [.seekComfort, .mourn, .ruminateSadness, .withdrawSadness]
+        case .grief:
+            return [.seekComfort, .mourn, .protest, .feelShame, .ruminateSadness, .withdrawSadness]
+        case .sorrow:
+            return [.seekComfort, .mourn, .feelShame, .ruminateSadness, .withdrawSadness]
+        case .anguish:
+            return [.seekComfort, .mourn, .protest, .ruminateSadness, .withdrawSadness]
+            
+        case .dislike:
+            return [.withdrawDisgust, .avoidDisgust, .dehumanize]
+        case .aversion:
+            return [.avoidDisgust, .withdrawDisgust, .dehumanize]
+        case .distaste:
+            return [.avoidDisgust, .vomit, .withdrawDisgust]
+        case .repugnance:
+            return [.withdrawDisgust, .avoidDisgust, .dehumanize]
+        case .revulsion:
+            return [.avoidDisgust, .vomit, .withdrawDisgust, .dehumanize]
+        case .abhorrence:
+            return [.avoidDisgust, .withdrawDisgust, .dehumanize]
+        case .loathing:
+            return [.withdrawDisgust, .avoidDisgust, .dehumanize]
+            
+        case .trepidation:
+            return [.hesitate, .ruminateFear, .worry]
+        case .nervousness:
+            return [.hesitate, .ruminateFear, .worry]
+        case .anxiety:
+            return [.hesitate, .freeze, .withdrawFear, .ruminateFear, .worry]
+        case .dread:
+            return [.freeze, .withdrawFear, .ruminateFear, .screamFear, .worry]
+        case .desperation:
+            return [.avoidFear, .freeze, .hesitate, .ruminateFear, .screamFear]
+        case .panic:
+            return [.freeze, .screamFear, .withdrawFear, .ruminateFear, .worry]
+        case .horror:
+            return [.freeze, .screamFear, .withdrawFear]
+        case .terror:
+            return [.freeze, .screamFear, .withdrawFear]
+            
+        case .annoyance:
+            return [.suppress, .passiveAggression, .simmerBrood]
+        case .frustration:
+            return [.suppress, .passiveAggression, .insult, .quarrel, .screamAnger, .simmerBrood, .undermine]
+        case .exasperation:
+            return [.suppress, .passiveAggression, .dispute, .insult, .quarrel, .screamAnger, .simmerBrood, .undermine]
+        case .argumentativeness:
+            return [.suppress, .insult, .quarrel, .simmerBrood, .undermine]
+        case .bitterness:
+            return [.suppress, .passiveAggression, .dispute, .insult, .screamAnger, .simmerBrood, .undermine]
+        case .vengefulness:
+            return [.dispute, .insult, .quarrel, .screamAnger, .simmerBrood, .suppress, .undermine, .usePhysicalForce]
+        case .fury:
+            return [.insult, .quarrel, .screamAnger, .simmerBrood, .suppress, .undermine, .usePhysicalForce]
+        }
+
+    }
+    
+    // The suggested antidote for this emotional state
+    var antidote : String {
+        switch self{
+        case .sensoryPleasure: return "Being unable to appreciate the quality of the present moment."
+        case .rejoicing: return "Envy, jealousy, pride."
+        case .compassionateJoy: return "Regret at having done something good at the cost of some personal efforts. Narrow-mindedness when caring only for a limited number of people who are close."
+        case .amusement: return "Tending to see things in negative ways"
+        case .schadenfreude: return "TODO?"
+        case .relief:
+            return "Persisting in worrying unnecessarily."
+        case .peace:
+            return "None/TODO"
+        case .fiero:
+            return "Vanity, narcissism, failing to acknowledge with gratitude all those who contributed to make an achievement possible."
+        case .pride:
+            return "None/TODO"
+        case .naches:
+            return "Pride mixed with arrogance and with partiality that makes one feel contemptuous about others’ achievements."
+        case .wonder:
+            return "Grasping. Unease."
+        case .excitement:
+            return "Feeling pessimism."
+        case .extasy:
+            return "Grasping, attachment and any other afflictive mental state (animosity, envy, arrogance, etc.)."
+            
+        case .disappointment:
+            return "Understanding that sadness is natural in appropriate circumstances, but also that experiencing loss is part of life and that one should not let oneself be overwhelmed. Trying to find a place of peace within oneself and thinking of constructive things that could be done instead."
+        case .discouragement:
+            return "Understanding that a permanent state of sadness will not bring any real benefit. In the case of mourning someone, falling into long-term sadness and despair should not be seen as an homage paid to that person. It is better to pay homage by doing meaningful and altruistic acts."
+        case .distraughtness:
+            return "Understanding that a permanent state of sadness will not bring any real benefit. In the case of mourning someone, falling into long-term sadness and despair should not be seen as an homage paid to that person. It is better to pay homage by doing meaningful and altruistic acts."
+        case .resignation:
+            return "TODO"
+        case .helplessness:
+            return "TODO"
+        case .hopelessness:
+            return "TODO"
+        case .misery:
+            return "TODO"
+        case .despair:
+            return "TODO"
+        case .grief:
+            return "TODO"
+        case .sorrow:
+            return "TODO"
+        case .anguish:
+            return "Realizing that things and people are impermanent by nature. Revolting against this cannot lead to a fulfilled life."
+            
+        case .dislike:
+            return "While evaluating impartially the ethical issues, generating compassion so as to find the best way to remedy the causes and conditions that triggered dislike."
+        case .aversion:
+            return "Evaluating impartially the degree of harmfulness, taking appropriate measures, and then letting aversion dissolve in a space of mindful awareness."
+        case .distaste:
+            return "Evaluating impartially the degree of harmfulness, taking appropriate measures, and then letting distaste dissolve in a space of mindful awareness."
+        case .repugnance:
+            return "Evaluating impartially the degree of harmfulness, taking appropriate measures, and then letting repugnance dissolve in a space of mindful awareness."
+        case .revulsion:
+            return "Adopting the outlook of a caring physician, who might deeply disapprove certain behaviors but will focus on doing all that is possible to cure a person of their afflictions."
+        case .abhorrence:
+            return "In the case of toxic substances or situations, doing the best one can to calmly avoid them. In the case of actions, adopting the outlook of a caring physician, who might deeply disapprove certain behaviors but will focus on doing all that is possible to cure a person of their afflictions."
+        case .loathing:
+            return "Adopting the outlook of a caring physician, who might deeply disapprove certain behaviors but will focus on doing all that is possible to cure a person of their afflictions."
+            
+        case .trepidation:
+            return "Trying to ponder what can be done. Calming the mind gives the best chance to find the appropriate solution to what caused the trepidation in the first place."
+        case .nervousness:
+            return "Trying to ponder what can be done. Calming the mind gives the best chance to find the appropriate solution to what caused the nervousness in the first place."
+        case .anxiety:
+            return "Making a special effort of letting go of ruminations about the past and anticipations of the future."
+        case .dread:
+            return "Remaining as calm as as possible. Seeing what can be done for yourself and for others as well."
+        case .desperation:
+            return "TODO: Research an antidote"
+        case .panic:
+            return "Making an effort to see if anything can act as a mitigating factor (depending on the causes involved)."
+        case .horror:
+            return "Trying to see if anything can be done immediately. If that is not the case, creating distance to see if something can be done from afar. Responding with firmness and compassion, never with hatred."
+        case .terror:
+            return "Instilling some calmness in the mind in order to take most appropriate decision."
+            
+        case .annoyance:
+            return "Patience, open-mindedness, concern for others."
+        case .frustration:
+            return "Letting go, letting go of grasping, putting things in a larger perspective."
+        case .exasperation:
+            return "Letting go of grasping. Patience, inner calm. Trying to understand the causes and conditions that brought about the undesirable situation."
+        case .argumentativeness:
+            return "Making effort to understand the other’s perspective, cognitive empathy, benevolence, wishing to solve the problem through a mutually agreeable solution."
+        case .bitterness:
+            return "TODO: Research an antidote"
+        case .vengefulness:
+            return "Contemplating the negative effects of taking revenge, in the short and long term; forgiveness not as condoning harmful behavior but as breaking the cycle of resentment and hatred."
+        case .fury:
+            return "Taking a break, physically and mentally, from the circumstances that brought fury about. Looking at fury itself with the eye of awareness as if gazing at a raging fire and slowly letting it calm down."
+        }
+    }
+    
+}
+
+enum EmotionResponses : String, CaseIterable {
+    
+    case exclaim, engageConnect, gloat, indulge, maintain, savor, seekMore,
+    
+    feelShame, mourn, protest, ruminateSadness, seekComfort, withdrawSadness, distractSadness, //TODO: Intentional withdrawSadness?
+    
+    avoidDisgust, dehumanize, vomit, withdrawDisgust, //todo; Intentional withdraw/avoid disgust
+    
+    freeze, hesitate, screamFear, worry, ruminateFear, avoidFear, withdrawFear,
+         //intentional
+         reframeFear, beMindful, breatheFear, distractFear,
+    
+    dispute, passiveAggression, insult, quarrel, simmerBrood, suppress, undermine, usePhysicalForce, screamAnger,
+    //intentional
+    setLimits, beFirm, walkAway, takeTimeOut, breatheAnger, practicePatience, reframeAnger, distractAnger, avoidAnger, removeInterference
+    
+    var name: String {
+        switch self{
+        case .engageConnect: return "Engage/Connect"
+        case .seekMore: return "Seek More"
+        case .feelShame: return "Feel Shame"
+        case .ruminateSadness, .ruminateFear: return "Ruminate"
+        case .seekComfort: return "Seek Comfort"
+        case .withdrawFear, .withdrawDisgust, .withdrawSadness: return "Withdraw"
+        case .distractFear, .distractAnger, .distractSadness: return "Distract"
+        case .avoidFear, .avoidAnger, .avoidDisgust: return "Avoid"
+        case .screamFear, .screamAnger: return "Scream/Yell"
+        case .beMindful: return "Being Mindful"
+        case .breatheFear, .breatheAnger: return "Breathe"
+        case .passiveAggression: return "Passive Aggression"
+        case .simmerBrood: return "Simmer/Brood"
+        case .usePhysicalForce: return "Physical Force"
+        case .setLimits: return "Set Limits"
+        case .beFirm: return "Be Firm"
+        case .walkAway: return "Walk Away"
+        case .takeTimeOut: return "Time Out"
+        case .practicePatience: return "Practice Patience"
+        case .reframeFear, .reframeAnger: return "Reframe"
+        case .removeInterference: return "Remove Interference"
+            
+            
+        default : return self.rawValue.capitalized
+        }
+    }
+    
+    var description: String{
+        switch self {
+        case .exclaim:
+            return "Vocally express enjoyment to others."
+        case .engageConnect:
+            return "Share one's feelings of enjoyment with others without a desire to cause jealousy."
+        case .gloat:
+            return "Enjoy others’ envy of your state of enjoyment."
+        case .indulge:
+            return "Allow oneself to fully experience the pleasure of good feelings."
+        case .maintain:
+            return "Continue to do what is necessary to continue the enjoyable feelings."
+        case .savor:
+            return "Appreciate the good feelings around an experience completely, especially by dwelling on them."
+        case .seekMore:
+            return "Attempt to increse the enjoyable feelings."
+            
+        case .feelShame:
+            return "Feel embarrassed by one's feelings about not being good enough."
+        case .mourn:
+            return "Express grief for one's loss through actions, dress and spech."
+        case .protest:
+            return "Object to the loss"
+        case .ruminateSadness:
+            return "Obsessively think about the emotoinal experience"
+        case .seekComfort:
+            return "Seek help or support from others"
+        case .withdrawSadness:
+            return "Either physically stay away from what is triggering the sadness or keep oneself from thinking about it."
+        case .distractSadness:
+            return "Distract yourself by thinking of, or doing something different from what is triggering the sadness."
+            
+        case .avoidDisgust:
+            return "Either physically stay away from whatever is triggering the emotion, or keep oneself from thinking about it."
+        case .dehumanize:
+            return "Treat someone as though he or she is not a human being; deprive someone of human qualities, personality or spirit."
+        case .vomit:
+            return "Respond to feelings of disgust by throwing up."
+        case .withdrawDisgust:
+            return "Physically or mentally leave the scene of what is triggering the disgust."
+            
+        case .freeze:
+            return "Become incapable of acting or speaking"
+        case .hesitate:
+            return "Hold back in doubt or indecision, often momentarily."
+        case .screamFear:
+            return "Lose control of one's speech; speak or cry out in a loud and high voice."
+        case .worry:
+            return "Anticipate the possibility of harm."
+        case .ruminateFear:
+            return "Obsessively think about a past emotional experience."
+        case .avoidFear:
+            return "Either physically stay away from the threat or keep oneself from thinking about it."
+        case .withdrawFear:
+            return "Physically or mentally leave the scene of the threat."
+        case .reframeFear:
+            return "//TODO:"
+        case .beMindful:
+            return "//TODO:"
+        case .breatheFear:
+            return "//TODO:"
+        case .distractFear:
+            return "Distract yourself by thinking of, or doing something different from what is triggering the fear."
+            
+        case .dispute:
+            return "Disagree in a manner that may escalate the conflict."
+        case .passiveAggression:
+            return "Take indirect actions that have an angry undercurrent."
+        case .insult:
+            return "Disparage the other person in an offensive or hurtful way that is likely to escalate the conflict rather than resolve it."
+        case .quarrel:
+            return "Verbally oppose in a manner intended to escalate the disagreement."
+        case .simmerBrood:
+            return "Express anger by sulking."
+        case .suppress:
+            return "Try to avoid feeling or acting upon the emotion that is being experienced."
+        case .undermine:
+            return "Take action to make someone or something weaker or less effective, usually in a secret or gradual way."
+        case .usePhysicalForce:
+            return "Trap or physically harm someone or something."
+        case .screamAnger:
+            return "Lose control of one's speech; speak loudly and possibly at a higher pitch."
+        case .setLimits:
+            return "//TODO:"
+        case .beFirm:
+            return "//TODO:"
+        case .walkAway:
+            return "//TODO:"
+        case .takeTimeOut:
+            return "//TODO:" //Sometimes the best solution is to take a step back and walk away for a few moments. This not only helps to ease the tension of a tough situation, it allows you to catch your breath, organize your thoughts, and gain your composure. This can also be useful if you are by yourself and the thoughts in your head are starting to make you angry. Close your eyes and take a deep breath and think of something pleasant that you like and enjoy.
+        case .breatheAnger:
+            return "//TODO:"
+        case .practicePatience:
+            return "//TODO:"
+        case .reframeAnger:
+            return "//TODO:"
+        case .distractAnger:
+            return "//TODO:"
+        case .avoidAnger:
+            return "//TODO:"
+        case .removeInterference:
+            return "//TODO:"
+        }
+    }
+    
+}
+// End New Emotion Model Using Enums /////
+
 
 struct EmotionConstants {
     
@@ -762,7 +1442,7 @@ struct EmotionConstants {
         static let Schadenfreude  = EmotionState(
             name: "Schadenfreude",
             description: "Enjoyment of the misfortunes of another person, usually a rival.",
-            antidote: "",
+            antidote: "TODO",
             intensity: 2...8,
             responses: [
                 Responses.EngageConnect,
@@ -1597,7 +2277,7 @@ struct EmotionConstants {
             core: Cores.Anger)
         
         static let UsePhysicalForce = EmotionResponseAction(
-            name: "Use Physical Force",
+            name: "Physical Force",
             description: "Trap or physically harm someone or something.",
             core: Cores.Anger)
         
@@ -1643,7 +2323,7 @@ struct EmotionConstants {
             core: Cores.Anger)
         
         static let PracticePatience = EmotionResponseAction(
-            name: "Practice Patience",
+            name: "Use Patience",
             description: "//TODO:",
             isIntentional: true,
             core: Cores.Anger)
@@ -1681,89 +2361,89 @@ struct EmotionConstants {
         static let Disagreement = Trigger(
             name: "Disagreement",
             description: "Was a part of, or witnessed a disagreement or argument //TODO",
-            category: .conflict)
+            category: .conflict)//
         
         static let Criticism = Trigger(
             name: "Criticism",
             description: "When we hear criticism, it often triggers deep feelings of shame, embarrassment, frustration, anger, inadequacy, hopelessness, etc. making it difficult for them to perceive the whole picture",
-            category: .conflict)
+            category: .conflict)//
         
         static let Yelling = Trigger(
             name: "Yelling",
             description: "Witnessed, or was the subject of yelling //TODO",
-            category: .conflict)
+            category: .conflict)//
         
         static let Violence = Trigger(
             name: "Violence",
             description: "Witnessed or was subject to an act of violence //TODO",
-            category: .conflict)
+            category: .conflict)//
         
         static let Abuse = Trigger(
             name: "Abuse",
             description: "Witnessed, or was subject to an act of abuse //TODO",
-            category: .conflict)
+            category: .conflict)//
         
         static let Discrimination = Trigger(
             name: "Discrimination",
             description: "Witnessed discrimination or was discriminated against //TODO",
-            category: .conflict)
+            category: .conflict)//
         
         //powerlessness
         static let EnclosedSpace = Trigger(
             name: "Enclosed Space",
             description: "Witnessed or experienced an enclosed space //TODO",
-            category: .lossOfPower)
+            category: .lossOfPower)//
         
         static let Coercion = Trigger(
             name: "Coercion",
             description: "Was pursuaded into doing something by threat or by force //TODO",
-            category: .lossOfPower)
+            category: .lossOfPower)//
         
         static let Possessiveness = Trigger(
             name: "Possessiveness",
             description: "//TODO",
-            category: .lossOfPower)
+            category: .lossOfPower)//
         
         static let CrossedBoundary = Trigger(
             name: "Crossed Boundaries",
             description: "//TODO",
-            category: .lossOfPower)
+            category: .lossOfPower)//
         
         static let Authority = Trigger(
             name: "Authority",
             description: "//TODO",
-            category: .lossOfPower)
+            category: .lossOfPower)//
         
         //rejection/dismissal
         static let Invalidation = Trigger(
             name: "Invalidation",
             description: "//TODO",
-            category: .rejection)
+            category: .rejection)//
         
         static let BeingIgnored = Trigger(
             name: "Being Ignored",
             description: "Was ignored or disregarded by another person //TODO",
-            category: .rejection)
+            category: .rejection)//
         
         static let Lonliness = Trigger(
             name: "Loneliness",
             description: "Witnessed or experienced a form of lonliness //TODO",
-            category: .rejection)
+            category: .rejection)//
         
         static let BeingMisunderstood = Trigger(
             name: "Being Misunderstood",
             description: "Failed to have your intentions, thoughts, actions or ideas interpreted properly//TODO",
-            category: .rejection)
+            category: .rejection)//
         
         static let Rejection = Trigger(
             name: "Rejection",
             description: "Had your emotions, ideas, feelings or affections refused or dismissed //TODO",
-            category: .rejection)
+            category: .rejection)//
         
         static let Abandonment = Trigger(
             name: "Abandonment",
             description: "Was refused support, love, or care by a caretaker //TODO",
-            category: .rejection)
+            category: .rejection)//
         
         //Intimacy
         static let BeingTouched = Trigger(
@@ -1774,29 +2454,33 @@ struct EmotionConstants {
         static let Sex = Trigger(
             name: "Sex",
             description: "Witnessed or was apart of a sexual act //TODO",
-            category: .intimacy)
+            category: .intimacy)//
+        
         static let BeingDependedOn = Trigger(
             name: "Being Depended On",
             description: "//TODO",
-            category: .intimacy)
+            category: .intimacy)//
+        
         static let ExpressingNeeds = Trigger(
             name: "Expressing Needs",
             description: "//TODO  ...(Or opinions)",
-            category: .intimacy)
+            category: .intimacy)//
         
         //Deciet
         static let Lies = Trigger(
             name: "A Lie",
             description: "Was lied to, discovered, or witnessed a lie being told //TODO",
-            category: .deciet)
+            category: .deciet)//
+        
         static let Accusations = Trigger(
             name: "Accusations",
             description: "Was accused of doing something //TODO (that you didn't do??)",
-            category: .deciet)
+            category: .deciet)//
+        
         static let Gaslighting = Trigger(
             name: "Gaslighting",
             description: "//TODO",
-            category: .deciet)
+            category: .deciet)//
         static let PassiveAggression = Trigger(
             name: "Passive-Aggression",
             description: "Witnessed, or was subject to an act of passive-aggression (\(EmotionConstants.Responses.PassiveAggression.description))//TODO",
@@ -1804,39 +2488,41 @@ struct EmotionConstants {
         static let Inconsistency = Trigger(
             name: "Inconsistency",
             description: "//TODO",
-            category: .deciet)
+            category: .deciet)//
         static let Manipulation = Trigger(
             name: "Manipulation",
             description: "//TODO",
-            category: .deciet)
+            category: .deciet)//
         
         //sensory
         static let SuddenMovements = Trigger(
             name: "Sudden Movements",
             description: "//TODO",
-            category: .sensory)
+            category: .sensory)//
         static let Lights = Trigger(
             name: "Lights",
             description: "//TODO (Bright, Flashing, etc)",
-            category: .sensory)
+            category: .sensory)//
         static let Noise = Trigger(
             name: "Noise",
             description: "//TODO Loud Noise, Familiar Noise, etc",
-            category: .sensory)
+            category: .sensory)//
         
         //failure
         static let Responsibility = Trigger(
             name: "Responsibility",
             description: "//TODO",
-            category: .failure)
+            category: .failure)//
+        
         static let Pressure = Trigger(
             name: "Pressure",
             description: "//TODO",
-            category: .failure)
+            category: .failure)//
+        
         static let Mistakes = Trigger(
             name: "Mistakes",
             description: "//TODO",
-            category: .failure)
+            category: .failure)//
         
         //People
         static let Crowd = Trigger(
@@ -1850,39 +2536,39 @@ struct EmotionConstants {
         static let LikeAbuser = Trigger(
             name: "Somone Like your Abuser",
             description: "//TODO",
-            category: .people)
+            category: .people)//
         
         //Medical
         static let Hospitals = Trigger(
             name: "Hospitals",
             description: "//TODO",
-            category: .medical)
+            category: .medical)//
         static let Illness = Trigger(
             name: "Illness",
             description: "//TODO",
-            category: .medical)
+            category: .medical)//
         static let Doctors = Trigger(
             name: "Doctors",
             description: "//TODO",
-            category: .medical)
+            category: .medical)//
         static let BloodGore = Trigger(
             name: "Blood/Gore",
             description: "//TODO",
-            category: .medical)
+            category: .medical)//
         
         //Other
         static let Positivity = Trigger(
             name: "Positivity",
             description: "//TODO ... Somoene else's positivity, such as people who have it easier, compliments, or seeing other's healthy relationships.",
-            category: .other)
+            category: .other)//
         static let Holidays = Trigger(
             name: "Holidays",
             description: "//TODO",
-            category: .other)
+            category: .other)//
         static let Therapy = Trigger(
             name: "Therapists",
             description: "//TODO",
-            category: .other)
+            category: .other)//
         static let Religion = Trigger(
             name: "Religion",
             description: "//TODO",
@@ -1890,7 +2576,7 @@ struct EmotionConstants {
         static let Money = Trigger(
             name: "Money",
             description: "//TODO",
-            category: .other)
+            category: .other)//
         static let Object = Trigger(
             name: "An Object",
             description: "//TODO",
@@ -2124,7 +2810,8 @@ struct EmotionConstants {
                 progressiveRelaxation,
                 attentionSeeking,
                 caffeine,
-                working
+                working,
+                sleeping
             ]
         }
         
@@ -2201,6 +2888,8 @@ struct EmotionConstants {
         static let caffeine = CopingMethod(name: "Caffeine", description: "Caffeine is addictive because of the way that the drug affects the human brain and produces the alert feeling that people crave.", category: .compulsions) //TODO: Category wrong
         
         static let working = CopingMethod(name: "Working", description: "Overworking can be a way to escape... //TODO: ", category: .escape) //TODO: Category wrong
+        
+        static let sleeping = CopingMethod(name: "Sleeping", description: "Going to bed or sleeping as a way to escape things in life you don't want to face", category: .escape)
         
         
         //TODO: Napping? Didn't Cope?
@@ -2332,6 +3021,161 @@ struct EmotionConstants {
     
 }
 
+
+//TODO: Control fallacies - Internal / External locus of control? (external: blaming, ...)
+//TODO: Needing to be right?
+enum CognitiveDistortions : String, CaseIterable {
+    
+    case Filtering, Polarization, Overgeneralization, DiscountingThePositive, Catastrophizing, Personalization, FallacyOfFairness, ShouldStatements, EmotionalReasoning, Labeling
+    
+    var SimpleText : String {
+        switch self{
+            
+            
+        case .DiscountingThePositive:
+            return "Discounting the Positive"
+            
+        case .FallacyOfFairness:
+            return "Fallacy of Fairness"
+            
+        case .ShouldStatements:
+            return "Should Statements"
+            
+        case .EmotionalReasoning:
+            return "Emotional Reasoning"
+            
+        default: return self.rawValue
+        }
+    }
+    
+    var Description : AttributedString {
+        switch self{
+            
+        case .Filtering :
+            return "The tendency to ignore the positives of a situion and focus solely on the negatives.\n\nInterpreting circumstances using a negative mental filter gives you an inaccurate perception of a situation, which can lead to false beliefs about ones self and bring about anxiety and depression symptoms\n\nThis negative perspective of yourself and your future can cause feelings of hopelessness, and may become extreme enough to spiral into suicidal thoughts."
+            
+        case .Polarization:
+            return "Also called 'All-Or-Nothing, or 'Black and White' thinking, this distortion happens when people think in extremes. When you engage in polarized thinking, everything is put into 'either/or' categories, which makes you miss the true complexity of most people and situations. This leads to extremely unrealistic standards for yourself and others that can affect relationships or motivation. Not anything, including yourself, is completely good or bad, most of the time, reality exists somewhere between the two extremes."
+            
+        case .Overgeneralization:
+            return "When people overgeneralize, they tend to reach a conclusion about one event, then incorrectly apply that conclusion across the board. This turns a negative event into a never-ending pattern of loss and defeat. Overgeneralization can also manifest into your thoughts about the world and its events. Someone who overgeneralizes tends to frequently speak in absolutes, using words like 'always', 'never', 'everything', and 'nothing'. Overgeneralization has also been associated with PTSD and other anxiety disorders."
+            
+        case .DiscountingThePositive:
+            return "Similar to Mental Filtering, discounting the positive involves a negative bias in thinking. Instead of overlooking positives, you dismiss positives as something of no value to you, such as a 'fluke', or 'luck'. This cognitive distortion prevents you from seeing the good in yourself or others, leading to a lowered sense of self-esteem or self-value, reducing motivation and cultivating a sense of 'learned helplessness'."
+            
+        case .Catastrophizing:
+            return "Jumping to conclusions to the worst possible conclusion in every scenario, no matter how improbably it is. This distortion often comes with 'what if' questions. What if he is late because he doesn't want to spend time with me? What if she didn't call because she got in an accident? Often dismessed as a 'hysterical over-reaction', this distortion may be developed from an experience of repeated adverse events - like chronic pain or childhood trauma."
+            
+        case .Personalization:
+            return "The belief that you are responsible for events that, in reality, are completely (or partially) out of your control or even not connected to you at all. This often results in feeling guilty, or assigning blame without contemplating all factors involved. Taking things personally has been associated with heightened anxiety and depression."
+            
+        case .FallacyOfFairness:
+            return "Measuring every behavior and situation on a scale of fairness. Finding that other people don't assign the same value of fairness to an event or situation, resulting in resentment. This cognitive distortion will lead you to face conflict with certain people an situations because you feel the need for everything to be 'fair' according to your own perspective. Fairness is rarely absolute and can often be self serving."
+            
+        case .ShouldStatements:
+            return "Statements that are subjective ironcald rules you set for yourself and others without considering the specifics of a circumstance. You tell yourself things *should* be a certain way with no exceptions. These types of thoughts are often rooted in internalied family or cultural expectations which might not be appropriate for an individual or a situation. When these 'should' events don't happen, you feel guilty, disappointed, let down or frustrated. This type of thinking can diminish your self-esteem and raise anxiety levels."
+            
+        case .EmotionalReasoning:
+            return "The false belief that your emotions are the truth and that the way you feel about a situation is a reliable indicator of reality. The thought process 'I feel this way about this situation, hence it must be a fact' defines this distortion. While it's important to listen to, validate, and feel your emotions, it's also important to judge reality based on rational evidence. Our emotions tell us a lot, but they are also often rooted in subconcious past experiences." //TODO: Rewrite last sentance?
+            
+        case .Labeling:
+            return "Labeling is a cognitive distortion in which people reduce themselves or others to a single - usually negative - characteristic or descriptor such as 'failure', 'addict' or 'stupid'. This extreme form of overgeneralization leads you to judge an action without taking the context into account. Assigning labels can impact how you view yourself, and how you interact with others. It can hurt your self-esteem and confidence, leading to insecurity and anxiety."
+            
+            
+            
+        }
+    }
+    
+    var Example : AttributedString {
+        switch self{
+        case .Filtering :
+            return "It’s performance review time at your company, and your manager compliments your hard work several times. In the end, they make one improvement suggestion. You leave the meeting feeling miserable and dwell on that one suggestion all day long."
+        case .Polarization:
+            return "You generally eat healthy foods, but today, you didn't have time to prepare a meal, so you eat a bacon burger. This immediately leads you to conclude that you've ruined your healthy eating routine, and you give up on it entirely."
+            
+        case .Overgeneralization:
+            return "You are running late for work, and on your way there you hit a red light. You think, 'NOTHING EVER goes my way!'"
+            
+        case .DiscountingThePositive:
+            return "Someone compliments the way you look today, and you think they are just being nice. Your boss tells you that you did a good job on a project, but you discount it as something anyone else could do."
+            
+        case .Catastrophizing:
+            return "An expected check doesn't arrive in the mail, and you think it will never arrive, and now you won't be able to pay rent and your family will get evicted."
+            
+        case .Personalization:
+            return "Your child had an accident at a birthday party, and you blame yourself for allowing them to go. If your partner had woken up earlier, you wouldn't have been late for work. Your friend is talking about their personal beliefs, and you take their words as an atack against *your* beliefs."
+            
+        case .FallacyOfFairness:
+            return "You expect your partner to come home from work and massage your feet. It's only 'fair' since you spent all afternoon cooking them dinner. However, they are exhausted and only want to take a bath. They believe it's 'fair' to take a moment to relax and decompress from the day's chaos, before they can give you their full attention and enjoy dinner."
+            
+        case .ShouldStatements:
+            return "You believe you're trying to motivate yourself with statements such as 'I should go to the gym every day', however, you got out of work late and couldn't get there in time. You feel negatively about yourself because you didn't do what you _should_ have."
+            
+        case .EmotionalReasoning:
+            return "Someone says something that makes you angry, and you immediately conclude that the person is treating you poorly."
+            
+        case .Labeling:
+            return "You see a new teammate applying makeup before a meeting, and call them 'shallow'. Your partner doesn't do a chore you expect them to do and you label them as 'useless'. You forget to turn off the oven after baking and you label yourself as 'stupid'."
+        }
+    }
+    var NegativeThought : AttributedString {
+        switch self{
+            
+        case .Filtering:
+            return "I recieved my employee review but I can't stop thinking about one negative comment my manager made about me."
+        case .Polarization:
+            return "I recieved an A- on an exam when I usually only get A+. I feel like a failure."
+        case .Overgeneralization:
+            return "I failed on this exam, I feel like such a failure. I don't think I'm smart enough to take this calss and I will probably just fail it."
+        case .DiscountingThePositive:
+            return "I recieved a good mark on my assignment, but I don't think I should have. I'm pretty sure it was just good luck."
+        case .Catastrophizing:
+            return "There is a lot of traffic on my way to work and I'm never going to get there on time."
+        case .Personalization:
+            return "My partner and I show up late to a dinner party. Everyone seemed mad at me and not having a good time becase we were late."
+        case .FallacyOfFairness:
+            return "A friend makes more money at their job doing something similar to me. Why don't I make the same amount? It's not fair."
+        case .ShouldStatements:
+            return "I should stop being lazy and exercise today."
+        case .EmotionalReasoning:
+            return "I feel alone and uncared for because my partner does not want to spend time with me, and instead is working overtime."
+        case .Labeling:
+            return "Someone at work made a mistake that had severe consequences. Now I have to do extra work. Why are they so stupid?!"
+        }
+    }
+    var ReframingThought : AttributedString {
+        switch self{
+            
+        case .Filtering:
+            return "I was lacking in one area of my review, but I performed well in all other aspects. My manager praised me for great work ethic."
+        case .Polarization:
+            return "I didn't do as well as hoped, but an A- is sitll a really good grade and I'm grateful."
+        case .Overgeneralization:
+            return "I didn't pass this examp, but in the past I have found a way to overcome a failure. I will work harder next time."
+        case .DiscountingThePositive:
+            return "I recieved a good grade on my assignment. I am grateful to recieve this grade and I'm proud of what I accomplished."
+        case .Catastrophizing:
+            return "I may be late, but I can still focus on getting there safely. In the meantime I can listen to some music on the radio."
+        case .Personalization:
+            return "I cannot control how people feel. There could be other factors that contributed to people not enjoying the party before arriving."
+        case .FallacyOfFairness:
+            return "I might not make as much money, but I am grateful for the job I have. There could be many reasons why I don't make as much."
+        case .ShouldStatements:
+            return "I would prefer to exercise today if I find the time and energy. If I don't exercise today, I can try again tomorrow."
+        case .EmotionalReasoning:
+            return "My partner is working overtime because they are busy with their work, not because they don't care for me. They spend time with me when they are free, and I'm grateful for that."
+        case .Labeling:
+            return "I understand that mistakes can happen. I will spend extra effort to fix it. I know they are capable of doing a better job next time."
+            
+        }
+    }
+    
+}
+
+
+
+
+//Name -> Acceptance?
 fileprivate struct Love {
     static let love : CoreEmotion = CoreEmotion(name: "Love", description: "TODO", stateDescription: "TODO", responseDescription: "TODO")
     

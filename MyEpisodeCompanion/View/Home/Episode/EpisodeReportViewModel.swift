@@ -33,16 +33,16 @@ final class EpisodeReportViewModel : ObservableObject {
     //ViewSection Functionality
     
     enum ViewSection : Int, CaseIterable {
-        case coreQuestion = 0, //What was your core emotion
-             responseQuestion = 1, //How did you respond
-             stateQuestion = 2, //What state did you feel? (filtered by responses)
+        case coreQuestion , //What was your core emotion
+             responseQuestion, //How did you respond
+             stateQuestion, //What state did you feel? (filtered by responses)
            //  physicalQuestion = 3, //Remove? (replace with empathic suggestions in review...you probably felt ___ )
            //  psychologicalQuestion = 4, //Remove? (replace with empathic suggestions in review...you probably felt ___ )
-             triggerQuestion = 3, //Event and type
-             perceptionDBQuesiton = 4,
-             preconditionSleepQuestion = 5, //Quick how did you sleep? How did you feel
-             preconditionFeelQuestion = 6,
-             review = 7
+             triggerQuestion, //Event and type
+             perceptionDBQuesiton,
+             preconditionSleepQuestion, //Quick how did you sleep? How did you feel
+             preconditionFeelQuestion,
+             review
         
         var questionText : Text {
             switch self{
@@ -140,9 +140,14 @@ final class EpisodeReportViewModel : ObservableObject {
     
     
     //TODO: 2
-    func getNextSection(_ viewSection : ViewSection) -> ViewSection {
+    func nextSection(_ viewSection : ViewSection) -> ViewSection {
         return ViewSection.allCases.first(where: {$0.rawValue == (viewSection.rawValue + 1)}) ?? viewSection
     }
+    
+    func previousSection(_ viewSection : ViewSection) -> ViewSection {
+        return ViewSection.allCases.first(where: {$0.rawValue == (viewSection.rawValue - 1)}) ?? viewSection
+    }
+    
     
     func isValidResponse(_ viewSection : ViewSection) -> Bool {
         switch viewSection {

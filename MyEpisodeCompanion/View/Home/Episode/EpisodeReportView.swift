@@ -13,6 +13,8 @@ struct EpisodeReportView: View {
     @Environment(\.managedObjectContext) var moc
 
     @StateObject var viewModel : EpisodeReportViewModel = EpisodeReportViewModel()
+    
+    @State var currentViewSection : EpisodeReportViewModel.ViewSection = .coreQuestion
 
     init(){
         UITextView.appearance().backgroundColor = .clear
@@ -20,25 +22,143 @@ struct EpisodeReportView: View {
 
     
     var body: some View {
-        QuestionNavigationView(viewModel: viewModel, viewSection: .coreQuestion)
-        //Alert for invalid response
+        
+        NavigationView{
+            GeometryReader{geo in
+                //Background
+                if(viewModel.coreEmotion != nil){
+                    Image(viewModel.coreEmotion == EmotionConstants.Cores.Anger ? "redcircle" : viewModel.coreEmotion == EmotionConstants.Cores.Fear ? "purplecircle" : viewModel.coreEmotion == EmotionConstants.Cores.Sadness ? "bluecircle" : "")
+                }
+                VStack{
+                    //ZStack{
+                    //Toolbar shape goes here
+                    HStack{
+                        //Previous Button
+                        Button{
+                            
+                            if(self.currentViewSection == .coreQuestion){
+                                stateManager.goHome()
+                            }else{
+                                self.currentViewSection = viewModel.previousSection(self.currentViewSection)
+                            }
+                            
+                        } label: {
+                            Image(systemName: "arrow.left")
+                                .frame(width: 30)
+                        }.frame(width: 90, alignment: .leading)
+                        
+                        Spacer()
+                        
+                        //Progress Dots
+                        HStack(spacing: 10){
+                            ForEach(0..<EpisodeReportViewModel.ViewSection.review.rawValue){i in
+                                
+                                Circle().fill(i <= currentViewSection.rawValue ? viewModel.coreEmotion?.colorSecondary ?? .gray : .gray).frame(width: 10, height: 10, alignment: .center)
+                                
+                            }
+                        }
+                        Spacer()
+                        
+                        //Next Button
+                        Button(){
+                            //stress update?
+                            
+                            if currentViewSection == .review {
+                                viewModel.isShowingSubmitConfirmation = true
+                            } else {
+                                if viewModel.isValidResponse(currentViewSection){
+                                    
+                                    currentViewSection = viewModel.nextSection(currentViewSection)
+                                }else{
+                                    viewModel.setAlert(currentViewSection)
+                                }
+                            }
+                            
+                        } label : {
+                            if ( currentViewSection == .review){
+                                Text("Submit")
+                            }else{
+                                Image(systemName: "arrow.right")
+                                    .frame(width: 30)
+                                    .foregroundColor(viewModel.isValidResponse(currentViewSection) ? .blue : .gray)
+                            }
+                        }.frame(width: 80, alignment: .trailing)
+                    }
+                    .padding(.horizontal, 8)
+                    .frame(width: geo.size.width, height: 50)
+                    .font(.system(size: 22))
+                    
+                    //Question Text
+                    HStack{
+                        viewModel.getQuestionText(self.currentViewSection)
+                            .font(.title2).fontWeight(.bold)
+                            .multilineTextAlignment(.center).padding(10)
+                    }.frame(width: geo.size.width, height: 90, alignment: .top)
+                    
+                    
+                    Spacer()
+                    
+                    //Content
+                    VStack{
+                        switch self.currentViewSection{
+                        
+                        case .coreQuestion: CoreQuestionView(viewModel: viewModel)
+                        case .responseQuestion: ResponseActionQuestionView(viewModel: viewModel)
+                        case .stateQuestion: StateSelectionView(viewModel: viewModel)
+                            
+                        case .triggerQuestion:
+                            TriggerSelectionView(viewModel: viewModel)
+                        default: Text("How did you get here? Section: \(currentViewSection.rawValue)")
+                        }
+                    }.frame(width: geo.size.width)
+                    
+                    Spacer()
+                }
+                
+            }
+            .navigationBarHidden(true)
             .alert(viewModel.alertText, isPresented: $viewModel.isShowingAlert){
-                Button("OK", role: .cancel){
+                Button("Ok", role: .cancel){
                     viewModel.alertText = ""
                 }
-            }//Alert for confirming submission of data
+            }
             .alert("Confirm Submission?", isPresented: $viewModel.isShowingSubmitConfirmation){
-                HStack{
-                    Button("Submit"){
-                        //TODO: Throw error?
-                        viewModel.buildEpisode(context: moc)
-                        stateManager.goHome()
-                    }
-                    Button("Cancel", role: .cancel){
-                        //?
-                    }
+                Button("Submit"){
+                    //TODO: Submit stuff
+                    
+                    
+                    //Go home after 3 sec delay
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3){ stateManager.goHome()}
                 }
             }
+        }.onAppear{
+            
+            //TODO: Check data from prior checks
+            //TODO: pull data from episode watch data if exists
+            
+        }
+        
+        
+        
+//        QuestionNavigationView(viewModel: viewModel, viewSection: .coreQuestion)
+//        //Alert for invalid response
+//            .alert(viewModel.alertText, isPresented: $viewModel.isShowingAlert){
+//                Button("OK", role: .cancel){
+//                    viewModel.alertText = ""
+//                }
+//            }//Alert for confirming submission of data
+//            .alert("Confirm Submission?", isPresented: $viewModel.isShowingSubmitConfirmation){
+//                HStack{
+//                    Button("Submit"){
+//                        //TODO: Throw error?
+//                        viewModel.buildEpisode(context: moc)
+//                        stateManager.goHome()
+//                    }
+//                    Button("Cancel", role: .cancel){
+//                        //?
+//                    }
+//                }
+//            }
     }
 }
 
@@ -58,7 +178,7 @@ fileprivate struct CoreQuestionView : View {
                         viewModel.coreButtonPress(core)
                     } label: {
                         Text(core.name)
-                    }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(core, isSelected: viewModel.coreEmotion == core), size: .large))
+                    }.buttonStyle(EmotionButtonStyle2(color: core.colorSecondary, isSelected: viewModel.coreEmotion == core))
                     
                 }
             }
@@ -101,7 +221,7 @@ fileprivate struct ResponseActionQuestionView: View {
                             
                         } label: {
                             Text(response.name)
-                        }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(unwrappedCore, isSelected: viewModel.emotionResponses.contains(response)), size: .medium))
+                        }.buttonStyle(EmotionButtonStyle2(color: unwrappedCore.colorSecondary, isSelected: viewModel.emotionResponses.contains(where: {$0 == response})))
                         
                     }
                 }
@@ -137,7 +257,7 @@ fileprivate struct StateSelectionView : View {
                         viewModel.stateButtonPress(state)
                     } label: {
                         Text(state.name).fontWeight(.bold)
-                    }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(state.core, isSelected: viewModel.stateEmotion == state), size: .medium))
+                    }.buttonStyle(EmotionButtonStyle2(color: viewModel.coreEmotion?.colorSecondary ?? .gray, isSelected: viewModel.stateEmotion == state))
                     
                 }
             }.frame(height: 300, alignment: .center)
@@ -384,15 +504,15 @@ fileprivate struct TriggerSelectionView : View {
                 
                 Button("Person"){
                     self.subject = .person
-                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: self.subject == .person)))
+                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: self.subject == .person), size: .small))
                 
                 Button("Place"){
                     subject = .place
-                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: subject == .place)))
+                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: subject == .place), size: .small))
                 
                 Button("Thing"){
                     subject = .thing
-                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: subject == .thing)))
+                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: subject == .thing), size: .small))
                 
             }.padding(.top, 50)
             
@@ -522,7 +642,7 @@ fileprivate struct QuestionNavigationView : View {
 
 struct EpisodeReportView_Previews: PreviewProvider {
     static var previews: some View {
-        //EpisodeReportView()
-        QuestionNavigationView(viewModel: EpisodeReportViewModel(), viewSection: .triggerQuestion)
+        EpisodeReportView()
+        //QuestionNavigationView(viewModel: EpisodeReportViewModel(), viewSection: .triggerQuestion)
     }
 }

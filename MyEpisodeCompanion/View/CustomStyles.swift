@@ -30,11 +30,24 @@ func getEmotionColors(_ core : CoreEmotion, isSelected: Bool = true) -> Color{
 
 
 struct NextButtonStyle: ButtonStyle{
+    
     func makeBody(configuration: Configuration) -> some View{
         configuration.label
             .padding()
-            .frame(width: 150, height: 30, alignment: .center)
+            .frame(width: 130, height: 30, alignment: .center)
             .background(Color(red: 0.376, green: 0.4, blue: 0.816))
+            .cornerRadius(5)
+            .opacity(configuration.isPressed ? 0.5 : 1)
+    }
+}
+
+struct DeleteButtonStyle: ButtonStyle{
+    
+    func makeBody(configuration: Configuration) -> some View{
+        configuration.label
+            .padding()
+            .frame(width: 130, height: 30, alignment: .center)
+            .background(Color(red: 0.876, green: 0.4, blue: 0.416))
             .cornerRadius(5)
             .opacity(configuration.isPressed ? 0.5 : 1)
     }
@@ -223,13 +236,50 @@ struct CalendarShape: View{
     }
 }
 
+struct StressShape : View {
+    
+    let color : Color
+    let width : CGFloat
+    let height : CGFloat
+    let stressor : Stressor
+    
+    var body: some View {
+        
+
+            
+        
+        RoundedRectangle(cornerRadius: 2)
+            //.stroke(color, lineWidth: 2)
+            .fill(.thinMaterial)
+            
+            .frame(
+                width: width,
+                height: height)
+            .overlay(
+
+                  RoundedRectangle(cornerRadius: 2)
+                    .stroke(color, lineWidth: 2).overlay{
+                        VStack{
+                            Text(stressor.name ?? "No Name")
+                            Text("\(stressor.weight)")
+                        }
+                    }
+
+                
+            )
+            
+
+            
+    }
+}
+
 struct SleepQualitySlider : View {
-    @State var offset : CGFloat = 0
+    @State var offset : CGFloat
     
     @Binding var sliderValue : Float
     let minVal : CGFloat = 0
     let maxVal : CGFloat = 10
-    @State var color : Color = .red
+    @State var color : Color
     
     let barHeight : CGFloat = 20
     let barWidth : CGFloat = 300
@@ -238,6 +288,22 @@ struct SleepQualitySlider : View {
     let circleRadius : CGFloat = 15 //(circle width + outlineWidth) / 2 = r
     let minOffX : CGFloat = 15 // radius
     let maxOffX : CGFloat = 285 // bar width - radius
+    
+    init(sleepQuality : Binding<Float>){
+        
+        self._sliderValue = sleepQuality
+        
+        let sleepValue = sleepQuality.wrappedValue
+        
+        self.offset = (CGFloat(maxOffX - minOffX) / CGFloat(10)) * CGFloat(sleepValue)
+        
+        self.color =
+        sleepValue < 3 ? .red :
+        (3...4).contains(sleepValue) ? .orange :
+        (4...7).contains(sleepValue) ? .yellow :
+            .green
+        
+    }
     
     var body: some View{
         
@@ -375,14 +441,14 @@ struct SleepQualitySlider : View {
  */
 struct SleepQtySlider : View {
     
-    @State var offset : CGFloat = 0
+    @State var offset : CGFloat
     
     @Binding var sliderValue : Float
     
     
     let minVal : CGFloat = 0
     let maxVal : CGFloat = 12
-    @State var color : Color = .red
+    @State var color : Color
     
     let barHeight : CGFloat = 20
     let barWidth : CGFloat = 300
@@ -392,6 +458,21 @@ struct SleepQtySlider : View {
     let minOffX : CGFloat = 15 // radius
     let maxOffX : CGFloat = 285 // bar width - radius
     
+    init(sleepQty : Binding<Float>){
+        
+        self._sliderValue = sleepQty
+        
+        let sleepValue = sleepQty.wrappedValue
+        
+        self.offset = (CGFloat(maxOffX - minOffX) / CGFloat(12)) * CGFloat(sleepValue)
+        
+        color = sleepValue < 3 ? .red :
+        (3..<5).contains(sleepValue) ? .orange :
+        (5..<7).contains(sleepValue) ? .yellow :
+        (7..<9).contains(sleepValue) ? .green :
+        (9...10).contains(sleepValue) ? .blue :
+            .black
+    }
     
     var body: some View{
         
@@ -463,7 +544,9 @@ struct SleepQtySlider : View {
                                 }
                                 
                                 
-                                }).onEnded{value in
+                                })
+                                /* TODO: Snap to value?
+                                .onEnded{value in
                                     
                                     let centerVal = CGFloat(value.location.x) - circleRadius
                                     
@@ -480,7 +563,9 @@ struct SleepQtySlider : View {
                                     
                                     updateValue()
                                     
-                                })
+                                }
+                                 */
+                            )
                             
                     }
                     
@@ -510,6 +595,11 @@ struct SleepQtySlider : View {
             sliderValue = Float(val)
         }
         
+        updateColor()
+        //value = sliderValue
+        
+    }
+    func updateColor(){
         withAnimation(){
             color = sliderValue < 3 ? .red :
             (3..<5).contains(sliderValue) ? .orange :
@@ -518,8 +608,6 @@ struct SleepQtySlider : View {
             (9...10).contains(sliderValue) ? .blue :
                 .black
         }
-        //value = sliderValue
-        
     }
 }
 
@@ -527,15 +615,25 @@ struct CustomStyles: View {
     @State var isSelected = false
     let core : CoreEmotion = EmotionConstants.Cores.Anger
     let state : EmotionState = EmotionConstants.States.Argumentativeness
-    @State var sliderValue : Float = 0
+    let stressor : Stressor = Stressor()
+    @State var sliderValue : Float = 8.0
     var body: some View {
         VStack{
-            SleepQtySlider(sliderValue: $sliderValue)
-            SleepQualitySlider(sliderValue: $sliderValue)
+            
+            
+            
+            Group{
+                //StressShape(color: .red, width: 200, height: 80, stressor: stressor)
+                SleepQtySlider(sleepQty: $sliderValue)
+                SleepQualitySlider(sleepQuality: $sliderValue)
+            }
             Spacer()
             Button("Continue"){
                 
             }.buttonStyle(NextButtonStyle())
+            Button("Delete"){
+                
+            }.buttonStyle(DeleteButtonStyle())
             Spacer()
             CalendarShape()
             

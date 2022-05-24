@@ -65,7 +65,7 @@ struct CalendarRootView : View {
                     ).navigationTitle("").navigationBarTitleDisplayMode(.inline)){
 
                         ZStack{
-
+                            
                             ForEach(episodes.indices){i in
                                 
                                 //let color = getEmotionColors(episodes[i].getCore())

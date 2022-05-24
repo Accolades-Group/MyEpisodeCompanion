@@ -12,7 +12,7 @@ final class StateManager : ObservableObject {
     
     //Debugging
     @Published var isDebugging = false
-    @Published var debugView = CustomStyles()
+    @Published var debugView = CheckinReportView()
     @Published var isDebugData = true
     
     //TODO: Verify login
