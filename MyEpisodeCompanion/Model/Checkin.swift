@@ -20,23 +20,70 @@ extension Checkin {
         return NSFetchRequest<Checkin>(entityName: "Checkin")
     }
 
-    @NSManaged public var date: Date?
-    @NSManaged public var id: UUID?
-    @NSManaged public var sleepQuantity: NSNumber?
-    @NSManaged public var sleepQuality: NSNumber?
-    @NSManaged public var emotionResponse: String?
-    @NSManaged public var whereIsMyHeadSpace: String?
-    @NSManaged public var whatDoIFeelINeed: String?
-    @NSManaged public var stressLevel: NSNumber?
+    @NSManaged public var date: Date
+    @NSManaged public var emotionResponse: String
+    @NSManaged public var copingMethods: [String]?
+    @NSManaged public var id: UUID
+    @NSManaged public var sleepQuality: NSNumber
+    @NSManaged public var sleepQuantity: NSNumber
+    @NSManaged public var stressLevel: NSNumber
+    @NSManaged public var needQuestion: String
+    @NSManaged public var headspaceQuestion: String
+    @NSManaged public var emotionState: String
 //    @NSManaged public var howDoIFeelAboutMyself: String?
 //    @NSManaged public var thoughtsPositivity: NSNumber?
-    @NSManaged public var howHaveICoped: String?
 
 }
 //Unwrapping an existing checkin
 extension Checkin : Identifiable {
     
+    func getState() -> EmotionStates{
+        return EmotionStates.allCases.first(where: {$0.rawValue == emotionState}) ?? .peace
+    }
+    
+    func setState(_ state : EmotionStates){
+        emotionState = state.rawValue
+    }
+    
+    //Returns true if the user coped with something for this checkin, or false if didn't
+    func didCope() -> Bool {
+        return copingMethods != nil
+    }
+    
+    func setCopingMethods(_ methods: [CopingMethods]){
+        
+        var copeArray : [String] = []
+        methods.forEach{method in
+            let copeString = method.rawValue
+            copeArray.append(copeString)
+        }
+        copingMethods = copeArray
+    }
+    
+    /*
+     var copeStr : String = ""
 
+     methods.forEach{method in
+         copeStr += method.rawValue
+         copeStr += CUSTOM_DELIMINATOR
+     }
+     
+     copingMethods = String(copeStr.dropLast(CUSTOM_DELIMINATOR.count))
+     */
+    
+    func getCopingMethods() -> [CopingMethods]{
+        var copeArray : [CopingMethods] = []
+        if let copeStr = copingMethods{
+        copeStr.forEach{str in
+            if let method = CopingMethods.allCases.first(where: {$0.rawValue == str as String}){
+                copeArray.append(method)
+            }
+        }
+        }
+        return copeArray
+    }
+    
+/*
     func unwrapCheckin() -> UnwrappedCheckin? {
         print("Unwrapping checkin")
         guard let unwrappedDate = date else {
@@ -154,10 +201,11 @@ extension Checkin : Identifiable {
         }
         return copingArr
     }
+    */
 }
 //Validating and building a new checkin
 extension Checkin {
-    
+    /*
     func buildFeelings(core : CoreEmotion, state : EmotionState, response : String){
         //TODO: validate?
         let str = core.name + CUSTOM_DELIMINATOR + state.name + CUSTOM_DELIMINATOR + response
@@ -165,7 +213,7 @@ extension Checkin {
     }
     
     func buildCopingString(copingMethods : [CopingMethod]){
-        var str = ""
+        var str : NSString = ""
         copingMethods.forEach{method in
             str += method.name
             str += CUSTOM_DELIMINATOR
@@ -183,7 +231,7 @@ extension Checkin {
         whatDoIFeelINeed = needQuestion
         stressLevel = NSNumber(value: stresslvl)
     }
-    
+    */
     
 }
 
@@ -210,3 +258,17 @@ struct UnwrappedCheckin : Identifiable {
     
 }
 
+class AttributedStringToDataTransformer: ValueTransformer {
+    
+    override func transformedValue(_ value: Any?) -> Any? {
+        let boxedData = try! NSKeyedArchiver.archivedData(withRootObject: value!, requiringSecureCoding: true)
+        return boxedData
+    }
+    
+    override func reverseTransformedValue(_ value: Any?) -> Any? {
+        let typedBlob = value as! Data
+        let data = try! NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSString.self], from: typedBlob)
+        return (data as! String)
+    }
+    
+}

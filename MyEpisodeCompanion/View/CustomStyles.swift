@@ -100,7 +100,7 @@ struct EmotionButtonStyle: ButtonStyle{
 
 struct StateEmotionButtonStyle: ButtonStyle{
     
-    var state: EmotionState
+    var state: EmotionStates
     //var color: Color
     var isSelected: Bool
     var size: ButtonSizes = .medium
@@ -124,7 +124,7 @@ struct StateEmotionButtonStyle: ButtonStyle{
                     //state.core.colorTertiary.opacity(0.1)
                     Color.white
                 LinearGradient(colors:
-                                        isSelected ? [state.core.color] :
+                                        isSelected ? [state.core.colorPrimary] :
                                        // [.white]
                                        colors
                                        , startPoint: .leading, endPoint: .trailing)
@@ -134,7 +134,7 @@ struct StateEmotionButtonStyle: ButtonStyle{
             
             .overlay(
                 
-                Capsule().stroke(state.core.color, lineWidth: 2)
+                Capsule().stroke(state.core.colorPrimary, lineWidth: 2)
             )
         
 
@@ -649,7 +649,7 @@ struct CustomStyles: View {
             print(isSelected)
         }label:{
             Text(EmotionConstants.States.Annoyance.name)
-        }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Annoyance, isSelected: isSelected))
+        }.buttonStyle(StateEmotionButtonStyle(state: .annoyance, isSelected: isSelected))
             
             
             
@@ -658,14 +658,14 @@ struct CustomStyles: View {
                 print(isSelected)
             }label:{
                 Text(EmotionConstants.States.Frustration.name)
-            }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Frustration, isSelected: isSelected))
+            }.buttonStyle(StateEmotionButtonStyle(state: .frustration, isSelected: isSelected))
                 
                 Button(){
                     isSelected.toggle()
                     print(isSelected)
                 }label:{
                     Text(EmotionConstants.States.Exasperation.name)
-                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Exasperation, isSelected: isSelected))
+                }.buttonStyle(StateEmotionButtonStyle(state: .exasperation, isSelected: isSelected))
                 
                 
                 Button(){
@@ -673,7 +673,7 @@ struct CustomStyles: View {
                     print(isSelected)
                 }label:{
                     Text(EmotionConstants.States.Argumentativeness.name)
-                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Argumentativeness, isSelected: isSelected))
+                }.buttonStyle(StateEmotionButtonStyle(state: .argumentativeness, isSelected: isSelected))
                 
 
                 
@@ -682,7 +682,7 @@ struct CustomStyles: View {
                     print(isSelected)
                 }label:{
                     Text(EmotionConstants.States.Bitterness.name)
-                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Bitterness, isSelected: isSelected))
+                }.buttonStyle(StateEmotionButtonStyle(state: .bitterness, isSelected: isSelected))
                 
 
                 
@@ -691,7 +691,7 @@ struct CustomStyles: View {
                     print(isSelected)
                 }label:{
                     Text(EmotionConstants.States.Vengefulness.name)
-                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Vengefulness, isSelected: isSelected))
+                }.buttonStyle(StateEmotionButtonStyle(state: .vengefulness, isSelected: isSelected))
                 
                 
                 Button(){
@@ -699,7 +699,7 @@ struct CustomStyles: View {
                     print(isSelected)
                 }label:{
                     Text(EmotionConstants.States.Fury.name)
-                }.buttonStyle(StateEmotionButtonStyle(state: EmotionConstants.States.Fury, isSelected: isSelected))
+                }.buttonStyle(StateEmotionButtonStyle(state: .fury, isSelected: isSelected))
             
             }
             Spacer()

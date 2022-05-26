@@ -9,10 +9,11 @@ import Foundation
 import SwiftUI
 import CoreData
 
+//TODO: Fix checkin history to just do regular checkins
 final class HistoryViewModel : ObservableObject  {
     
 
-    var checkinHistory : [UnwrappedCheckin]
+    var checkinHistory : [Checkin]
     var episodeHistory : [Episode]
     
     
@@ -22,11 +23,12 @@ final class HistoryViewModel : ObservableObject  {
         
         
         //checkinHistory = checks
-        checkinHistory = []
+        checkinHistory = checks
         episodeHistory = episodes
         
         //for debugging
         if(checks.isEmpty){
+            /*
             checkinHistory.append(UnwrappedCheckin(
                 date: Date.now,
                 id: UUID(),
@@ -46,12 +48,17 @@ final class HistoryViewModel : ObservableObject  {
                 secondaryResponse: nil
                  */
             ))
+             */
         }else{
+            
+            /*
+               
             checks.forEach{check in
-                if let unwrapped = check.unwrapCheckin(){
-                    checkinHistory.append(unwrapped)
-                }
+             //   if let unwrapped = check{
+                    checkinHistory.append(check)
+             //   }
             }
+               */
         }
     }
     
@@ -65,8 +72,8 @@ final class HistoryViewModel : ObservableObject  {
         var sleep : Float = 0
         //TODO: checkin wtih most sleep from that day?
         checkinHistory.forEach{check in
-            if check.sleepQuantity > sleep {
-                sleep = check.sleepQuantity
+            if Float(check.sleepQuantity) > sleep {
+                sleep = Float(check.sleepQuantity)
             }
         }
         return Text("\(sleep, specifier: "%.1f") hrs").foregroundColor(sleep > 12 ? .orange : sleep > 7 ? .green : sleep > 5 ? .orange : .red )
@@ -93,11 +100,11 @@ final class HistoryViewModel : ObservableObject  {
         return Int(retAvg/checkinHistory.count)
     }
     
-    func getCopingText(_ checkin : UnwrappedCheckin) -> String{
+    func getCopingText(_ checkin : Checkin) -> String{
         
         var returnString : String = ""
         
-        checkin.copingMethods.forEach{method in
+        checkin.getCopingMethods().forEach{method in
             returnString.append(method.name)
             returnString.append(", ")
         }

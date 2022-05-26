@@ -11,7 +11,7 @@ struct StressStackView: View {
     
     @Environment(\.managedObjectContext) var moc
     
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.weight, order: .reverse)], predicate: NSPredicate(format: "isPast != true")) var stressors : FetchedResults<Stressor>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.weight, order: .reverse)], predicate: NSPredicate(format: "removeDate == nil")) var stressors : FetchedResults<Stressor>
     //@FetchRequest(sortDescriptors: [SortDescriptor(\.weight)]) var stressors : FetchedResults<Stressor>
     
    // @State var stressors : [Stressor] = [Stressor(), Stressor(), Stressor()]

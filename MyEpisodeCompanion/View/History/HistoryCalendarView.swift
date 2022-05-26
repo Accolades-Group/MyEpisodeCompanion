@@ -46,7 +46,7 @@ struct CalendarRootView : View {
             })
             
             let checkins = checkinHistory.filter({
-                Calendar.current.isDate(date, equalTo: $0.date!, toGranularity: .day)
+                Calendar.current.isDate(date, equalTo: $0.date, toGranularity: .day)
             })
             
             
@@ -69,8 +69,8 @@ struct CalendarRootView : View {
                             ForEach(episodes.indices){i in
                                 
                                 //let color = getEmotionColors(episodes[i].getCore())
-                                let color = episodes[i].getCore().color
-                                
+                                let color = episodes[i].getCore().colorPrimary
+                                //let color = Color.white
                                 Rectangle().fill(color).rotationEffect(Angle(degrees: Double(15 * i))).frame(width: 35, height: 35, alignment: .center)
                             }
                             
@@ -104,28 +104,16 @@ struct CalendarRootView : View {
 //TODO: Fix this, clunky
 func getCheckinColor(_ checkin: Checkin) -> Color {
     
-    let core = EmotionConstants.Cores.getCoreByNameStr(checkin.emotionResponse ?? "")
-    
-    if core != EmotionConstants.Cores.Other {
-        return getEmotionColors(core)
-    }
-    
-    return .clear
+    return checkin.getState().core.colorPrimary
 }
 
 func getCheckinColorGradient(_ checks : [Checkin]) -> AngularGradient{
     
     var colors : [Color] = []
     checks.forEach{check in
-        if let unwrappedCore = check.unwrapFeelings(feelings: check.emotionResponse)?.core{
-            colors.append(unwrappedCore.color)
-        }
-        //Secondary emotion color
-        /*
-        if let unwrappedSecondary = check.unwrapFeelings(feelings: check.secondaryEmotionRespose)?.core{
-            colors.append(unwrappedSecondary.color)
-        }
-         */
+        
+        colors.append(check.getState().core.colorPrimary)
+        
     }
     if(colors.isEmpty){colors.append(.clear)}
     return AngularGradient(colors: colors, center: .center)

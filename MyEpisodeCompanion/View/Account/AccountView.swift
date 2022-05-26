@@ -86,13 +86,13 @@ struct AccountView: View {
                                     episode.id = UUID()
                                     episode.date = Date.now
                                     //TODO: Precondition checksin?
-                                    episode.howDidIFeel = "Anger+Fury+TestResponse"
-                                    episode.howDidIReact = "ScreamYell,Undermine,Insult,WalkAway"
-                                    episode.whatTriggeredMe = "Rejection+Insulted"
-                                    episode.physicalChanges = "Shaking,HeartRacing,Sweating"
-                                    episode.whatDidItFeelLike = "Rejection"
-                                    episode.whatDidThatRemindMeOf = "Getting Fired"
-                                    episode.howDidICopeAfterComeDown = "Drugs+Tobacco"
+                                 //   episode.howDidIFeel = "Anger+Fury+TestResponse"
+                                //    episode.howDidIReact = "ScreamYell,Undermine,Insult,WalkAway"
+                                //    episode.whatTriggeredMe = "Rejection+Insulted"
+                               //     episode.physicalChanges = "Shaking,HeartRacing,Sweating"
+                               //     episode.whatDidItFeelLike = "Rejection"
+                               //     episode.whatDidThatRemindMeOf = "Getting Fired"
+                               //     episode.howDidICopeAfterComeDown = "Drugs+Tobacco"
                                     
                                     try? moc.save()
                                     
@@ -101,12 +101,13 @@ struct AccountView: View {
                                 Button("Add Check"){
                                     let check = Checkin(context: moc)
                                     
+                                    /*
                                     check.buildFeelings(core: EmotionConstants.Cores.Joy, state: EmotionConstants.States.Fiero, response: "I am feeling Fiero")
                                     check.buildVals(sleepQty: 7.5, sleepQual: 8, headspace: "My thoughts are all about my fun weekend plans", needQuestion: "I need someone to enjoy this feelng with", stresslvl: 136)
                                     
                                     check.buildCopingString(copingMethods: [EmotionConstants.CopingMethods.caffeine, EmotionConstants.CopingMethods.meditation])
                                     
-                                    
+                                    */
                                     try? moc.save()
                                 }
                             }
@@ -140,7 +141,7 @@ struct AccountView: View {
                                     }
                                     
                                     for checkin in checkinHistory.filter({
-                                        Calendar.current.isDate(Date.now, equalTo: $0.date!, toGranularity: .day)
+                                        Calendar.current.isDate(Date.now, equalTo: $0.date, toGranularity: .day)
                                     }) {
                                         moc.delete(checkin)
                                         try? moc.save()

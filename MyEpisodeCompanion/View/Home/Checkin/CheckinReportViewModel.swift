@@ -19,14 +19,14 @@ final class CheckinReportViewModel : ObservableObject {
     /**
      The core emotion for this checkin. These are basic emotions such as anger, sadness or joy
      */
-    @Published var core : CoreEmotion?
+    @Published var core : CoreEmotions?
     @Published var secondaryCore : CoreEmotion?
     
     /**
      The state emotion for this checkin. These are states of core emotions, such as frustration, sorrow or pride
      */
-    @Published var state : EmotionState?
-    @Published var secondaryState : EmotionState?
+    @Published var state : EmotionStates?
+    @Published var secondaryState : EmotionStates?
     
     /**
      An explination for why the user feels the emotion
@@ -44,7 +44,7 @@ final class CheckinReportViewModel : ObservableObject {
     /**
      An array for the methods a user engagued in to cope with their feelings
      */
-    @Published var copingMethods : [CopingMethod] = []
+    @Published var copingMethods : [CopingMethods] = []
     /**
      A boolean that is flagged if the user didn't cope with any emotions
      */
@@ -157,7 +157,7 @@ final class CheckinReportViewModel : ObservableObject {
     func getQuestionText(_ viewSection : ViewSection) -> Text {
         switch viewSection{
         case .emotionQuestion: return Text("What emotion are you feeling?")
-        case .emotionExplanationQuestion: return Text("Can you explain why you are feeling ") + Text(state?.name ?? "").foregroundColor(core?.color ?? EmotionConstants.Cores.Joy.color) + Text("?")
+        case .emotionExplanationQuestion: return Text("Can you explain why you are feeling ") + Text(state?.name ?? "").foregroundColor(core?.colorPrimary ?? Color.Joy.Primary) + Text("?")
            
             /* TODO: Secondary Emotions?
         case .hasSecondEmotionQuestion: return Text("Would you like to report feeling a secondary emotion?")
@@ -169,7 +169,7 @@ final class CheckinReportViewModel : ObservableObject {
         case .stressLevelQuestion: return Text("What is your stress level currently at?")
         case .needQuestion: return Text("What do you feel you need in this moment?")
         case .sleepQuestion: return Text("What was your sleep like?")
-        case .copeQuestion: return Text("How have you coped with your stress or ") + Text(core?.name ?? "").foregroundColor(getEmotionColors(core ?? EmotionConstants.Cores.Joy)) + Text(" today?")
+        case .copeQuestion: return Text("How have you coped with your stress or ") + Text(core?.name ?? "").foregroundColor(core?.colorPrimary ?? Color.Joy.Primary) + Text(" today?")
         case .review: return Text("Please review your Check In")
         case .congratulations: return Text("") // empty
         //default: return Text("")
@@ -247,11 +247,11 @@ final class CheckinReportViewModel : ObservableObject {
     }
     
     
-    func checkPrior(_ check : UnwrappedCheckin){
+    func checkPrior(_ check : Checkin){
         
         if Calendar.current.isDateInToday(check.date){
-            sleepQuality = Float(check.sleepQuality)
-            sleepQuantity = check.sleepQuantity
+            sleepQuality = Float(truncating: check.sleepQuality)
+            sleepQuantity = Float(truncating: check.sleepQuantity)
             didGetSleepFromPrior = true
         }
         
@@ -260,11 +260,11 @@ final class CheckinReportViewModel : ObservableObject {
     func getBackgroundImage() -> Image {
         var imgStr : String
         switch self.core {
-        case EmotionConstants.Cores.Sadness: imgStr = "bluecircle"
-        case EmotionConstants.Cores.Fear: imgStr = "purplecircle"
-        case EmotionConstants.Cores.Joy: imgStr = "yellowcircle"
-        case EmotionConstants.Cores.Anger: imgStr = "redcircle"
-        case EmotionConstants.Cores.Disgust: imgStr = "greencircle"
+        case .Sadness: imgStr = "bluecircle"
+        case .Fear: imgStr = "purplecircle"
+        case .Joy: imgStr = "yellowcircle"
+        case .Anger: imgStr = "redcircle"
+        case .Disgust: imgStr = "greencircle"
             
         default: imgStr = ""
         }
@@ -275,14 +275,14 @@ final class CheckinReportViewModel : ObservableObject {
     /**
      Gets the state options for the currently selected core emotion
      */
-    func getStateOptions() -> [EmotionState]{
-        var retArr : [EmotionState] = []
-
-        //TODO: Clean this up and make work with animation
-        if let unwrappedCore = core {
-            retArr = EmotionConstants.getStatesByCore(unwrappedCore)
-        }
-        return retArr
+    func getStateOptions() -> [EmotionStates]{
+//        var retArr : [EmotionState] = []
+//
+//        //TODO: Clean this up and make work with animation
+//        if let unwrappedCore = core {
+//            retArr = EmotionStates.allCases.filter({$0.core == unwrappedCore})
+//        }
+        return EmotionStates.allCases.filter({$0.core == core})
     }
     
     /**
@@ -292,17 +292,17 @@ final class CheckinReportViewModel : ObservableObject {
         
         if let unwrappedState = state {
             return Text(unwrappedState.description)
-                .foregroundColor(getEmotionColors(unwrappedState.core))
+                .foregroundColor(unwrappedState.core.colorPrimary)
         }else if let unwrappedCore = core{
             return Text(unwrappedCore.description)
-                .foregroundColor(getEmotionColors(unwrappedCore))
+                .foregroundColor(unwrappedCore.colorPrimary)
         }else{
             return Text("")
         }
         
     }
     
-    func toggleCore(_ coreEmotion : CoreEmotion){
+    func toggleCore(_ coreEmotion : CoreEmotions){
         
         core = core == coreEmotion ? nil : coreEmotion
         state = nil
@@ -395,12 +395,26 @@ final class CheckinReportViewModel : ObservableObject {
     func buildCheckin(context moc : NSManagedObjectContext) -> Error?{
         //TODO: Validate data first!!!!
         if let unwrappedCore = core, let unwrappedState = state {
-        let checkin = Checkin(context: moc)
         
-        checkin.buildVals(date : Date.now, uuid : UUID(), sleepQty: sleepQuantity, sleepQual: Int(sleepQuality), headspace: whereIsMyHeadspace, needQuestion: whatDoIFeelINeed, stresslvl: stressQuantity)
-        
-        checkin.buildCopingString(copingMethods: copingMethods)
-        checkin.buildFeelings(core: unwrappedCore, state: unwrappedState, response: emotionExplination)
+            let checkin = Checkin(context: moc)
+            
+            
+            
+            checkin.setState(unwrappedState)
+            checkin.emotionResponse = emotionExplination
+            checkin.date = Date.now
+            checkin.id = UUID()
+            checkin.sleepQuality = sleepQuality as NSNumber
+            checkin.sleepQuantity = sleepQuantity as NSNumber
+            checkin.stressLevel = stressQuantity as NSNumber
+            checkin.needQuestion = whatDoIFeelINeed
+            checkin.headspaceQuestion = whereIsMyHeadspace
+            
+            if(!copingMethods.isEmpty){
+                checkin.setCopingMethods(copingMethods)
+            }else{
+                checkin.copingMethods = nil
+            }
 
             do{
                 try moc.save()

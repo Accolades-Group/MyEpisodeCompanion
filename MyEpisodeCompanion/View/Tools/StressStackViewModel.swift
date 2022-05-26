@@ -144,7 +144,7 @@ final class StressStackViewModel : ObservableObject {
             stressor.name = stressName
             stressor.addDate = addDate
             stressor.id = UUID()
-            stressor.isPast = false
+            //stressor.isPast = false
             stressor.removeDate = nil
             
             do {
@@ -179,7 +179,7 @@ final class StressStackViewModel : ObservableObject {
         //Don't delete, change it to inactive?
         //moc.delete(del)
         
-        del.isPast = true
+       // del.isPast = true
         del.removeDate = Date.now
         
         try? moc.save()

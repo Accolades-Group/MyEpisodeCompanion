@@ -13,35 +13,7 @@
 import Foundation
 import SwiftUI
 
-struct emotionDataModel{
-    
-    enum types {
-        case core, state, response
-    }
-    
-    enum all : Int {
-        case
-        
-        Anger = 10000,
-        SensoryPleasure = 10001,
-        Exclaim = 10002
-        
-        
-        
-        var type : types {
-            switch self {
-                
-            case .Anger:
-                return .core
-            case .SensoryPleasure:
-                return .state
-            case .Exclaim:
-                return .response
-            }
-        }
-    }
-    
-}
+
 
 //Basic data that is attributed to most types
 //NSObject?
@@ -1149,6 +1121,37 @@ enum EmotionStates : String, CaseIterable {
         }
     }
     
+    func getColorGradient() -> [Color]{
+        var colors : [Color] = []
+        
+        let min = intensity.lowerBound
+        //let mid = ( intensity.lowerBound + intensity.upperBound ) / 2
+        let max = intensity.upperBound
+        
+        for index in (1...10){
+            if index < min || index > max {
+                //colors.append(.white)
+                //colors.append(core.colorTertiary)
+                colors.append(core.colorTertiary.opacity(0.1))
+            }else{
+               // colors.append(index < 4 ? core.colorTertiary : index > 8 ? core.color : core.colorSecondary)
+                colors.append(core.colorSecondary.opacity(Double(index) * 0.05))
+                //colors.append(core.color)
+                
+            }
+        }
+
+        
+   //     colors.append(min < 4 ? core.colorTertiary : min > 8 ? core.color : core.colorSecondary)
+   //     colors.append(mid < 4 ? core.colorTertiary : mid > 8 ? core.color : core.colorSecondary)
+   //     colors.append(max < 4 ? core.colorTertiary : max > 8 ? core.color : core.colorSecondary)
+        
+        if(colors.isEmpty){
+            colors.append(core.colorPrimary)
+        }
+        return colors
+    }
+    
 }
 
 enum EmotionResponses : String, CaseIterable {
@@ -1301,6 +1304,65 @@ enum EmotionResponses : String, CaseIterable {
         }
     }
     
+}
+
+enum CoreFears : String, CaseIterable {
+
+    
+    case extinction, mutilation, autonomyLoss, separation, egoDeath
+    
+    var tier: Int {
+        switch self{
+        case .extinction: return 1
+        case .mutilation: return 2
+        case .autonomyLoss: return 3
+        case .separation: return 4
+        case .egoDeath: return 5
+        }
+    }
+    
+    var name: String{
+        switch self{
+        case .autonomyLoss: return "Autonomy Loss"
+        case .egoDeath: return "Ego Death"
+        default: return self.rawValue.capitalized
+        }
+    }
+    
+    var description: String{
+        switch self{
+        case .extinction: return "The fear of annihilation, of ceasing to exist. This is a more fundamental way to express it than just 'fear of death.' The idea of no longer being arouses a primary existential anxiety in all normal humans. Consider that panicky feeling you get when you look over the edge of a high building."
+            
+        case .mutilation: return "The fear of losing any part of our precious bodily structure; the thought of having our body's boundaries invaded, or of losing the integrity of any organ, body part, or natural function. Anxiety about animals, such as bugs, spiders, snakes, and other creepy things arises from fear of mutilation."
+            
+        case .autonomyLoss: return "The fear of being immobilized, paralyzed, restricted, enveloped, overwhelmed, entrapped, imprisoned, smothered, or otherwise controlled by circumstances beyond our control. In physical form, it's commonly known as claustrophobia, but it also extends to our social interactions and relationships."
+            
+        case .separation: return "The fear of abandonment, rejection, and loss of connectedness; of becoming a non-person—not wanted, respected, or valued by anyone else. The 'silent treatment,' when imposed by a group, can have a devastating effect on its target."
+            
+        case .egoDeath: return "The fear of humiliation, shame, or any other mechanism of profound self-disapproval that threatens the loss of integrity of the self; the fear of the shattering or disintegration of one's constructed sense of lovability, capability, and worthiness."
+        }
+    }
+    
+    
+}
+
+enum CopingMethods: String, CaseIterable{
+    case mindfulness, meditation, tobacco, marijuana, eating, venting, electronics, alcohol, sexualActivity, exercise, walking, hardDrugs, recklessness, gambling, selfHarm, humor, shopping, junkfood, music, attentionSeeking, caffeine, working, sleeping
+    
+    var name : String{
+        switch self{
+        case .sexualActivity: return "Sexual Activity"
+        case .hardDrugs: return "Hard Drugs"
+        case .selfHarm: return "Self Harm"
+        case .attentionSeeking: return "Attention Seeking"
+            
+        default: return self.rawValue.capitalized
+        }
+    }
+    
+    var description: String{
+        return "TODO!"
+    }
 }
 //test 2
 // End New Emotion Model Using Enums /////

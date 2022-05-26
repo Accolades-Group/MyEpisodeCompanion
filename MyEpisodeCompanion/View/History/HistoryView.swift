@@ -19,7 +19,7 @@ struct HistoryView: View {
     var date : Date
     
     @StateObject var viewModel : HistoryViewModel
-    @State var currentItem : UnwrappedCheckin?
+    @State var currentItem : Checkin?
     @State var showDetailPage: Bool = false
     
     // Matched Geometry Effect
@@ -83,7 +83,7 @@ struct HistoryView: View {
             }
             .background(alignment: .top){
                 RoundedRectangle(cornerRadius: 15, style: .continuous)
-                    .fill(currentItem?.core.color ?? EmotionConstants.Cores.Other.color) //TODO: Gradient from multiple cores?
+                    .fill(currentItem?.getState().core.colorPrimary ?? .white) //TODO: Gradient from multiple cores?
                     .frame(height: animateView ? nil : 350, alignment: .top)
                     .scaleEffect(animateView ? 1 : 0.93)
                     .opacity(animateView ? 1 : 0)
@@ -94,13 +94,16 @@ struct HistoryView: View {
     
     // MARK: CardView
     @ViewBuilder
-    func CheckinCardView(checkin : UnwrappedCheckin) -> some View{
+    func CheckinCardView(checkin : Checkin) -> some View{
+        
+        let checkinState = checkin.getState()
+        
         VStack(alignment: .leading, spacing: 25){
             //debug
             
             ZStack(alignment: .center){
                 
-                checkin.core.color
+                checkin.getState().core.colorPrimary
                 
                 //Background gradient if two emotions exist
 //                if checkin.hasSecondary, let unwrappedSecondCore = checkin.secondaryCore {
@@ -137,11 +140,11 @@ struct HistoryView: View {
                     //Core & State name
                     //TODO: Multiple emotions?
                         Group{
-                            Text(checkin.core.name)
+                            Text(checkinState.core.name)
                             +
                             Text(" - ")
                             +
-                            Text(checkin.state.name).fontWeight(.bold)
+                            Text(checkinState.name).fontWeight(.bold)
                         }
                         .font(.title)
                         .padding()
@@ -156,9 +159,9 @@ struct HistoryView: View {
                         Group{
                             Text("You felt ")
                             +
-                            Text(checkin.state.name).bold() //TODO: Multiple states
+                            Text(checkin.getState().name).bold() //TODO: Multiple states
                             +
-                            Text(" because \(checkin.stateResponse)") //TODO: multiple responses
+                            Text(" because \(checkin.emotionResponse)") //TODO: multiple responses
                         }
                         .lineLimit(10)
                         //.padding()
@@ -167,7 +170,7 @@ struct HistoryView: View {
                         Group{
                         Text("Your headspace was filled with thoughts of: \n")
                         +
-                        Text(checkin.headspaceResponse)
+                        Text(checkin.headspaceQuestion)
                         }
                         .lineLimit(10)
                         //.padding()
@@ -176,7 +179,7 @@ struct HistoryView: View {
                         Group{
                             Text("You felt you needed: \n")
                             +
-                            Text(checkin.needs)
+                            Text(checkin.needQuestion)
                         }.padding()
                         
                         //Coping
@@ -202,9 +205,15 @@ struct HistoryView: View {
     }
     
     // MARK: Detail View
-    func DetailView(checkin: UnwrappedCheckin) -> some View{
+    func DetailView(checkin: Checkin) -> some View{
+        
+        
+        
         ScrollView(.vertical, showsIndicators: false){
             VStack{
+                
+                let checkinState = checkin.getState()
+                
                 //Text("Test view stuff ")
                 CheckinCardView(checkin: checkin)
                     .scaleEffect(animateView ? 1 : 0.93)
@@ -214,12 +223,12 @@ struct HistoryView: View {
                 VStack(spacing: 25){
                     //About the state
                     //TODO: Multiple states
-                    Text("About \(checkin.state.name)").font(.title2)
+                    Text("About \(checkinState.name)").font(.title2)
                     
-                    Text("\(checkin.state.name) is \(checkin.state.description)")
+                    Text("\(checkinState.name) is \(checkinState.description)")
                     
-                    Text("We can combat \(checkin.state.name) by")
-                    Text(checkin.state.antidote)
+                    Text("We can combat \(checkinState.name) by")
+                    Text(checkinState.antidote)
                     
                 }.padding()
                 

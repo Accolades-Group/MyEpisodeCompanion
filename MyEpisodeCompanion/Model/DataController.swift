@@ -17,6 +17,9 @@ class DataController : ObservableObject {
     static let shared = DataController()
     
     init() {
+        
+        //container.viewContext.
+        
         container.loadPersistentStores { description, error in
             
             if let error = error {

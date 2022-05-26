@@ -13,8 +13,6 @@
 		F3396CDF2810DF5800F805F8 /* HealthHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */; };
 		F3396CE2281225C000F805F8 /* StressStackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CE1281225C000F805F8 /* StressStackViewModel.swift */; };
 		F3396CE4281225CD00F805F8 /* StressStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CE3281225CD00F805F8 /* StressStackView.swift */; };
-		F3396CE7281232E700F805F8 /* Stressor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CE5281232E700F805F8 /* Stressor+CoreDataClass.swift */; };
-		F3396CE8281232E700F805F8 /* Stressor+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CE6281232E700F805F8 /* Stressor+CoreDataProperties.swift */; };
 		F3396CEE28171F6B00F805F8 /* ResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CED28171F6B00F805F8 /* ResourcesView.swift */; };
 		F3396CF12817213B00F805F8 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CF02817213B00F805F8 /* AccountView.swift */; };
 		F3396CF52817721800F805F8 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3396CF42817721800F805F8 /* SpeechRecognizer.swift */; };
@@ -30,7 +28,6 @@
 		F34722B82821F5A700E7963E /* ColorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34722B72821F5A700E7963E /* ColorConstants.swift */; };
 		F34722F328296F6C00E7963E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F34722F228296F6B00E7963E /* Credits.rtf */; };
 		F34722F62829701F00E7963E /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F34722F52829701F00E7963E /* ConfettiSwiftUI */; };
-		F34722F9282AC60C00E7963E /* Stressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34722F8282AC60C00E7963E /* Stressor.swift */; };
 		F353E12627E657F8001FC48B /* MyEpisodeCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */; };
 		F353E12827E657F8001FC48B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E12727E657F8001FC48B /* ContentView.swift */; };
 		F353E12A27E657FA001FC48B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F353E12927E657FA001FC48B /* Assets.xcassets */; };
@@ -51,9 +48,8 @@
 		F353E17027E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E16F27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppTests.swift */; };
 		F353E17A27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */; };
 		F353E17C27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */; };
-		F38E5407283D2A26001489EE /* Trigger+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38E5405283D2A26001489EE /* Trigger+CoreDataClass.swift */; };
-		F38E5408283D2A26001489EE /* Trigger+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38E5406283D2A26001489EE /* Trigger+CoreDataProperties.swift */; };
-		F38E540A283D2A3B001489EE /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38E5409283D2A3B001489EE /* Trigger.swift */; };
+		F38E5410283DA24B001489EE /* Stressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38E540F283DA24B001489EE /* Stressor.swift */; };
+		F38E5414283DA26A001489EE /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38E5413283DA26A001489EE /* Trigger.swift */; };
 		F39A459E2804D48C00B1A440 /* DesignNotes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F39A459D2804D48C00B1A440 /* DesignNotes.rtf */; };
 		F39A45A12808BDB900B1A440 /* EpisodeReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A45A02808BDB900B1A440 /* EpisodeReportView.swift */; };
 		F39A45A32808BDC700B1A440 /* EpisodeReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A45A22808BDC700B1A440 /* EpisodeReportViewModel.swift */; };
@@ -66,8 +62,6 @@
 		F3A98B42282C930900D4FB4E /* TraumaHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A98B41282C930900D4FB4E /* TraumaHistoryView.swift */; };
 		F3A98B44282C931B00D4FB4E /* TraumaHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A98B43282C931B00D4FB4E /* TraumaHistoryViewModel.swift */; };
 		F3B8577927F658E700CDAC3F /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8577827F658E700CDAC3F /* HistoryView.swift */; };
-		F3B8578827FB924200CDAC3F /* Episode+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8578627FB924200CDAC3F /* Episode+CoreDataClass.swift */; };
-		F3B8578927FB924200CDAC3F /* Episode+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8578727FB924200CDAC3F /* Episode+CoreDataProperties.swift */; };
 		F3B8578D27FCB47800CDAC3F /* CheckinReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8578C27FCB47800CDAC3F /* CheckinReportView.swift */; };
 		F3B8578F27FCB48B00CDAC3F /* CheckinReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8578E27FCB48B00CDAC3F /* CheckinReportViewModel.swift */; };
 		F3B8579227FCE6C300CDAC3F /* CustomStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8579127FCE6C300CDAC3F /* CustomStyles.swift */; };
@@ -170,8 +164,6 @@
 /* Begin PBXFileReference section */
 		F3396CE1281225C000F805F8 /* StressStackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressStackViewModel.swift; sourceTree = "<group>"; };
 		F3396CE3281225CD00F805F8 /* StressStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressStackView.swift; sourceTree = "<group>"; };
-		F3396CE5281232E700F805F8 /* Stressor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stressor+CoreDataClass.swift"; sourceTree = "<group>"; };
-		F3396CE6281232E700F805F8 /* Stressor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stressor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F3396CED28171F6B00F805F8 /* ResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesView.swift; sourceTree = "<group>"; };
 		F3396CF02817213B00F805F8 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		F3396CF42817721800F805F8 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
@@ -187,7 +179,6 @@
 		F339AC7A27E9121B001D64E5 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		F34722B72821F5A700E7963E /* ColorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstants.swift; sourceTree = "<group>"; };
 		F34722F228296F6B00E7963E /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		F34722F8282AC60C00E7963E /* Stressor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stressor.swift; sourceTree = "<group>"; };
 		F353E12227E657F8001FC48B /* MyEpisodeCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyEpisodeCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F353E12527E657F8001FC48B /* MyEpisodeCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanionApp.swift; sourceTree = "<group>"; };
 		F353E12727E657F8001FC48B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -216,9 +207,9 @@
 		F353E17927E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITests.swift; sourceTree = "<group>"; };
 		F353E17B27E657FB001FC48B /* MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEpisodeCompanion_WatchKit_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F353E19627E65B58001FC48B /* MyEpisodeCompanion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyEpisodeCompanion.entitlements; sourceTree = "<group>"; };
-		F38E5405283D2A26001489EE /* Trigger+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trigger+CoreDataClass.swift"; sourceTree = "<group>"; };
-		F38E5406283D2A26001489EE /* Trigger+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trigger+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		F38E5409283D2A3B001489EE /* Trigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trigger.swift; sourceTree = "<group>"; };
+		F38E540F283DA24B001489EE /* Stressor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stressor.swift; sourceTree = "<group>"; };
+		F38E5413283DA26A001489EE /* Trigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trigger.swift; sourceTree = "<group>"; };
+		F38E5433283ED41F001489EE /* HealthHistory2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HealthHistory2.xcdatamodel; sourceTree = "<group>"; };
 		F39A459D2804D48C00B1A440 /* DesignNotes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = DesignNotes.rtf; sourceTree = "<group>"; };
 		F39A45A02808BDB900B1A440 /* EpisodeReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeReportView.swift; sourceTree = "<group>"; };
 		F39A45A22808BDC700B1A440 /* EpisodeReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeReportViewModel.swift; sourceTree = "<group>"; };
@@ -228,8 +219,6 @@
 		F3A98B41282C930900D4FB4E /* TraumaHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraumaHistoryView.swift; sourceTree = "<group>"; };
 		F3A98B43282C931B00D4FB4E /* TraumaHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraumaHistoryViewModel.swift; sourceTree = "<group>"; };
 		F3B8577827F658E700CDAC3F /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		F3B8578627FB924200CDAC3F /* Episode+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+CoreDataClass.swift"; sourceTree = "<group>"; };
-		F3B8578727FB924200CDAC3F /* Episode+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F3B8578C27FCB47800CDAC3F /* CheckinReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckinReportView.swift; sourceTree = "<group>"; };
 		F3B8578E27FCB48B00CDAC3F /* CheckinReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckinReportViewModel.swift; sourceTree = "<group>"; };
 		F3B8579127FCE6C300CDAC3F /* CustomStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStyles.swift; sourceTree = "<group>"; };
@@ -335,18 +324,12 @@
 		F353E11927E657F8001FC48B = {
 			isa = PBXGroup;
 			children = (
-				F38E5405283D2A26001489EE /* Trigger+CoreDataClass.swift */,
-				F38E5406283D2A26001489EE /* Trigger+CoreDataProperties.swift */,
 				F34722F228296F6B00E7963E /* Credits.rtf */,
 				F3396CF6281B29E600F805F8 /* FileExportTool.swift */,
-				F3396CE5281232E700F805F8 /* Stressor+CoreDataClass.swift */,
-				F3396CE6281232E700F805F8 /* Stressor+CoreDataProperties.swift */,
 				F39A45A82810B89000B1A440 /* TrackedEpisode+CoreDataClass.swift */,
 				F39A45A92810B89000B1A440 /* TrackedEpisode+CoreDataProperties.swift */,
 				F3B8579327FE1C6400CDAC3F /* FunctionalityNotes.rtf */,
 				F39A459D2804D48C00B1A440 /* DesignNotes.rtf */,
-				F3B8578627FB924200CDAC3F /* Episode+CoreDataClass.swift */,
-				F3B8578727FB924200CDAC3F /* Episode+CoreDataProperties.swift */,
 				F353E12427E657F8001FC48B /* MyEpisodeCompanion */,
 				F353E13527E657FA001FC48B /* MyEpisodeCompanionTests */,
 				F353E13F27E657FA001FC48B /* MyEpisodeCompanionUITests */,
@@ -553,8 +536,8 @@
 				F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */,
 				F3D78C8F27F3DFA7002086E8 /* DataController.swift */,
 				F3396CF42817721800F805F8 /* SpeechRecognizer.swift */,
-				F34722F8282AC60C00E7963E /* Stressor.swift */,
-				F38E5409283D2A3B001489EE /* Trigger.swift */,
+				F38E540F283DA24B001489EE /* Stressor.swift */,
+				F38E5413283DA26A001489EE /* Trigger.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -821,17 +804,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3396CE7281232E700F805F8 /* Stressor+CoreDataClass.swift in Sources */,
 				F3396CF52817721800F805F8 /* SpeechRecognizer.swift in Sources */,
-				F3B8578927FB924200CDAC3F /* Episode+CoreDataProperties.swift in Sources */,
 				F3396CF7281B29E600F805F8 /* FileExportTool.swift in Sources */,
 				F3D78C7427F23A3D002086E8 /* LoginRegisterView.swift in Sources */,
-				F34722F9282AC60C00E7963E /* Stressor.swift in Sources */,
 				F353E12827E657F8001FC48B /* ContentView.swift in Sources */,
 				F3396CEE28171F6B00F805F8 /* ResourcesView.swift in Sources */,
 				F3D78C7927F25E34002086E8 /* MainTabView.swift in Sources */,
 				F39A45AA2810B89100B1A440 /* TrackedEpisode+CoreDataClass.swift in Sources */,
-				F3396CE8281232E700F805F8 /* Stressor+CoreDataProperties.swift in Sources */,
 				F3396CE2281225C000F805F8 /* StressStackViewModel.swift in Sources */,
 				F39A45A32808BDC700B1A440 /* EpisodeReportViewModel.swift in Sources */,
 				F3D78C8127F37F6C002086E8 /* Checkin.swift in Sources */,
@@ -841,18 +820,16 @@
 				F3396CF12817213B00F805F8 /* AccountView.swift in Sources */,
 				F3D78C9027F3DFA7002086E8 /* DataController.swift in Sources */,
 				F3D78C7727F25BD8002086E8 /* HomeView.swift in Sources */,
-				F38E5407283D2A26001489EE /* Trigger+CoreDataClass.swift in Sources */,
 				F34722B82821F5A700E7963E /* ColorConstants.swift in Sources */,
 				F3B8579227FCE6C300CDAC3F /* CustomStyles.swift in Sources */,
-				F38E5408283D2A26001489EE /* Trigger+CoreDataProperties.swift in Sources */,
 				F3B8578F27FCB48B00CDAC3F /* CheckinReportViewModel.swift in Sources */,
 				F3D78C7C27F2602D002086E8 /* HistoryCalendarView.swift in Sources */,
 				F3D78C8927F3DB00002086E8 /* Trauma.swift in Sources */,
 				F3D78C8E27F3DF51002086E8 /* HealthHistory.xcdatamodeld in Sources */,
-				F38E540A283D2A3B001489EE /* Trigger.swift in Sources */,
 				F3D78C6F27F22D87002086E8 /* UserSettings.swift in Sources */,
+				F38E5414283DA26A001489EE /* Trigger.swift in Sources */,
 				F3B8578D27FCB47800CDAC3F /* CheckinReportView.swift in Sources */,
-				F3B8578827FB924200CDAC3F /* Episode+CoreDataClass.swift in Sources */,
+				F38E5410283DA24B001489EE /* Stressor.swift in Sources */,
 				F39A45A12808BDB900B1A440 /* EpisodeReportView.swift in Sources */,
 				F3D78C8B27F3DB14002086E8 /* HistoryViewModel.swift in Sources */,
 				F3D78C8527F38D4A002086E8 /* EmotionsModel.swift in Sources */,
@@ -1561,6 +1538,7 @@
 		F3D78C8C27F3DF51002086E8 /* HealthHistory.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				F38E5433283ED41F001489EE /* HealthHistory2.xcdatamodel */,
 				F3D78C8D27F3DF51002086E8 /* HealthHistory.xcdatamodel */,
 			);
 			currentVersion = F3D78C8D27F3DF51002086E8 /* HealthHistory.xcdatamodel */;

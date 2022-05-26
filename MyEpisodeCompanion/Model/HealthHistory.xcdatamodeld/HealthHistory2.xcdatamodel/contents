@@ -61,7 +61,7 @@
         <relationship name="trauma" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TraumaEvent" inverseName="trigger" inverseEntity="TraumaEvent"/>
     </entity>
     <elements>
-        <element name="Checkin" positionX="328.74609375" positionY="-66.45703125" width="128" height="193"/>
+        <element name="Checkin" positionX="328.74609375" positionY="-66.45703125" width="128" height="179"/>
         <element name="Episode" positionX="174.0703125" positionY="-128.3515625" width="128" height="193"/>
         <element name="Stressor" positionX="296.8046875" positionY="300.25390625" width="128" height="133"/>
         <element name="TrackedEpisode" positionX="285.46484375" positionY="160.8671875" width="128" height="119"/>

@@ -149,19 +149,23 @@ struct CheckinReportView: View {
             .alert("Confirm Submission?", isPresented: $viewModel.isShowingSubmitConfirmation){
                 Button("Submit"){
                     //If no error returned
-                    if nil != viewModel.buildCheckin(context: moc){
+                    if nil == viewModel.buildCheckin(context: moc){
+                        
                         currentViewSection = .congratulations
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3){
                             stateManager.goHome()
                         }
                     }
+                    else{
+                        print("Error???")
+                    }
                 }
             }
             
         }.onAppear{
             
-            if let recent = checks.first?.unwrapCheckin(){
+            if let recent = checks.first{
                 viewModel.checkPrior(recent)
             }
         }
@@ -203,7 +207,7 @@ fileprivate struct EmotionSelectionView : View {
                 //The grid of core emotion buttons
                 LazyVGrid(columns: [GridItem(.fixed(110)), GridItem(.fixed(110)), GridItem(.fixed(110))], alignment: .center, spacing: 15){
                     
-                    ForEach(EmotionConstants.Cores.getAll()){core in
+                    ForEach(CoreEmotions.allCases, id: \.self){core in
 
                         Button {
                             withAnimation(){
@@ -214,9 +218,10 @@ fileprivate struct EmotionSelectionView : View {
                             Text(core.name).bold()
                         }.buttonStyle(EmotionButtonStyle2(color: core.colorSecondary, isSelected: viewModel.core == core))
                         
-                        .buttonStyle(EmotionButtonStyle(
-                            color: getEmotionColors(core, isSelected: viewModel.core == core),
-                            size: .large))
+//                        .buttonStyle(EmotionButtonStyle(
+//                            //color: getEmotionColors(core, isSelected: viewModel.core == core),
+//                            color: core.colorPrimary,
+//                            size: .large))
                         
                     }
                 }
@@ -236,7 +241,7 @@ fileprivate struct EmotionSelectionView : View {
                 
                 LazyVGrid(columns: [GridItem(.fixed(gridWidth)),GridItem(.fixed(gridWidth))
                                    ]){
-                    ForEach(viewModel.getStateOptions()){state in
+                    ForEach(viewModel.getStateOptions(), id: \.self){state in
                         
                         Button{
                             if(viewModel.state == state){
@@ -267,7 +272,7 @@ fileprivate struct TextQuestionView : View {
 
     
     var body: some View{
-        let gradientColors : [Color] = [viewModel.core?.colorTertiary ?? .gray, viewModel.core?.color ?? .gray]
+        let gradientColors : [Color] = [viewModel.core?.colorTertiary ?? .gray, viewModel.core?.colorPrimary ?? .gray]
         ZStack{
             
             TextEditor(text: viewSection == .headspaceQuestion ? $viewModel.whereIsMyHeadspace : viewSection == .needQuestion ? $viewModel.whatDoIFeelINeed : $viewModel.emotionExplination).padding().frame(width: 300, height: 300, alignment: .center)
@@ -352,7 +357,7 @@ fileprivate struct CopingSelectionView: View {
                 //Grid of different coping methods
                 LazyVGrid(columns: gridItems){
                     
-                    ForEach(EmotionConstants.CopingMethods.getAllMethods()){method in
+                    ForEach(CopingMethods.allCases, id: \.self){method in
                         
                         Button{
                             if viewModel.copingMethods.contains(method){
@@ -365,7 +370,7 @@ fileprivate struct CopingSelectionView: View {
                         } label: {
                             Text(method.name)
                                 .multilineTextAlignment(.center)
-                        }.buttonStyle(CopingButtonStyle(isSelected: viewModel.copingMethods.contains(method), color: viewModel.core?.color ?? .blue))
+                        }.buttonStyle(CopingButtonStyle(isSelected: viewModel.copingMethods.contains(method), color: viewModel.core?.colorPrimary ?? .blue))
                         
                     }
                     
@@ -377,7 +382,7 @@ fileprivate struct CopingSelectionView: View {
                     viewModel.copingMethods.removeAll()
                 } label : {
                     Text("Nothing")
-                }.buttonStyle(CopingButtonStyle(isSelected: viewModel.isDidntCope, color: viewModel.core?.color ?? .blue))
+                }.buttonStyle(CopingButtonStyle(isSelected: viewModel.isDidntCope, color: viewModel.core?.colorPrimary ?? .blue))
 
                 }.frame(height: 400, alignment: .center)
             }
@@ -457,7 +462,7 @@ fileprivate struct ReviewView : View {
                     Text("You didn't cope with stress or emotions in any way today")
                 }else{
                     Text("You are coping with these things by: ")
-                    ForEach(viewModel.copingMethods){cm in
+                    ForEach(viewModel.copingMethods, id: \.self){cm in
                         Text("\(cm.name) ")
                             .fontWeight(.bold).foregroundColor(viewModel.core?.colorSecondary ?? .black)
                     }

@@ -79,3 +79,40 @@
 //    
 //    
 //}
+
+import Foundation
+import CoreData
+
+@objc(Episode)
+public class Episode: NSManagedObject {
+
+}
+
+
+extension Episode {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Episode> {
+        return NSFetchRequest<Episode>(entityName: "Episode")
+    }
+
+    @NSManaged public var id: UUID?
+    @NSManaged public var date: Date?
+    @NSManaged public var emotionState: String?
+    @NSManaged public var emotionResponses: [NSString]?
+    @NSManaged public var sleepQty: Float
+    @NSManaged public var sleepQuality: Int16
+    @NSManaged public var stressLevel: Int16
+    @NSManaged public var copingMethods: [NSString]?
+    @NSManaged public var trigger: TriggerEvent?
+    @NSManaged public var trauma: TraumaEvent?
+
+}
+
+extension Episode : Identifiable {
+
+    func getCore() -> CoreEmotions {
+        return .Joy
+    }
+}
+
+
