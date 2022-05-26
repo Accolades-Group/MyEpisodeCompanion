@@ -703,7 +703,39 @@ enum CoreEmotions : String, CaseIterable {
         }
     }
     
-    //get State Emotions
+    var states : [EmotionStates]{
+        switch self{
+        case .Joy: return [.sensoryPleasure, .rejoicing, .compassionateJoy, .amusement, .schadenfreude, .relief, .peace, .fiero, .pride, .naches, .wonder, .excitement, .extasy]
+            
+        case .Anger: return [.annoyance, .frustration, .exasperation, .argumentativeness, .bitterness, .vengefulness, .fury]
+            
+        case .Disgust: return [.dislike, .aversion, .distaste, .repugnance, .abhorrence, .loathing]
+            
+        case .Fear: return [.trepidation, .nervousness, .anxiety, .dread, .desperation, .panic, .horror, .terror]
+            
+        case .Sadness: return [.disappointment, .discouragement, .distraughtness, .resignation, .helplessness, .hopelessness, .misery, .despair, .grief, .sorrow, .anguish]
+        }
+    }
+    
+    var responses: [EmotionResponses]{
+        switch self{
+            
+        case .Joy:
+            return [.exclaim, .engageConnect, .gloat, .indulge, .maintain, .savor, .seekMore]
+            
+        case .Anger:
+            return [.dispute, .passiveAggression, .insult, .quarrel, .simmerBrood, .suppress, .undermine, .usePhysicalForce, .screamAnger, .setLimits, .beFirm, .walkAway, .takeTimeOut, .breatheAnger, .practicePatience, .reframeAnger, .distractAnger, .avoidAnger, .removeInterference]
+            
+        case .Disgust:
+            return [.avoidDisgust, .dehumanize, .vomit, .withdrawDisgust]
+            
+        case .Fear:
+            return [.freeze, .hesitate, .screamFear, .worry, .ruminateFear, .avoidFear, .withdrawFear, .reframeFear, .beMindful, .breatheFear, .distractFear]
+            
+        case .Sadness:
+            return [.feelShame, .mourn, .protest, .ruminateSadness, .seekComfort, .withdrawSadness, .distractSadness]
+        }
+    }
     
     
 }

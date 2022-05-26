@@ -27,7 +27,7 @@ struct EpisodeReportView: View {
             GeometryReader{geo in
                 //Background
                 if(viewModel.coreEmotion != nil){
-                    Image(viewModel.coreEmotion == EmotionConstants.Cores.Anger ? "redcircle" : viewModel.coreEmotion == EmotionConstants.Cores.Fear ? "purplecircle" : viewModel.coreEmotion == EmotionConstants.Cores.Sadness ? "bluecircle" : "")
+                    Image(viewModel.coreEmotion == .Anger ? "redcircle" : viewModel.coreEmotion == .Fear ? "purplecircle" : viewModel.coreEmotion == .Sadness ? "bluecircle" : "")
                 }
                 VStack{
                     //ZStack{
@@ -172,7 +172,7 @@ fileprivate struct CoreQuestionView : View {
         VStack{
             //Core buttons
             HStack{
-                ForEach(EmotionConstants.Cores.getEpisodeCores()){core in
+                ForEach([CoreEmotions.Fear, CoreEmotions.Anger, CoreEmotions.Sadness], id: \.self){core in
                     
                     Button{
                         viewModel.coreButtonPress(core)
@@ -187,7 +187,7 @@ fileprivate struct CoreQuestionView : View {
             HStack{
             if let unwrappedCore = viewModel.coreEmotion {
                 
-                Text(unwrappedCore.description).bold().font(.title3).foregroundColor(getEmotionColors(unwrappedCore)).multilineTextAlignment(.center).padding()
+                Text(unwrappedCore.description).bold().font(.title3).foregroundColor(unwrappedCore.colorPrimary).multilineTextAlignment(.center).padding()
                 
             }
             }.frame(height: 300, alignment: .center)
@@ -206,14 +206,14 @@ fileprivate struct ResponseActionQuestionView: View {
             if let unwrappedCore = viewModel.coreEmotion {
 
                 HStack{
-                    Text(viewModel.emotionResponses.last?.description ?? "").foregroundColor(getEmotionColors(unwrappedCore)).font(.title3).fontWeight(.medium).multilineTextAlignment(.center).padding(.horizontal, 10)
+                    Text(viewModel.emotionResponses.last?.description ?? "").foregroundColor(unwrappedCore.colorPrimary).font(.title3).fontWeight(.medium).multilineTextAlignment(.center).padding(.horizontal, 10)
                 }.frame(height: 120)
             
             
             let gridItem : GridItem = GridItem(.flexible(minimum: 175, maximum: 200))
                 
                 LazyVGrid(columns: [gridItem, gridItem]){
-                    ForEach(EmotionConstants.Responses.getAllResponsesByCore(unwrappedCore)){response in
+                    ForEach(unwrappedCore.responses, id: \.self){response in
                         
                         Button{
                             
@@ -237,7 +237,7 @@ fileprivate struct StateSelectionView : View {
     @State var isViewAll : Bool = false
     @State var hasSuggestions : Bool = false
     
-    @State var options : [EmotionState] = []
+    @State var options : [EmotionStates] = []
     
     var body: some View{
         VStack{
@@ -246,12 +246,13 @@ fileprivate struct StateSelectionView : View {
 
             HStack{
                 if let unwrappedState = viewModel.stateEmotion {
-                    Text(unwrappedState.description).font(.title3).fontWeight(.bold).foregroundColor(getEmotionColors(unwrappedState.core)).padding(.horizontal).multilineTextAlignment(.center)
+                    Text(unwrappedState.description).font(.title3).fontWeight(.bold).foregroundColor(unwrappedState.core.colorPrimary).padding(.horizontal).multilineTextAlignment(.center)
                 }
             }.frame(height: 100, alignment: .center)
             
             LazyVGrid(columns: [gridItem, gridItem]){
-                ForEach(options){state in
+                
+                ForEach(options, id: \.self){state in
                     
                     Button{
                         viewModel.stateButtonPress(state)
@@ -272,10 +273,10 @@ fileprivate struct StateSelectionView : View {
                             
                             if let unwrappedCore = viewModel.coreEmotion, isViewAll{
                                 
-                                options = EmotionConstants.getStatesByCore(unwrappedCore)
+                                options = unwrappedCore.states//EmotionConstants.getStatesByCore(unwrappedCore)
                                 
                             } else {
-                                options = EmotionConstants.getStatesByResponses(viewModel.emotionResponses)
+                                options = viewModel.getStatesByResponses()//EmotionConstants.getStatesByResponses(viewModel.emotionResponses)
                             }
                         }
                     } label: {
@@ -293,13 +294,13 @@ fileprivate struct StateSelectionView : View {
             
             if let unwrappedCore = viewModel.coreEmotion {
                 
-                options = EmotionConstants.getStatesByResponses(viewModel.emotionResponses)
+                options = viewModel.getStatesByResponses()
                 
                 hasSuggestions = !options.isEmpty &&
-                options.count != EmotionConstants.getStatesByCore(unwrappedCore).count
+                options.count != unwrappedCore.states.count
                 
                 if !hasSuggestions, let unwrappedCore = viewModel.coreEmotion{
-                    options = EmotionConstants.getStatesByCore(unwrappedCore)
+                    options = unwrappedCore.states
                 }
             }
             
@@ -309,18 +310,12 @@ fileprivate struct StateSelectionView : View {
 
 fileprivate struct TriggerSelectionView : View {
     @StateObject var viewModel : EpisodeReportViewModel
-    
-    //Subject -> (Type : Name ) + Event -> (Type : Name) + Perception -> (Type : Name)
-    var sampletrigger = "Person:Jake+Noise:Loud Bang+TYPE?:Gunshot"
 
+
+    //@State var triggerEvent : EventType = .noEvent
+    //@State var eventName : String = ""
     
-    @State var trigger : String = ""
-    @State var subject : SubjectType = .none
-    @State var subjectName : String = ""
-    @State var triggerEvent : EventType = .noEvent
-    @State var eventName : String = ""
-    
-    
+    /*
     enum SubjectType : String {
         case person, place, thing, none
         
@@ -492,76 +487,76 @@ fileprivate struct TriggerSelectionView : View {
          */
         
     }
-    
+    */
     var body: some View {
 
-        VStack{
-            
-            //Subject Type
-            HStack{
+            ScrollView{
                 
-
-                
-                Button("Person"){
-                    self.subject = .person
-                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: self.subject == .person), size: .small))
-                
-                Button("Place"){
-                    subject = .place
-                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: subject == .place), size: .small))
-                
-                Button("Thing"){
-                    subject = .thing
-                }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(viewModel.coreEmotion ?? EmotionConstants.Cores.Other, isSelected: subject == .thing), size: .small))
-                
-            }.padding(.top, 50)
-            
-            //Subject Name
-            VStack{
-                if subject != .none {
+                //Select Event Type
+                HStack{
                     
-                    Text("\(subject.rawValue.capitalized) Name")
-                    TextField("Placeholder Text", text: $subjectName).padding().frame(width: 300, height: 50).background(.thinMaterial).cornerRadius(5)
-                    
-                }
-            }.frame(height: 150, alignment: .center)
-            
-            
-            //Event Type
-            VStack{
-                
-                let gridItems = [GridItem(), GridItem()]
-                
-                LazyVGrid(columns: gridItems){
-                    
-                    ForEach(subject.eventOptions, id: \.self){event in
+                    ForEach(TriggerEventTypes.allCases, id: \.self){type in
                         
-                        Button(event.rawValue){
-                            
-                            triggerEvent = event
-                            eventName = ""
-                            
-                        }.buttonStyle(EmotionButtonStyle(color: getEmotionColors(
-                            viewModel.coreEmotion ??
-                            EmotionConstants.Cores.Other, isSelected: triggerEvent == event)))
+                        Button(type.rawValue.capitalized){
+                            viewModel.eventType = type
+                        }.buttonStyle(EmotionButtonStyle(
+                            color: viewModel.eventType == type ? (viewModel.coreEmotion?.colorPrimary ?? .gray)
+                            : (viewModel.coreEmotion?.colorTertiary ?? .gray),
+                            size: .small))
+                        
+                        
+                    }
+                    
+                }.padding(.top, 50)
+                
+                //Select Trigger Name
+                VStack{
+                    if let unwrappedType = viewModel.eventType {
+                        
+                        Text("\(unwrappedType.rawValue.capitalized) Name")
+                        
+                        TextField("Placeholder Text", text: $viewModel.eventName).padding().frame(width: 300, height: 50).background(.thinMaterial).cornerRadius(5)
                         
                     }
                 }
-            }.frame(height: 300, alignment: .center)
-            
-            //Event Name
-            VStack{
-                if triggerEvent != .noEvent {
-                    
-                    
-                    Text("\(triggerEvent.rawValue.capitalized) Name")
-                    TextField("Placeholder Text", text: $eventName).padding().frame(width: 300, height: 50).background(.thinMaterial).cornerRadius(5)
-                    
+                
+                
+                //Event Type
+                if let unwrappedType = viewModel.eventType{
+                    VStack{
+                        
+                        let gridItems = [GridItem(), GridItem()]
+                        
+                        LazyVGrid(columns: gridItems){
+                            
+                            ForEach(unwrappedType.triggerTypeOptions, id: \.self){option in
+                                
+                                
+                                
+                                Button(option.name){
+                                    
+                                    viewModel.trigger = option
+                                    viewModel.eventName = ""
+                                    
+                                }.buttonStyle(EmotionButtonStyle(color:
+                                                                    (viewModel.trigger == option) ? viewModel.coreEmotion?.colorPrimary ?? .black : viewModel.coreEmotion?.colorSecondary ?? .gray))
+                                
+                            }
+                        }
+                    }
                 }
-            }.frame(height: 150, alignment: .center)
-            
-        }
-        
+                
+                //Event Name
+                VStack{
+                    if let unwrappedTrigger = viewModel.trigger {
+                        
+                        Text("\(unwrappedTrigger.rawValue.capitalized) Description")
+                        TextField("Placeholder Text", text: $viewModel.triggerDescription).padding().frame(width: 300, height: 50).background(.thinMaterial).cornerRadius(5)
+                        
+                    }
+                }.frame(height: 150, alignment: .center)
+                
+            }
     }
 }
 

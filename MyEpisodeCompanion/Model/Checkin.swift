@@ -74,11 +74,11 @@ extension Checkin : Identifiable {
     func getCopingMethods() -> [CopingMethods]{
         var copeArray : [CopingMethods] = []
         if let copeStr = copingMethods{
-        copeStr.forEach{str in
-            if let method = CopingMethods.allCases.first(where: {$0.rawValue == str as String}){
-                copeArray.append(method)
+            copeStr.forEach{str in
+                if let method = CopingMethods.allCases.first(where: {$0.rawValue == str as String}){
+                    copeArray.append(method)
+                }
             }
-        }
         }
         return copeArray
     }

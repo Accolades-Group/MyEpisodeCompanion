@@ -11,6 +11,7 @@ import SwiftUI
 
 //TODO: 1 - Initialize data from watch report, if exists
 //TODO: 2 - Put in viewsection enum?
+//TODO: 3 - Allow one to select date of episode?
 final class EpisodeReportViewModel : ObservableObject {
     @Published var tempText : String = "Hello Episode Report View!"
     
@@ -21,13 +22,44 @@ final class EpisodeReportViewModel : ObservableObject {
     
     
     //Question Responses
-    @Published var coreEmotion : CoreEmotion?
-    @Published var emotionResponses : [EmotionResponseAction] = []
-    @Published var stateEmotion : EmotionState?
+    @Published var coreEmotion : CoreEmotions?
+    @Published var emotionResponses : [EmotionResponses] = []
+    @Published var stateEmotion : EmotionStates?
+    
+    /**
+     An array for the methods a user engagued in to cope with their feelings
+     */
+    @Published var copingMethods : [CopingMethods] = []
+    
+    /**
+     A number to represent the quality of sleep a user had
+     */
+    @Published var sleepQuality : Float = 0
+    /**
+     A number to represent the amount of time the user slept for
+     */
+    @Published var sleepQuantity : Float = 0
+    
+    /**
+     A number to represnt the amount of stress a user is feeling in a range of 0-100
+     */
+    @Published var stressQuantity : Int = 0
+    
+    //Trigger
+    @Published var eventType : TriggerEventTypes? = nil
+    @Published var eventName : String = ""
+    @Published var trigger : TriggerTypes? = nil
+    @Published var triggerDescription : String = ""
+    
+    @State var episodeDate : Date
+    
+    //TODO: Link?
+    @Published var linkedTrauma: TraumaType? = nil
     
     
     init(){
         //TODO: 1
+        episodeDate = Date.now
     }
     
     //ViewSection Functionality
@@ -94,7 +126,7 @@ final class EpisodeReportViewModel : ObservableObject {
             return (
             Text("What was your response to feeling ")
             +
-            Text("\(coreEmotion?.name ?? "This way")").foregroundColor(getEmotionColors(coreEmotion ?? EmotionConstants.Cores.Other))
+            Text("\(coreEmotion?.name ?? "This way")").foregroundColor(coreEmotion?.colorPrimary ?? .black)
             +
             Text("?")
             )
@@ -102,24 +134,25 @@ final class EpisodeReportViewModel : ObservableObject {
             return
              (Text("What state of ")
              +
-             Text("\(coreEmotion?.name ?? "emotion") ").foregroundColor(getEmotionColors(coreEmotion ?? EmotionConstants.Cores.Other))
+              Text("\(coreEmotion?.name ?? "emotion") ").foregroundColor(coreEmotion?.colorPrimary ?? .black)
              +
              Text("did you feel?"))
         case .triggerQuestion:
             
                 
-                let firstLineStr : String = coreEmotion == EmotionConstants.Cores.Sadness ? "What loss triggered your " : coreEmotion == EmotionConstants.Cores.Fear ? "What threat gave you " : "What was the source of your "
+            let firstLineStr : String = coreEmotion == .Sadness ? "What loss triggered your " : coreEmotion == .Fear ? "What threat gave you " : "What was the source of your "
                 
-                let secondLineStr : String = coreEmotion == EmotionConstants.Cores.Anger ? " that triggered your " : " and made you feel "
+                let secondLineStr : String = coreEmotion == .Anger ? " that triggered your " : " and made you feel "
+            
                 return (
                 
                     Text(firstLineStr)
                     +
-                    Text(coreEmotion?.name ?? "Emotion" ).foregroundColor(getEmotionColors(coreEmotion ?? EmotionConstants.Cores.Other))
+                    Text(coreEmotion?.name ?? "Emotion" ).foregroundColor(coreEmotion?.colorPrimary ?? .black)
                     +
                     Text(secondLineStr)
                     +
-                    Text(stateEmotion?.name ?? "State" ).foregroundColor(getEmotionColors(coreEmotion ?? EmotionConstants.Cores.Other))
+                    Text(stateEmotion?.name ?? "State" ).foregroundColor(coreEmotion?.colorPrimary ?? .black)
                     +
                     Text("?")
                 )
@@ -148,6 +181,29 @@ final class EpisodeReportViewModel : ObservableObject {
         return ViewSection.allCases.first(where: {$0.rawValue == (viewSection.rawValue - 1)}) ?? viewSection
     }
     
+    func getStatesByResponses() -> [EmotionStates]{
+        
+        var retArr : [EmotionStates] = []
+      
+        
+        
+        if let unwrappedCore = coreEmotion {
+            
+            retArr = unwrappedCore.states
+            
+            emotionResponses.forEach{response in
+                retArr.forEach{state in
+                    if !state.responseActions.contains(response){
+                        retArr.removeAll(where: {$0 == state})
+                    }
+                }
+            } 
+        }
+        
+
+        return retArr
+    }
+    
     
     func isValidResponse(_ viewSection : ViewSection) -> Bool {
         switch viewSection {
@@ -159,7 +215,7 @@ final class EpisodeReportViewModel : ObservableObject {
         case .stateQuestion:
             return stateEmotion != nil
         case .triggerQuestion:
-            return true
+            return (eventType != nil && !eventName.isEmpty && !triggerDescription.isEmpty && trigger != nil)
         case .perceptionDBQuesiton:
             return true
         case .preconditionSleepQuestion:
@@ -207,7 +263,7 @@ final class EpisodeReportViewModel : ObservableObject {
     /**
         Sets the core emotion when an emotion button is pressed. Toggles it on and off or sets a new one
      */
-    func coreButtonPress(_ core : CoreEmotion){
+    func coreButtonPress(_ core : CoreEmotions){
         emotionResponses.removeAll()
         stateEmotion = nil
         if(coreEmotion == core){
@@ -223,7 +279,7 @@ final class EpisodeReportViewModel : ObservableObject {
     /**
         Sets the emotion response when an emotion button is pressed. Toggles it on and off or sets a new one
      */
-    func responseButtonPress(_ response : EmotionResponseAction){
+    func responseButtonPress(_ response : EmotionResponses){
         if(emotionResponses.contains(response)){
             emotionResponses.removeAll(where: {$0 == response})
         }else{
@@ -234,7 +290,7 @@ final class EpisodeReportViewModel : ObservableObject {
     /**
      Sets the state emotion when state button is pressed. Toggles it on and off
      */
-    func stateButtonPress(_ state : EmotionState){
+    func stateButtonPress(_ state : EmotionStates){
         if(stateEmotion == state){
             stateEmotion = nil
         }else{
@@ -249,7 +305,34 @@ final class EpisodeReportViewModel : ObservableObject {
      */
     func buildEpisode(context moc : NSManagedObjectContext){
         //TODO: Validate data first
+        //TODO: Link trauma relationship
 
+        if let unwrappedEvent = eventType, let unwrappedTrigger = trigger, let unwrappedState = stateEmotion {
+            
+            let insertTrigger : TriggerEvent = TriggerEvent(context: moc)
+            let insertEpisode : Episode = Episode(context: moc)
+            
+            insertTrigger.eventDescription = triggerDescription
+            insertTrigger.setEventType(unwrappedEvent)
+            insertTrigger.setTriggerType(unwrappedTrigger)
+            insertTrigger.eventName = eventName
+            insertTrigger.date = episodeDate
+            insertTrigger.id = UUID()
+            insertTrigger.episode = insertEpisode
+            
+            insertEpisode.id = UUID()
+            insertEpisode.date = episodeDate
+            insertEpisode.setState(unwrappedState)
+            insertEpisode.setResponses(emotionResponses)
+            insertEpisode.setCopingMethods(copingMethods)
+            insertEpisode.sleepQty = sleepQuantity
+            insertEpisode.sleepQuality = Int16(sleepQuality)
+            insertEpisode.trigger = insertTrigger
+            insertEpisode.stressLevel = Int16(stressQuantity)
+            insertEpisode.trigger = insertTrigger
+            
+            
+        }
         try? moc.save()
         
         

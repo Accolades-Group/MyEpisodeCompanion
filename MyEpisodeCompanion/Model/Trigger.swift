@@ -21,7 +21,9 @@ extension TriggerEvent {
 
     @NSManaged public var id: UUID?
     @NSManaged public var date: Date?
+    /** Person, Thing, Sensory (sound, place, thing) */
     @NSManaged public var eventType: String?
+    /** Name of the subject */
     @NSManaged public var eventName: String?
     @NSManaged private var triggerType: String?
     @NSManaged public var eventDescription: String?
@@ -37,11 +39,39 @@ extension TriggerEvent : Identifiable {
     func getTriggerType() -> TriggerTypes?{
         return TriggerTypes.allCases.first(where: {$0.rawValue == triggerType})
     }
+    
+    func setEventType(_ type: TriggerEventTypes){
+        eventType = type.rawValue
+    }
+    
+    func getEventType() -> TriggerEventTypes?{
+        return TriggerEventTypes.allCases.first(where: {$0.rawValue == eventType})
+    }
+}
+
+enum TriggerEventTypes: String, CaseIterable {
+    case person, thing, sensory
+    
+    var triggerTypeOptions : [TriggerTypes]{
+        switch self{
+        case .person:
+            return [.family, .passiveAggression, .yelling, .likeAbuser, .abuse, .doctors, .violence, .crowds, .lies, .discrimination, .accusations, .beingMisunderstood, .invalidation, .rejection, .criticism, .abandonment, .loneliness, .beingIgnored, .cheating, .unfairness, .teasing, .positivity, .therapy, .expressingNeeds, .judgement, .failure, .pressure, .responsibility, .mistakes, .possessiveness, .crossedBoundary, .manipulation, .coercion, .gaslighting, .sexIntimacy, .beingDependedOn, .authority, .disagreement]
+            
+        case .sensory:
+            return [.lights, .suddenMovements, .enclosedSpaces, .place, .noises, .beingOverworked, .beingOverwhelmed]
+            
+        case .thing:
+            return [.hospitals, .illness, .bloodGore, .violence, .crowds, .loneliness, .unfairness, .money, .positivity, .holidays, .therapy, .pressure, .mistakes, .thingsDontGoAsPlanned, .testsGrades, .religion, .authority, .enclosedSpaces]
+        }
+    }
+    
+    
+    
 }
 
 enum TriggerTypes : String, CaseIterable{
     
-    case family, passiveAggression, yelling, likeAbuser, abuse, doctors, hospitals, illness, bloodGore, violence, crowds, suddenMovements, noises, lights, lies /* /being Tricked/ untrustworthiness */, inconsistency, lateness, discrimination, accusations, beingMisunderstood, invalidation /* /dismissal */, rejection, criticism, abandonment, loneliness, beingIgnored, cheating, unfairness, teasing, money, positivity, holidays, therapy, expressingNeeds, judgement, failure, pressure, responsibility, mistakes, thingsDontGoAsPlanned, testsGrades, possessiveness, crossedBoundary, manipulation, coercion, beingOverworked, beingOverwhelmed, religion, gaslighting, sexIntimacy, beingDependedOn, authority, enclosedSpaces
+    case family, passiveAggression, yelling, likeAbuser, abuse, place, doctors, hospitals, illness, bloodGore, violence, crowds, suddenMovements, noises, lights, lies /* /being Tricked/ untrustworthiness */, inconsistency, lateness, discrimination, accusations, beingMisunderstood, invalidation /* /dismissal */, rejection, criticism, abandonment, loneliness, beingIgnored, cheating, unfairness, teasing, money, positivity, holidays, therapy, expressingNeeds, judgement, failure, pressure, responsibility, mistakes, thingsDontGoAsPlanned, testsGrades, possessiveness, crossedBoundary, manipulation, coercion, beingOverworked, beingOverwhelmed, religion, gaslighting, sexIntimacy, beingDependedOn, authority, enclosedSpaces, disagreement
     
     var name: String {
         switch self{
@@ -295,6 +325,128 @@ enum TriggerTypes : String, CaseIterable{
             return [.extinction, .mutilation, .autonomyLoss]
         case .enclosedSpaces:
             return [.autonomyLoss]
+            
+        case .disagreement: return [.egoDeath]
+        case .place: return CoreFears.allCases
         }
     }
+    
+    /*
+    var eventType: TriggerEventTypes{
+        switch self{
+            
+        case .family:
+            return .person
+            
+        case .passiveAggression:
+            return .person
+            
+        case .yelling:
+            return .person
+            
+        case .likeAbuser:
+            return .person
+        case .abuse:
+            return .person
+        case .doctors:
+            return .person
+        case .hospitals:
+            return .thing
+        case .illness:
+            return .thing
+        case .bloodGore:
+            return .thing
+        case .violence:
+            return .thing
+        case .crowds:
+            return .person
+        case .suddenMovements:
+            return .sensory
+        case .noises:
+            return .sensory
+        case .lights:
+            return .sensory
+        case .lies:
+            return .person
+        case .inconsistency:
+            return .person
+        case .lateness:
+            return .thing
+        case .discrimination:
+            return .person
+        case .accusations:
+            return .person
+        case .beingMisunderstood:
+            return .person
+        case .invalidation:
+            return .person
+        case .rejection:
+            return .person
+        case .criticism:
+            return .
+        case .abandonment:
+            <#code#>
+        case .loneliness:
+            <#code#>
+        case .beingIgnored:
+            <#code#>
+        case .cheating:
+            <#code#>
+        case .unfairness:
+            <#code#>
+        case .teasing:
+            <#code#>
+        case .money:
+            <#code#>
+        case .positivity:
+            <#code#>
+        case .holidays:
+            <#code#>
+        case .therapy:
+            <#code#>
+        case .expressingNeeds:
+            <#code#>
+        case .judgement:
+            <#code#>
+        case .failure:
+            <#code#>
+        case .pressure:
+            <#code#>
+        case .responsibility:
+            <#code#>
+        case .mistakes:
+            <#code#>
+        case .thingsDontGoAsPlanned:
+            <#code#>
+        case .testsGrades:
+            <#code#>
+        case .possessiveness:
+            <#code#>
+        case .crossedBoundary:
+            <#code#>
+        case .manipulation:
+            <#code#>
+        case .coercion:
+            <#code#>
+        case .beingOverworked:
+            <#code#>
+        case .beingOverwhelmed:
+            <#code#>
+        case .religion:
+            <#code#>
+        case .gaslighting:
+            <#code#>
+        case .sexIntimacy:
+            <#code#>
+        case .beingDependedOn:
+            <#code#>
+        case .authority:
+            <#code#>
+        case .enclosedSpaces:
+            <#code#>
+        case .disagreement:
+            <#code#>
+        }
+    }
+     */
 }

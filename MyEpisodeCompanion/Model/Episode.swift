@@ -98,11 +98,11 @@ extension Episode {
     @NSManaged public var id: UUID?
     @NSManaged public var date: Date?
     @NSManaged public var emotionState: String?
-    @NSManaged public var emotionResponses: [NSString]?
+    @NSManaged private var emotionResponses: [String]? //private to require access through getter/setters
+    @NSManaged private var copingMethods: [String]? //private to require access through getter/setters
     @NSManaged public var sleepQty: Float
     @NSManaged public var sleepQuality: Int16
     @NSManaged public var stressLevel: Int16
-    @NSManaged public var copingMethods: [NSString]?
     @NSManaged public var trigger: TriggerEvent?
     @NSManaged public var trauma: TraumaEvent?
 
@@ -111,7 +111,57 @@ extension Episode {
 extension Episode : Identifiable {
 
     func getCore() -> CoreEmotions {
-        return .Joy
+        return getState()?.core ?? .Joy
+    }
+    
+    func setResponses(_ responses : [EmotionResponses]){
+        var responseArray : [String] = []
+        responses.forEach{response in
+            responseArray.append(response.rawValue)
+        }
+        emotionResponses = responseArray
+    }
+    
+    func getResponses() -> [EmotionResponses]{
+        var responseArray : [EmotionResponses] = []
+        if let unwrappedResponses = emotionResponses {
+            unwrappedResponses.forEach{resp in
+                if let response = EmotionResponses.allCases.first(where: {$0.rawValue == resp}){
+                    responseArray.append(response)
+                }
+            }
+        }
+        return responseArray
+    }
+    
+    func setCopingMethods(_ methods: [CopingMethods]){
+        
+        var copeArray : [String] = []
+        methods.forEach{method in
+            let copeString = method.rawValue
+            copeArray.append(copeString)
+        }
+        copingMethods = copeArray
+    }
+    
+    func getCopingMethods() -> [CopingMethods]{
+        var copeArray : [CopingMethods] = []
+        if let copeStr = copingMethods{
+            copeStr.forEach{str in
+                if let method = CopingMethods.allCases.first(where: {$0.rawValue == str as String}){
+                    copeArray.append(method)
+                }
+            }
+        }
+        return copeArray
+    }
+    
+    func setState(_ state : EmotionStates){
+        emotionState = state.rawValue
+    }
+    
+    func getState() -> EmotionStates?{
+        return EmotionStates.allCases.first(where: {$0.rawValue == emotionState})
     }
 }
 
